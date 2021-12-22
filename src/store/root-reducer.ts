@@ -8,8 +8,8 @@ import { paginationReducer } from './pagination-reducer/pagination-reducer';
 import { sortReducer } from './sort-reducer/sort-reducer';
 
 export const enum ReducerName {
-  Main = 'main',
-  Guitar = 'guitar',
+  Main = 'Main',
+  Guitar = 'Guitar',
   Cart = 'Cart',
   Pagination = 'Pagination',
   Filter = 'Filter',

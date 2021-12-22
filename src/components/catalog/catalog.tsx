@@ -20,6 +20,8 @@ import { collectParams, makeFilterParams, makePageParams, makeReducerFromUrl, ma
 import { Params } from '../../types/types';
 import { noParseParamsFromUrl } from '../../store/actions';
 import { getOrder, getSort } from '../../store/sort-reducer/sort-reducer-selectors';
+import { MESSAGE_NO_GUITARS } from '../../const';
+import { toast } from 'react-toastify';
 
 
 export default function Catalog(): JSX.Element {
@@ -76,7 +78,9 @@ export default function Catalog(): JSX.Element {
     return <Spinner/>;
   }
 
+
   const guitarList = guitars.map((guitar) => <GuitarCard guitar={guitar} key={guitar.id}/>);
+  const messageNoGuitar = <h2 style={{textAlign: 'center'}}>{MESSAGE_NO_GUITARS}</h2>;
 
   return (
     <main className="page-content">
@@ -93,10 +97,9 @@ export default function Catalog(): JSX.Element {
           <Filter/>
 
           <SortBlock/>
-
           <div className="cards catalog__cards">
 
-            {guitarList}
+            {guitarList.length ? guitarList : messageNoGuitar}
 
           </div>
 

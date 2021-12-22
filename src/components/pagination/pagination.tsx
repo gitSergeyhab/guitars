@@ -6,9 +6,11 @@ import { getCurrentPage, getGuitarCount, getLimit } from '../../store/pagination
 import { getDisplayPages, getPageCount, getStringPage } from '../../utils/pagination-utils';
 
 
-const CLASS_NEXT = 'pagination__page--next';
-const CLASS_ACTIVE = 'pagination__page--active';
-const CLASS_USUAL = 'pagination__page';
+const enum PageClass {
+  Next = 'pagination__page--next',
+  Active = 'pagination__page--active',
+  Usual = 'pagination__page',
+}
 
 
 function Page({page} : {page : number}): JSX.Element {
@@ -30,9 +32,9 @@ function Page({page} : {page : number}): JSX.Element {
   displayPage = page === first ? firsPage : displayPage;
   displayPage = page === last ? lastPage : displayPage;
 
-  let liClasses = CLASS_USUAL;
-  const nextClass = displayPage === StringPage.Next || displayPage === StringPage.Prev ? CLASS_NEXT : '';
-  liClasses = currentPage === page ? `${liClasses} ${CLASS_ACTIVE}` : `${liClasses} ${nextClass}`;
+  let liClasses: string = PageClass.Usual;
+  const nextClass = displayPage === StringPage.Next || displayPage === StringPage.Prev ? PageClass.Next : '';
+  liClasses = currentPage === page ? `${liClasses} ${PageClass.Active}` : `${liClasses} ${nextClass}`;
 
   const dispatch = useDispatch();
   const handlePageClick = (evt: MouseEvent<HTMLAnchorElement>) => {

@@ -4,10 +4,10 @@ import { setOrder, setSort } from '../../store/actions';
 import { getOrder, getSort, getSortStatus } from '../../store/sort-reducer/sort-reducer-selectors';
 
 
-const ClassActive = {
-  Sort: 'catalog-sort__type-button--active',
-  Order: 'catalog-sort__order-button--active',
-};
+const enum ClassActive {
+  Sort = 'catalog-sort__type-button--active',
+  Order = 'catalog-sort__order-button--active',
+}
 
 const styleGrayText = {color: '#585757'};
 

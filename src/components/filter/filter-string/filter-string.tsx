@@ -1,9 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { ALL_STRINGS } from '../../../const';
 import { setCheckedStrings, setCurrentPage } from '../../../store/actions';
 import { getActiveStrings, getCheckedStrings } from '../../../store/filter-reducer/filter-reducer-selector';
 
-
-const ALL_STRINGS = [4, 6, 7, 12];
 
 function OneString({stringCount} : {stringCount : number}): JSX.Element {
 

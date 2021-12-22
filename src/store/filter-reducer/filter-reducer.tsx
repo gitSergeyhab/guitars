@@ -4,7 +4,7 @@ import { getStringsCount } from '../../utils/utils';
 import { setCheckedStrings, setUserMaxPrice, setUserMinPrice, setUserTypes } from '../actions';
 
 
-type InitialState = {
+export type InitialState = {
   userMinPice: number | null,
   userMaxPice: number | null,
   userType: string[],

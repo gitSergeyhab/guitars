@@ -21,7 +21,6 @@ import { Params } from '../../types/types';
 import { noParseParamsFromUrl } from '../../store/actions';
 import { getOrder, getSort } from '../../store/sort-reducer/sort-reducer-selectors';
 import { MESSAGE_NO_GUITARS } from '../../const';
-import { toast } from 'react-toastify';
 
 
 export default function Catalog(): JSX.Element {

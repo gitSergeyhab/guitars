@@ -1,17 +1,34 @@
-import { StringPage } from '../const';
+import { PageClass, StringPage } from '../const';
+
 
 export const getPageCount = (guitarsCount: number, limit: number): number => Math.ceil(guitarsCount/limit);
 
-type GetStringPage = {firsPage: string, lastPage: string}
-export const getStringPage = (currentPage: number, first: number, last: number): GetStringPage => {
+export const getPageVisualData = (pageCount: number, currentPage: number, page: number) => {
+  let linkPage = page;
+  let classes: string = PageClass.Usual;
+  let textPage = page.toString();
 
-  const firsPage = currentPage - first > 1 ? StringPage.Prev : first;
-  const lastPage = last - currentPage > 1 ? StringPage.Next : last;
+  if (page > currentPage + 1 && page <  pageCount ) {
+    linkPage = page + 1;
+    classes = `${classes} ${PageClass.Next}`;
+    textPage = StringPage.Next;
+  }
 
-  return {
-    firsPage: firsPage.toString(),
-    lastPage: lastPage.toString(),
-  };
+  if (page < currentPage - 1 && page > 1 ) {
+    linkPage = page - 1;
+    classes = `${classes} ${PageClass.Next}`;
+    textPage = StringPage.Prev;
+  }
+
+  if (page === 1 || page === pageCount || (currentPage === 1 && page === 3) || (currentPage === pageCount && page === pageCount - 2)) {
+    textPage = page.toString();
+    classes = PageClass.Usual;
+    linkPage = page;
+  }
+
+  classes = currentPage === page ? `${PageClass.Usual} ${PageClass.Active}` : classes;
+
+  return {linkPage, classes, textPage};
 };
 
 

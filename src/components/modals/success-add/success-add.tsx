@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { ESCAPE, SELECTOR_MODAL } from '../../../const';
+import { useHistory } from 'react-router-dom';
+import { APPRoute, ESCAPE, SELECTOR_MODAL } from '../../../const';
 import { setGuitarToPopup, setPopupType } from '../../../store/actions';
 
 // С Л Е Д У Ю Щ И Й   Э Т А П
@@ -9,6 +10,7 @@ import { setGuitarToPopup, setPopupType } from '../../../store/actions';
 export default function SuccessAdd(): JSX.Element {
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const closePopup = () => {
     dispatch(setGuitarToPopup(null));
@@ -26,6 +28,13 @@ export default function SuccessAdd(): JSX.Element {
     if (!evt.target.closest(SELECTOR_MODAL)) {
       closePopup();
     }
+  };
+
+  const handleCancelBtnClick = () => closePopup();
+  const handleCloseBtnClick = () => closePopup();
+  const handleToCartBtnClick = () => {
+    history.push(APPRoute.Cart);
+    closePopup();
   };
 
   useEffect(() => {
@@ -49,15 +58,19 @@ export default function SuccessAdd(): JSX.Element {
             </svg>
             <p className="modal__message">Товар успешно добавлен в корзину</p>
             <div className="modal__button-container modal__button-container--add">
-              <button className="button button--small modal__button">Перейти в корзину</button>
               <button
-                onClick={() => closePopup()}
+                onClick={handleToCartBtnClick}
+                className="button button--small modal__button"
+              >Перейти в корзину
+              </button>
+              <button
+                onClick={handleCancelBtnClick}
                 className="button button--black-border button--small modal__button modal__button--right"
               >Продолжить покупки
               </button>
             </div>
             <button
-              onClick={() => closePopup()}
+              onClick={handleCloseBtnClick}
               className="modal__close-btn button-cross" type="button" aria-label="Закрыть"
             ><span className="button-cross__icon"></span><span className="modal__close-btn-interactive-area"></span>
             </button>

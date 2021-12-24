@@ -57,6 +57,9 @@ export default function CartDelete({guitar} : {guitar : Guitar | GuitarWithComme
     dispatch(setCartGuitars(newCartGuitars));
   };
 
+  const handleCancelBtnClick = () => closePopup();
+  const handleCloseBtnClick = () => closePopup();
+
 
   return (
     <div style={{position: 'relative', width: '550px', height: '440px', marginBottom: '50px'}}>
@@ -82,14 +85,14 @@ export default function CartDelete({guitar} : {guitar : Guitar | GuitarWithComme
                 Удалить товар
               </button>
               <button
-                onClick={() => closePopup()}
+                onClick={handleCancelBtnClick}
                 className="button button--black-border button--small modal__button modal__button--right"
               >
                  Продолжить покупки
               </button>
             </div>
             <button
-              onClick={() => closePopup()}
+              onClick={handleCloseBtnClick}
               className="modal__close-btn button-cross" type="button" aria-label="Закрыть"
             >
               <span className="button-cross__icon"></span><span className="modal__close-btn-interactive-area"></span>

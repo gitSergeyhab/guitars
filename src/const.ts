@@ -47,7 +47,7 @@ export const GuitarInfo = {
 
 export const ParamName = {
   Filter: {
-    type: 'type',
+    Type: 'type',
     PriceLte: 'price_lte',
     PriceGte: 'price_gte',
     StringCount: 'stringCount',
@@ -65,6 +65,7 @@ export const ParamName = {
     Start: '_start',
     End: '_end',
     Limit: '_limit',
+    Page: '_page',
   },
   Search: {
     NameLike: 'name_like',

@@ -21,7 +21,7 @@ export const makeFilterParams = ({types, strings, maxPrice, minPrice} : MakeFilt
 
 
 export const makeReducerFromUrl = (params: Params, dispatch: Dispatch<Action>): void => {
-  const types = params[ParamName.Filter.type];
+  const types = params[ParamName.Filter.Type];
   if (types) {
     const value = typeof types === 'string' ? [types] : types;
     dispatch(setUserTypes(value));
@@ -53,30 +53,36 @@ export const makeReducerFromUrl = (params: Params, dispatch: Dispatch<Action>): 
     dispatch(setOrder(order));
   }
 
-  const start = params[ParamName.Range.Start];
   const limit = params[ParamName.Range.Limit];
+  const page = params[ParamName.Range.Page];
 
-  if (start && limit) {
-    const page = Math.floor(+start / +limit) + 1;
+  if (limit && page) {
     dispatch(setLimit(+limit));
-    dispatch(setCurrentPage(page));
+    dispatch(setCurrentPage(+page));
   }
 };
 
 
 type MakeSortParams = {sort: string, order: string}
 
-export const makeSortParams = ({sort, order} : MakeSortParams): Params => ({
-  [ParamName.Sort.Sort]: sort,
-  [ParamName.Sort.Order]: order,
-});
+export const makeSortParams = ({sort, order} : MakeSortParams): Params => {
+  let params = {};
+  if (sort === ParamName.Sort.Price || sort === ParamName.Sort.Rating) {
+    params = {[ParamName.Sort.Sort]: sort};
+  }
+
+  if (order === ParamName.Sort.Asc ||  order === ParamName.Sort.Desc) {
+    params = {...params, [ParamName.Sort.Order]: order};
+  }
+
+  return params;
+};
 
 export const collectParams = (params: Params[]): Params => params.reduce((acc, param) => ({...acc, ...param}) , {});
 
-
-export const makePageParams = (start: number, limit: number): Params => ({
-  [ParamName.Range.Start]: start.toString(),
+export const makePageParams = (start: number, limit: number) => ({
   [ParamName.Range.Limit]: limit.toString(),
+  [ParamName.Range.Page]: Math.floor(start / limit + 1).toString(),
 });
 
 

@@ -13,8 +13,8 @@ export const getMinMaxPrice = (guitars: Guitar[]): {min: number, max: number} =>
 
 export const getStringsCount = (types: GuitarType[]): number[] => {
   const stringsArray = types.map((type) => GuitarInfo[type].strings);
-  const unknownStringsArray = [...stringsArray] as unknown; // эти две строки нужны
-  const originStringsArray = unknownStringsArray as number[][]; // чтобы формально соответствовать критерию № 6... но, по-моему, это бред
+  const unknownStringsArray = [...stringsArray] as unknown; // эти две строки нужны чтобы формально соответствовать критерию № 6, но, по-моему, это бред...
+  const originStringsArray = unknownStringsArray as number[][]; // ...без    as const  замечательно работает и без них
   const strings = originStringsArray.reduce((acc, elem) => [...acc, ...elem] , []);
   return [...Array.from(new Set(strings))];
 };

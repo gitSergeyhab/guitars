@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { ESCAPE, SELECTOR_MODAL } from '../../../const';
 import { setGuitarToPopup, setPopupType } from '../../../store/actions';
 
-//!! В Н Е   Т З !!
+// С Л Е Д У Ю Щ И Й   Э Т А П
 
 
 export default function SuccessAdd(): JSX.Element {

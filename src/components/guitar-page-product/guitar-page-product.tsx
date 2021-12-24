@@ -9,7 +9,7 @@ import Rating from '../rating/rating';
 import Spinner from '../spinner/spinner';
 
 
-//!! В Н Е   Т З !!
+// С Л Е Д У Ю Щ И Й   Э Т А П
 
 
 const enum Option {

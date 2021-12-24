@@ -2,7 +2,7 @@ import ScaleLoader from 'react-spinners/ScaleLoader';
 import { css } from '@emotion/react';
 
 
-//!! В Н Е   Т З !!
+// С Л Е Д У Ю Щ И Й   Э Т А П
 
 const override = css`
   display: block;

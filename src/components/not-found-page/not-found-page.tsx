@@ -8,7 +8,7 @@ export default function NotFoundPage(): JSX.Element {
       Error 404
       <br/>
       Page Not Found
-      <br/><br/>
+      <br/>Пока нет главной страницы - ссылка на каталог<br/>
       <Link to={APPRoute.Catalog} style={{color: 'orange', fontSize: '1.4em', paddingTop: '15%'}}>
         Main Page
       </Link>

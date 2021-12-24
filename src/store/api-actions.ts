@@ -66,7 +66,7 @@ export const fetchGuitarsWithSearch = (search = ''): ThunkActionResult =>
   };
 
 
-//!! В Н Е   Т З !!
+// С Л Е Д У Ю Щ И Й   Э Т А П
 
 // PRODUCT
 

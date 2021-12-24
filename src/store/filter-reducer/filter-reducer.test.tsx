@@ -1,5 +1,5 @@
 import { GuitarType } from '../../const';
-import { FakeAction, stateEmpty } from '../../test-utils/test-constants';
+import { fakeAction, stateEmpty } from '../../test-utils/test-constants';
 import { getStringsCount } from '../../utils/utils';
 import { setCheckedStrings, setUserMaxPrice, setUserMinPrice, setUserTypes } from '../actions';
 import { filterReducer } from './filter-reducer';
@@ -20,7 +20,7 @@ describe('Reducer : filterReducer', () => {
   beforeEach (() => state = {...stateEmpty.Filter});
 
   it('without additional parameters should return initial state', () => {
-    expect(filterReducer(undefined, FakeAction)).toEqual(initialState);
+    expect(filterReducer(undefined, fakeAction)).toEqual(initialState);
   });
 
   it('should update userMinPice by setUserMinPrice', () => {

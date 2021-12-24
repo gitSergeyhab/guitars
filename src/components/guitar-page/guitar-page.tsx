@@ -10,7 +10,7 @@ import { fetchComments, fetchTheGuitar } from '../../store/api-actions';
 import { GuitarPageReviews } from '../guitar-page-reviews/guitar-page-reviews';
 
 
-//!! В Н Е   Т З !!
+// С Л Е Д У Ю Щ И Й   Э Т А П
 
 
 export default function GuitarPage(): JSX.Element {

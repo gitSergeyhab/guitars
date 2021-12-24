@@ -1,18 +1,18 @@
 import { loadAllGuitars, loadGuitars, loadSearchGuitars, noParseParamsFromUrl, setGuitarsErrorStatus, setGuitarsLoadingStatus } from '../actions';
 import { mainReducer } from './main-reducer';
-import { FakeAction, stateEmpty, stateFilled } from '../../test-utils/test-constants';
+import { fakeAction, stateEmpty, stateFilled } from '../../test-utils/test-constants';
 
 
 const testData = {...stateFilled.Main};
-const initialState = {...stateEmpty.Main};
+const initialState = {...stateEmpty.Main, allGuitarsLoading: true, isLoading: true};
 
 
 describe('Reducer : mainReducer', () => {
-  let state = {...stateEmpty.Main};
-  beforeEach (() => state = {...stateEmpty.Main});
+  let state = {...initialState};
+  beforeEach (() => state = {...initialState});
 
   it('without additional parameters should return initial state', () => {
-    expect(mainReducer(undefined, FakeAction)).toEqual(initialState);
+    expect(mainReducer(undefined, fakeAction)).toEqual(initialState);
   });
 
   it('should update guitars, isLoading by loadGuitars', () => {
@@ -46,36 +46,3 @@ describe('Reducer : mainReducer', () => {
     expect(mainReducer(state, noParseParamsFromUrl())).toEqual(expectedState);
   });
 });
-
-
-// type InitialState = {
-//   guitars: GuitarWithComments[],
-//   isLoading: boolean,
-//   isError: boolean,
-
-//   allGuitars: Guitar[],
-//   allGuitarsLoading: boolean,
-//   allGuitarsError: boolean,
-
-//   searchGuitars: Guitar[],
-
-//   parseParamsFromUrl: boolean,
-// }
-
-
-// export const mainReducer = createReducer(initialState, (builder) => {
-//   builder
-//     .addCase(loadGuitars, (state, action) => {
-//       state.guitars = action.payload;
-//       state.isLoading = false;
-//     })
-//     .addCase(loadAllGuitars, (state, action) => {
-//       state.allGuitars = action.payload;
-//       state.allGuitarsLoading = false;
-//     })
-//     .addCase(loadSearchGuitars, (state, action) => {state.searchGuitars = action.payload;})
-//     .addCase(setGuitarsLoadingStatus, (state, action) => {state.isLoading = action.payload;})
-//     .addCase(setGuitarsErrorStatus, (state, action) => {state.isError = action.payload;})
-
-//     .addCase(noParseParamsFromUrl, (state) => {state.parseParamsFromUrl = false;});
-// });

@@ -1,6 +1,6 @@
 import { setOrder,  setSort } from '../actions';
 import { sortReducer } from './sort-reducer';
-import { FakeAction, stateEmpty, stateFilled } from '../../test-utils/test-constants';
+import { fakeAction, stateEmpty, stateFilled } from '../../test-utils/test-constants';
 
 
 const testData = {...stateFilled.Sort};
@@ -11,7 +11,7 @@ describe('Reducer : sortReducer', () => {
   beforeEach (() => state = {...initialState});
 
   it('without additional parameters should return initial state', () => {
-    expect(sortReducer(undefined, FakeAction)).toEqual(initialState);
+    expect(sortReducer(undefined, fakeAction)).toEqual(initialState);
   });
 
   it('should update sort, isSort by setSort', () => {

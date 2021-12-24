@@ -34,7 +34,7 @@ export const makeFakeComment = (guitarId: number): Comment => ({
   userName: internet.userName(),
 });
 
-export const makeFakeGuitar = (): GuitarWithComments => {
+export const makeFakeGuitar = (): Guitar => {
   const id =  datatype.number();
   return {
     id,
@@ -46,8 +46,14 @@ export const makeFakeGuitar = (): GuitarWithComments => {
     stringCount: getRandomStringCount(),
     type: getRandomGuitarType(),
     vendorCode: commerce.product(),
-    comments: new Array(datatype.number({min: 1, max: MAX_RARING})).fill(null).map(() => makeFakeComment(id)),
   };
 };
 
-export const makeFakeGuitarList = () => new Array(datatype.number({min: 1, max: MAX_GUITARS})).fill(null).map(() => makeFakeGuitar());
+export const makeFakeGuitarWithComment = (): GuitarWithComments => {
+  const guitar = makeFakeGuitar();
+  return {...guitar, comments: makeFakeCommentList(guitar.id) };
+};
+
+
+export const makeFakeGuitarList = () => new Array(datatype.number({min: 1, max: MAX_GUITARS})).fill(null).map(() => makeFakeGuitarWithComment());
+export const makeFakeCommentList = (guitarId: number) => new Array(datatype.number({min: 1, max: MAX_GUITARS})).fill(null).map(() => makeFakeComment(guitarId));

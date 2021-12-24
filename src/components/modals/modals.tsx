@@ -8,7 +8,7 @@ import { getGuitarFromPopup, getPopupType } from '../../store/cart-reducer/cart-
 import { PopupType } from '../../const';
 
 
-//!! В Н Е   Т З !!
+// С Л Е Д У Ю Щ И Й   Э Т А П
 
 
 export default function Modals(): JSX.Element {

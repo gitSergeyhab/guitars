@@ -7,7 +7,7 @@ import { setGuitarToPopup, setPopupType } from '../../store/actions';
 import { PopupType } from '../../const';
 
 
-//!! В Н Е   Т З !!
+// С Л Е Д У Ю Щ И Й   Э Т А П
 
 
 const REVIEW_COUNT = 3;

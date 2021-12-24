@@ -6,7 +6,8 @@ import { getCartGuitars, getCoupon, getDiscount } from '../../store/cart-reducer
 import { getFullPrice, getOrder, makeStringPrice } from '../../utils/utils';
 
 
-//!! В Н Е   Т З !!
+// С Л Е Д У Ю Щ И Й   Э Т А П
+
 
 export default function CartFooter(): JSX.Element {
 

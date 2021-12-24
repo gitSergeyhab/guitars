@@ -8,7 +8,7 @@ import { changeGuitarInCart, getTruePath, makeStringPrice } from '../../../utils
 import { ESCAPE, GuitarInfo, GuitarType, SELECTOR_MODAL } from '../../../const';
 
 
-//!! В Н Е   Т З !!
+// С Л Е Д У Ю Щ И Й   Э Т А П
 
 
 export default function CartDelete({guitar} : {guitar : Guitar | GuitarWithComments}):JSX.Element {

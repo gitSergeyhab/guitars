@@ -3,7 +3,9 @@ import { PopupType } from '../../const';
 import { CartGuitar, Guitar } from '../../types/types';
 import {setCartGuitars, setCoupon, setDiscount, setGuitarToPopup, setPopupType } from '../actions';
 
-//!! В Н Е   Т З !!
+
+// С Л Е Д У Ю Щ И Й   Э Т А П
+
 
 type InitialState = {
   cartGuitars: CartGuitar[],

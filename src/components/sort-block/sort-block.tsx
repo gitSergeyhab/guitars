@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { ParamName } from '../../const';
-import { setOrder, setSort } from '../../store/actions';
+import { setCurrentPage, setOrder, setSort } from '../../store/actions';
 import { getOrder, getSort, getSortStatus } from '../../store/sort-reducer/sort-reducer-selectors';
 
 
@@ -18,6 +18,7 @@ export default function SortBlock(): JSX.Element {
   const isSort = useSelector(getSortStatus);
 
   const handlePriceClick = () => {
+    dispatch(setCurrentPage(1));
     dispatch(setSort(ParamName.Sort.Price));
     if (!isSort) {
       dispatch(setOrder(ParamName.Sort.Asc));
@@ -25,6 +26,7 @@ export default function SortBlock(): JSX.Element {
   };
 
   const handleRatingClick = () => {
+    dispatch(setCurrentPage(1));
     dispatch(setSort(ParamName.Sort.Rating));
     if (!isSort) {
       dispatch(setOrder(ParamName.Sort.Asc));
@@ -32,6 +34,7 @@ export default function SortBlock(): JSX.Element {
   };
 
   const handleAscClick = () => {
+    dispatch(setCurrentPage(1));
     dispatch(setOrder(ParamName.Sort.Asc));
     if (!isSort) {
       dispatch(setSort(ParamName.Sort.Price));
@@ -39,6 +42,7 @@ export default function SortBlock(): JSX.Element {
   };
 
   const handleDescClick = () => {
+    dispatch(setCurrentPage(1));
     dispatch(setOrder(ParamName.Sort.Desc));
     if (!isSort) {
       dispatch(setSort(ParamName.Sort.Price));
@@ -76,14 +80,14 @@ export default function SortBlock(): JSX.Element {
         <button
           onClick={handleAscClick}
           className={`catalog-sort__order-button catalog-sort__order-button--up ${order === ParamName.Sort.Asc ? ClassActive.Order : ''}`}
-          aria-label="по цене" tabIndex={ order === ParamName.Sort.Asc ? -1 : 0}
+          aria-label="По возрастанию"  tabIndex={ order === ParamName.Sort.Asc ? -1 : 0}
         >
         </button>
 
         <button
           onClick={handleDescClick}
           className={`catalog-sort__order-button catalog-sort__order-button--down ${order === ParamName.Sort.Desc ? ClassActive.Order : ''}`}
-          aria-label="по цене" tabIndex={ order === ParamName.Sort.Desc ? -1 : 0}
+          aria-label="По убыванию" tabIndex={ order === ParamName.Sort.Desc ? -1 : 0}
         >
         </button>
 

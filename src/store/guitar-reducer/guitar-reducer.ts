@@ -2,7 +2,8 @@ import { createReducer } from '@reduxjs/toolkit';
 import { Comment, Guitar } from '../../types/types';
 import { loadTheGuitar, setComments, setTheGuitarErrorStatus, setTheGuitarLoadingStatus } from '../actions';
 
-//!! В Н Е   Т З !!
+
+// С Л Е Д У Ю Щ И Й   Э Т А П
 
 
 type InitialState = {

@@ -9,6 +9,7 @@ import { Guitar } from '../../types/types';
 
 const GUITAR_PATH = '/guitars';
 const CLASS_HIDDEN = 'hidden';
+const ENTER = 'Enter';
 
 
 function OneSearchGuitar({guitar, onClick} : {guitar: Guitar, onClick: () => void}): JSX.Element{
@@ -27,6 +28,11 @@ function OneSearchGuitar({guitar, onClick} : {guitar: Guitar, onClick: () => voi
   return (
     <li
       onClick={handleGuitarClick}
+      onKeyDown={(evt) => {
+        if (evt.code === ENTER) {
+          evt.currentTarget.click();
+        }
+      }}
       className="form-search__select-item" tabIndex={0}
     >
       {name}

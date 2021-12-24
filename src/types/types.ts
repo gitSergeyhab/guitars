@@ -41,7 +41,7 @@ export type GuitarWithComments = {
 
 export type Params = {[param: string]: string | string[]};
 
-export type CartGuitar = {guitar: Guitar, count: number};
+export type CartGuitar = {guitar: Guitar | GuitarWithComments, count: number};
 
 export type Order = {
   guitarsIds: number[],

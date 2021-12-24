@@ -1,5 +1,5 @@
 
-import { FakeAction, stateEmpty, stateFilled } from '../../test-utils/test-constants';
+import { fakeAction, stateEmpty, stateFilled } from '../../test-utils/test-constants';
 import { setCurrentPage, setGuitarCount, setLimit } from '../actions';
 import { paginationReducer } from './pagination-reducer';
 
@@ -12,7 +12,7 @@ describe('Reducer : paginationReducer', () => {
   beforeEach (() => state = {...initialState});
 
   it('without additional parameters should return initial state', () => {
-    expect(paginationReducer(undefined, FakeAction)).toEqual(initialState);
+    expect(paginationReducer(undefined, fakeAction)).toEqual(initialState);
   });
 
   it('should update limit by setLimit', () => {

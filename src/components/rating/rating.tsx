@@ -1,9 +1,9 @@
-const STAR_COUNT = 5;
+export const STAR_COUNT = 5;
 
 
 function Star({height, width} : {height: string, width: string}): JSX.Element {
   return (
-    <svg width={width} height={height} aria-hidden="true">
+    <svg width={width} height={height} aria-hidden="true" data-testid="star">
       <use xlinkHref="#icon-star"></use>
     </svg>
   );
@@ -11,7 +11,7 @@ function Star({height, width} : {height: string, width: string}): JSX.Element {
 
 function FullStar({height, width} : {height: string, width: string}): JSX.Element {
   return (
-    <svg width={width} height={height} aria-hidden="true">
+    <svg width={width} height={height} aria-hidden="true" data-testid="full-star">
       <use xlinkHref="#icon-full-star"></use>
     </svg>
   );

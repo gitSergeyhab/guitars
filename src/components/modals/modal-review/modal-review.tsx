@@ -6,7 +6,7 @@ import { postComment } from '../../../store/api-actions';
 import { Guitar, GuitarWithComments } from '../../../types/types';
 
 
-//!! В Н Е   Т З !!
+// С Л Е Д У Ю Щ И Й   Э Т А П
 
 
 const STARS = [

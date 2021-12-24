@@ -6,11 +6,11 @@ import BreadcrumbMain from '../breadcrumbs/breadcramb-main/breadcramb-main';
 import CartFooter from '../cart-footer/cart-footer';
 import CartGuitar from '../cart-guitar/cart-guitar';
 import { getCartGuitars } from '../../store/cart-reducer/cart-reducer-selectors';
+import { EMPTY_CART_TEXT } from '../../const';
 
-//!! В Н Е   Т З !!
 
+// С Л Е Д У Ю Щ И Й   Э Т А П
 
-const EMPTY_CART_TEXT = 'Корзина пуста';
 
 export default function Cart(): JSX.Element {
 

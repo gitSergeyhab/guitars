@@ -6,7 +6,8 @@ import { CartGuitar } from '../../types/types';
 import { getTruePath, makeStringPrice } from '../../utils/utils';
 import { PopupType } from '../../const';
 
-//!! В Н Е   Т З !!
+
+// С Л Е Д У Ю Щ И Й   Э Т А П
 
 
 export default function OneCartGuitar({cartGuitar} : {cartGuitar: CartGuitar}): JSX.Element {

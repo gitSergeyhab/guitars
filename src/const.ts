@@ -5,15 +5,17 @@ export const SELECTOR_MODAL = '.modal__content';
 
 export const MESSAGE_NO_GUITARS = 'Ты угадал! Именно таких гитар у нас нет...';
 
+export const EMPTY_CART_TEXT = 'Корзина пуста';
+
 
 export const GUITARS_PER_PAGE = 9;
 
-export const ALL_STRINGS = [4, 6, 7, 12] as const;
+export const ALL_STRINGS = [4, 6, 7, 12];
 
 
 export const enum APPRoute {
   Main = '/',
-  Catalog = '/',
+  Catalog = '/catalog',
   Guitars = '/guitars/:id',
   Cart = '/cart',
   Contacts = 'Contacts',
@@ -34,7 +36,7 @@ export const enum GuitarType {
   Acoustic = 'acoustic',
 }
 
-export const GUITAR_TYPES = [GuitarType.Acoustic, GuitarType.Electric, GuitarType.Ukulele] as const;
+export const GUITAR_TYPES = [GuitarType.Acoustic, GuitarType.Electric, GuitarType.Ukulele];
 
 
 export const GuitarInfo = {

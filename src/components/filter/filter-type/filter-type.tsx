@@ -32,6 +32,7 @@ function FilterOneType({type}: {type: GuitarType}): JSX.Element {
   return (
     <div className="form-checkbox catalog-filter__block-item">
       <input
+        data-testid={`type-${type}`}
         className="visually-hidden" type="checkbox"
         id={type} name={type}
         onChange={handleTypeChange}

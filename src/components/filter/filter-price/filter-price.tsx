@@ -54,6 +54,7 @@ export default function FilterPrice(): JSX.Element {
         <div className="form-input">
           <label className="visually-hidden">Минимальная цена</label>
           <input
+            data-testid='priceMin'
             type="number" id="priceMin" name="от"
             placeholder={`${min}`} min={min} max={max}
             onBlur={handleMinPriceBlur} value={`${minPrice}`} onChange={handleMinPriceChange}
@@ -62,6 +63,7 @@ export default function FilterPrice(): JSX.Element {
         <div className="form-input">
           <label className="visually-hidden">Максимальная цена</label>
           <input
+            data-testid='priceMax'
             type="number" id="priceMax" name="до"
             placeholder={`${max}`} min={min} max={max}
             onBlur={handleMaxPriceBlur} value={`${maxPrice}`} onChange={handleMaxPriceChange}

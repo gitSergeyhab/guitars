@@ -17,7 +17,6 @@ export default function SuccessAdd(): JSX.Element {
     dispatch(setPopupType(null));
   };
 
-
   const handleEscapeKeyDown = (evt: KeyboardEvent) => {
     if (evt.code === ESCAPE) {
       closePopup();

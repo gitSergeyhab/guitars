@@ -5,17 +5,17 @@ import { PopupType } from '../const';
 
 const enum ActionType {
   //catalog
-  LoadGuitars = 'catalog/LoadGuitars',
-  SetGuitarsLoadingStatus = 'catalog/SetGuitarsLoadingStatus',
-  SetGuitarsErrorStatus = 'catalog/SetGuitarsErrorStatus',
+  LoadGuitars = 'main/LoadGuitars',
+  SetGuitarsLoadingStatus = 'main/SetGuitarsLoadingStatus',
+  SetGuitarsErrorStatus = 'main/SetGuitarsErrorStatus',
 
-  LoadAllGuitars = 'catalog/LoadAllGuitars',
-  SetAllGuitarsLoadingStatus = 'catalog/SetGuitarsLoadingStatus',
-  SetAllGuitarsErrorStatus = 'catalog/SetGuitarsErrorStatus',
+  LoadAllGuitars = 'main/LoadAllGuitars',
+  SetAllGuitarsLoadingStatus = 'main/SetGuitarsLoadingStatus',
+  SetAllGuitarsErrorStatus = 'main/SetGuitarsErrorStatus',
   // catalog - url
-  NoParseParamsFromUrl = 'url/NoParseParamsFromUrl',
+  NoParseParamsFromUrl = 'main/NoParseParamsFromUrl',
   // catalog - search
-  LoadSearchGuitars = 'search/LoadSearchGuitars',
+  LoadSearchGuitars = 'main/LoadSearchGuitars',
 
   // catalog - filter
   SetUserMinPrice = 'filter/SetUserMinPrice',

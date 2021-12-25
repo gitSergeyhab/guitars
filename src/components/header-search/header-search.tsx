@@ -53,7 +53,7 @@ export default function HeaderSearch(): JSX.Element {
     dispatch(fetchGuitarsWithSearch(evt.currentTarget.value));
   };
 
-  const searchList = searchGuitars.map((guitar) => <OneSearchGuitar guitar={guitar} key={guitar.id} onClick={() => setValue('')}/>);
+  const guitars = searchGuitars.map((guitar) => <OneSearchGuitar guitar={guitar} key={guitar.id} onClick={() => setValue('')}/>);
 
   return (
 
@@ -74,7 +74,7 @@ export default function HeaderSearch(): JSX.Element {
 
       <ul className={`form-search__select-list ${value.length ? '' : CLASS_HIDDEN}`} style={{zIndex: 2}}>
 
-        {searchList}
+        {guitars}
 
       </ul>
     </div>

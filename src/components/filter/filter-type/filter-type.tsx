@@ -2,28 +2,28 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { setCheckedStrings, setCurrentPage, setUserTypes } from '../../../store/actions';
 import { getUserTypes } from '../../../store/filter-reducer/filter-reducer-selector';
-import { GuitarInfo, GuitarType } from '../../../const';
+import { GuitarInfo, GuitarType, GUITAR_TYPES } from '../../../const';
 
 
 function FilterOneType({type}: {type: GuitarType}): JSX.Element {
 
-  const typeListOrigin = useSelector(getUserTypes);
+  const originTypes = useSelector(getUserTypes);
 
-  const isChecked = typeListOrigin.some((item) => item === type);
+  const isChecked = originTypes.some((item) => item === type);
 
   const dispatch = useDispatch();
 
   const handleTypeChange = () => {
-    const typeList = [...typeListOrigin];
-    const index = typeList.findIndex((item) => item === type);
+    const types = [...originTypes];
+    const index = types.findIndex((item) => item === type);
 
     if (index === -1) {
-      typeList.push(type);
+      types.push(type);
     } else {
-      typeList.splice(index, 1);
+      types.splice(index, 1);
     }
 
-    dispatch(setUserTypes(typeList));
+    dispatch(setUserTypes(types));
     dispatch(setCheckedStrings([])); // сбрасывает выделенные сируны
     dispatch(setCurrentPage(1)); // сбрасывает страницу
   };
@@ -45,8 +45,9 @@ function FilterOneType({type}: {type: GuitarType}): JSX.Element {
 
 
 export default function FilterType(): JSX.Element {
-  const typeList = [GuitarType.Acoustic, GuitarType.Electric, GuitarType.Ukulele];
-  const types = typeList.map((item) => <FilterOneType type={item} key={item} />);
+
+  const types = GUITAR_TYPES.map((item) => <FilterOneType type={item} key={item} />);
+
   return (
     <fieldset className="catalog-filter__block">
 

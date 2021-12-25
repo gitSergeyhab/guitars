@@ -8,25 +8,25 @@ import { ALL_STRINGS } from '../../../const';
 function OneString({stringCount} : {stringCount : number}): JSX.Element {
 
   const activeStrings = useSelector(getActiveStrings);
-  const checkedStrings = useSelector(getCheckedStrings);
+  const originCheckedStrings = useSelector(getCheckedStrings);
 
   const id = `${stringCount}-strings`;
 
   const isDisabled = activeStrings.every((item) => item !== stringCount) && !!activeStrings.length;
-  const isChecked = checkedStrings.some((item) => item === stringCount);
+  const isChecked = originCheckedStrings.some((item) => item === stringCount);
 
   const dispatch = useDispatch();
 
   const handleStringChange = () => {
-    const checkedStringsNow = [...checkedStrings];
-    const index = checkedStringsNow.findIndex((item) => item === stringCount);
+    const checkedStrings = [...originCheckedStrings];
+    const index = checkedStrings.findIndex((item) => item === stringCount);
 
     if (index === -1) {
-      checkedStringsNow.push(stringCount);
+      checkedStrings.push(stringCount);
     } else {
-      checkedStringsNow.splice(index, 1);
+      checkedStrings.splice(index, 1);
     }
-    dispatch(setCheckedStrings(checkedStringsNow));
+    dispatch(setCheckedStrings(checkedStrings));
     dispatch(setCurrentPage(1)); // сбрасывает страницу
   };
 

@@ -7,7 +7,6 @@ export const MESSAGE_NO_GUITARS = 'Ты угадал! Именно таких г
 
 export const EMPTY_CART_TEXT = 'Корзина пуста';
 
-
 export const GUITARS_PER_PAGE = 9;
 
 export const ALL_STRINGS = [4, 6, 7, 12];
@@ -37,7 +36,6 @@ export const enum GuitarType {
 }
 
 export const GUITAR_TYPES = [GuitarType.Acoustic, GuitarType.Electric, GuitarType.Ukulele];
-
 
 export const GuitarInfo = {
   [GuitarType.Electric] : {name: 'Электрогитары', nameOne: 'Электрогитара', strings: [4, 6, 7]},

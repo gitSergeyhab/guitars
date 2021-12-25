@@ -30,7 +30,7 @@ export function GuitarPageReviews(): JSX.Element {
   const guitar = useSelector(getTheGuitar);
   const [shownReviews, setShownReviews] = useState(REVIEW_COUNT);
 
-  const reviewList = comments.slice(0, shownReviews).map((comment) => <Review review={comment} key={comment.id} />);
+  const reviews = comments.slice(0, shownReviews).map((comment) => <Review review={comment} key={comment.id} />);
 
   const handleBtnShowMoreClick = () => setShownReviews(Infinity);
 
@@ -52,7 +52,7 @@ export function GuitarPageReviews(): JSX.Element {
          Оставить отзыв
       </a>
 
-      {reviewList}
+      {reviews}
       {(shownReviews === REVIEW_COUNT && comments.length > REVIEW_COUNT)  && <BtnMore onClick={handleBtnShowMoreClick}/>}
 
       <a className="button button--up button--red-border button--big reviews__up-button" href="#header">Наверх</a>

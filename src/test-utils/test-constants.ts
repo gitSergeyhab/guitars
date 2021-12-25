@@ -12,7 +12,7 @@ export const DefaultPrice =  {
 export const fakeAction = {type: 'FAKE_ACTION'};
 
 
-const fakeGuitarList = makeFakeGuitarList();
+const fakeGuitars = makeFakeGuitarList();
 const fakeGuitar = makeFakeGuitar();
 
 const fakeComments = makeFakeCommentList(1);
@@ -35,13 +35,13 @@ export const stateFilled: State = {
   },
 
   [ReducerName.Main]: {
-    guitars: fakeGuitarList,
+    guitars: fakeGuitars,
     isLoading: false,
     isError: false,
-    allGuitars: fakeGuitarList,
+    allGuitars: fakeGuitars,
     allGuitarsLoading: false,
     allGuitarsError: false,
-    searchGuitars: fakeGuitarList,
+    searchGuitars: fakeGuitars,
     parseParamsFromUrl: false,
   },
 

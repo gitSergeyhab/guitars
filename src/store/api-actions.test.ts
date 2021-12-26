@@ -6,7 +6,7 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createAPI } from '../services/api';
 import { State } from '../types/types';
 import { fetchAllGuitars, fetchGuitarsWithPath, fetchGuitarsWithSearch } from './api-actions';
-import { loadAllGuitars, loadGuitars, loadSearchGuitars, setAllGuitarsErrorStatus, setGuitarCount, setGuitarsErrorStatus } from './actions';
+import { loadAllGuitars, loadGuitars, loadSearchGuitars, setAllGuitarsErrorStatus, setGuitarCount, setGuitarsErrorStatus, setSearchLoadingStatus } from './actions';
 import { makeFakeGuitarList } from '../test-utils/test-mocks';
 import { ApiRoute, ParamName } from '../const';
 
@@ -49,13 +49,17 @@ describe('Async actions', () => {
     ]);
   });
 
-  it('fetchGuitarsWithSearch: should dispatch loadSearchGuitars when GET /guitars with search', async () => {
+  it('fetchGuitarsWithSearch: should dispatch setSearchLoadingStatus, loadSearchGuitars, setSearchLoadingStatus when GET /guitars with search', async () => {
     const store = mockStore();
     const search = '';
     const params = {[ParamName.Search.NameLike] : search};
     mockAPI.onGet(ApiRoute.Guitars).reply(200, fakeGuitars, {params});
     expect(store.getActions()).toEqual([]);
     await store.dispatch(fetchGuitarsWithSearch(''));
-    expect(store.getActions()).toEqual([loadSearchGuitars(fakeGuitars)]);
+    expect(store.getActions()).toEqual([
+      setSearchLoadingStatus(true),
+      loadSearchGuitars(fakeGuitars),
+      setSearchLoadingStatus(false),
+    ]);
   });
 });

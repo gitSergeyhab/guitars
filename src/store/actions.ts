@@ -16,6 +16,7 @@ const enum ActionType {
   NoParseParamsFromUrl = 'main/NoParseParamsFromUrl',
   // catalog - search
   LoadSearchGuitars = 'main/LoadSearchGuitars',
+  SetSearchLoadingStatus = 'main/SetSearchLoadingStatus',
 
   // catalog - filter
   SetUserMinPrice = 'filter/SetUserMinPrice',
@@ -60,6 +61,7 @@ export const setAllGuitarsErrorStatus = createAction(ActionType.SetAllGuitarsErr
 export const noParseParamsFromUrl = createAction(ActionType.NoParseParamsFromUrl);
 // catalog - search
 export const loadSearchGuitars = createAction(ActionType.LoadSearchGuitars, (guitars: Guitar[]) => ({payload: guitars}));
+export const setSearchLoadingStatus = createAction(ActionType.SetSearchLoadingStatus, (status: boolean) => ({payload: status}));
 
 // catalog - filter
 export const setUserMinPrice = createAction(ActionType.SetUserMinPrice, (price: number | null) => ({payload: price}));

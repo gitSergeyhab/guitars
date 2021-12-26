@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { fetchGuitarsWithSearch } from '../../store/api-actions';
-import { getSearchGuitars } from '../../store/main-reducer/main-reducer-selectors';
+import { getSearchGuitars, getSearchLoadingStatus } from '../../store/main-reducer/main-reducer-selectors';
 import { Guitar } from '../../types/types';
 
 
@@ -21,8 +21,8 @@ function OneSearchGuitar({guitar, onClick} : {guitar: Guitar, onClick: () => voi
 
   const handleGuitarClick = () => {
     history.push(`${GUITAR_PATH}/${id}`);
-    onClick();
     dispatch(fetchGuitarsWithSearch(''));
+    onClick();
   };
 
   return (
@@ -45,15 +45,20 @@ export default function HeaderSearch(): JSX.Element {
   const searchGuitars = useSelector(getSearchGuitars);
 
   const dispatch = useDispatch();
+  const isLoading = useSelector(getSearchLoadingStatus);
 
   const [value, setValue] = useState('');
 
   const handleSearchInput = (evt: FormEvent<HTMLInputElement>) => {
-    setValue(evt.currentTarget.value);
-    dispatch(fetchGuitarsWithSearch(evt.currentTarget.value));
+    const searchValue = evt.currentTarget.value;
+    dispatch(fetchGuitarsWithSearch(searchValue));
+    setValue(searchValue);
+
   };
 
   const guitars = searchGuitars.map((guitar) => <OneSearchGuitar guitar={guitar} key={guitar.id} onClick={() => setValue('')}/>);
+
+  const guitarList = isLoading ? null : <ul className={`form-search__select-list ${value.length ? '' : CLASS_HIDDEN}`} style={{zIndex: 2}}>{ guitars }</ul>;
 
   return (
 
@@ -72,11 +77,8 @@ export default function HeaderSearch(): JSX.Element {
         <label className="visually-hidden" htmlFor="search">Поиск</label>
       </form>
 
-      <ul className={`form-search__select-list ${value.length ? '' : CLASS_HIDDEN}`} style={{zIndex: 2}}>
+      { guitars.length ? guitarList : null }
 
-        {guitars}
-
-      </ul>
     </div>
   );
 }

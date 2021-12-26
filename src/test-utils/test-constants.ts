@@ -42,6 +42,7 @@ export const stateFilled: State = {
     allGuitarsLoading: false,
     allGuitarsError: false,
     searchGuitars: fakeGuitars,
+    searchLoading: false,
     parseParamsFromUrl: false,
   },
 
@@ -90,6 +91,7 @@ export const stateEmpty: State = {
     allGuitarsLoading: false,
     allGuitarsError: false,
     searchGuitars: [],
+    searchLoading: false,
     parseParamsFromUrl: true,
   },
 

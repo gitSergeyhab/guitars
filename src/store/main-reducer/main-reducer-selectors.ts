@@ -15,6 +15,7 @@ export const getAllGuitarsErrorStatus = (state: State): boolean => state[field].
 export const getAllGuitarsLoadingStatus = (state: State): boolean => state[field].allGuitarsLoading;
 
 export const getSearchGuitars = (state: State): Guitar[] => state[field].searchGuitars;
+export const getSearchLoadingStatus = (state: State): boolean => state[field].searchLoading;
 
 export const getParseFromUrlStatus = (state: State): boolean => state[field].parseParamsFromUrl;
 

@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { Guitar, GuitarWithComments } from '../../types/types';
-import { loadAllGuitars, loadGuitars, loadSearchGuitars, noParseParamsFromUrl, setGuitarsErrorStatus, setGuitarsLoadingStatus } from '../actions';
+import { loadAllGuitars, loadGuitars, loadSearchGuitars, noParseParamsFromUrl, setGuitarsErrorStatus, setGuitarsLoadingStatus, setSearchLoadingStatus } from '../actions';
 
 
 type InitialState = {
@@ -13,6 +13,7 @@ type InitialState = {
   allGuitarsError: boolean,
 
   searchGuitars: Guitar[],
+  searchLoading: boolean,
 
   parseParamsFromUrl: boolean,
 }
@@ -28,6 +29,7 @@ export const initialState: InitialState = {
   allGuitarsError: false,
 
   searchGuitars: [],
+  searchLoading: false,
 
   parseParamsFromUrl: true,
 };
@@ -44,6 +46,7 @@ export const mainReducer = createReducer(initialState, (builder) => {
       state.allGuitarsLoading = false;
     })
     .addCase(loadSearchGuitars, (state, action) => {state.searchGuitars = action.payload;})
+    .addCase(setSearchLoadingStatus, (state, action) => {state.searchLoading = action.payload;})
     .addCase(setGuitarsLoadingStatus, (state, action) => {state.isLoading = action.payload;})
     .addCase(setGuitarsErrorStatus, (state, action) => {state.isError = action.payload;})
 

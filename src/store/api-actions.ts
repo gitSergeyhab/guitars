@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 
 import { Comment, Guitar, GuitarWithComments, Order, ThunkActionResult } from '../types/types';
-import { loadAllGuitars, loadGuitars, loadSearchGuitars, loadTheGuitar, setAllGuitarsErrorStatus, setCartGuitars, setComments, setCoupon, setDiscount, setGuitarCount, setGuitarsErrorStatus, setGuitarToPopup, setPopupType, setTheGuitarErrorStatus } from './actions';
+import { loadAllGuitars, loadGuitars, loadSearchGuitars, loadTheGuitar, setAllGuitarsErrorStatus, setCartGuitars, setComments, setCoupon, setDiscount, setGuitarCount, setGuitarsErrorStatus, setGuitarToPopup, setPopupType, setSearchLoadingStatus, setTheGuitarErrorStatus } from './actions';
 import { ApiRoute, ParamName, PopupType } from '../const';
 
 
@@ -54,15 +54,17 @@ export const fetchGuitarsWithPath = ( path: string ): ThunkActionResult =>
 // guitars + search
 export const fetchGuitarsWithSearch = (search = ''): ThunkActionResult =>
   async(dispatch, _getState, api) => {
+    dispatch(setSearchLoadingStatus(true));
 
     const params = {[ParamName.Search.NameLike] : search};
-
     try {
       const {data} = await api.get<Guitar[]>(ApiRoute.Guitars, {params});
       dispatch(loadSearchGuitars(data));
-    } catch {
+    } catch (e) {
       toast.error(ErrorMessage.FetchGuitars);
     }
+
+    dispatch(setSearchLoadingStatus(false));
   };
 
 

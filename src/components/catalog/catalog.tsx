@@ -15,7 +15,7 @@ import Spinner from '../spinner/spinner';
 import { fetchGuitarsWithPath } from '../../store/api-actions';
 import { getCheckedStrings, getUserMaxPrice, getUserMinPrice, getUserTypes } from '../../store/filter-reducer/filter-reducer-selector';
 import { getGuitars, getGuitarsErrorStatus, getGuitarsLoadingStatus, getParseFromUrlStatus } from '../../store/main-reducer/main-reducer-selectors';
-import { getLimit, getStart } from '../../store/pagination-reducer/pagination-reducer-selectors';
+import { getGuitarCount, getLimit, getStart } from '../../store/pagination-reducer/pagination-reducer-selectors';
 import { collectParams, makeFilterParams, makePageParams, makeReducerFromUrl, makeSortParams } from '../../utils/param-utils';
 import { Params } from '../../types/types';
 import { noParseParamsFromUrl } from '../../store/actions';
@@ -39,6 +39,7 @@ export default function Catalog(): JSX.Element {
   const sort = useSelector(getSort);
   const order = useSelector(getOrder);
   const start = useSelector(getStart);
+  const guitarCount = useSelector(getGuitarCount);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -75,6 +76,10 @@ export default function Catalog(): JSX.Element {
 
   if (isLoading) {
     return <Spinner/>;
+  }
+
+  if (start >= guitarCount) {
+    return <NotFoundPage/>;
   }
 
 

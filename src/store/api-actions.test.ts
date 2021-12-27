@@ -52,7 +52,7 @@ describe('Async actions', () => {
   it('fetchGuitarsWithSearch: should dispatch setSearchLoadingStatus, loadSearchGuitars, setSearchLoadingStatus when GET /guitars with search', async () => {
     const store = mockStore();
     const search = '';
-    const params = {[ParamName.Search.NameLike] : search};
+    const params = {[ParamName.Search.NameLike] : `^${search}`};
     mockAPI.onGet(ApiRoute.Guitars).reply(200, fakeGuitars, {params});
     expect(store.getActions()).toEqual([]);
     await store.dispatch(fetchGuitarsWithSearch(''));

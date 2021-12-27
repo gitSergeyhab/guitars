@@ -56,7 +56,7 @@ export const fetchGuitarsWithSearch = (search = ''): ThunkActionResult =>
   async(dispatch, _getState, api) => {
     dispatch(setSearchLoadingStatus(true));
 
-    const params = {[ParamName.Search.NameLike] : search};
+    const params = {[ParamName.Search.NameLike] : `^${search}`};
     try {
       const {data} = await api.get<Guitar[]>(ApiRoute.Guitars, {params});
       dispatch(loadSearchGuitars(data));

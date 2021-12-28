@@ -38,8 +38,8 @@ describe ('Component FilterType', () => {
     userEvent.click(acoustic);
 
     expect(store.getActions()).toEqual([
-      setUserTypes([GuitarType.Acoustic]),
       setCheckedStrings([]),
+      setUserTypes([GuitarType.Acoustic]),
       setCurrentPage(1),
     ]);
   });

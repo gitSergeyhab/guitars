@@ -4,14 +4,16 @@ import { APPRoute } from '../../const';
 
 export default function NotFoundPage(): JSX.Element {
   return (
-    <div style={{textAlign: 'center', fontSize: '1.7em', fontWeight: '700', paddingTop: '15%', paddingBottom: '15%'}}>
-      Error 404
-      <br/>
-      Page Not Found
-      <br/>Пока нет главной страницы - ссылка на каталог<br/>
-      <Link to={APPRoute.Catalog} style={{color: 'orange', fontSize: '1.4em', paddingTop: '15%'}}>
-        Main Page
-      </Link>
-    </div>
+    <main className="page-content">
+      <div style={{textAlign: 'center', fontSize: '1.7em', fontWeight: '700', paddingTop: '15%', paddingBottom: '15%'}}>
+        Error 404
+        <br/>
+        Page Not Found
+        <br/><br/>
+        <Link to={APPRoute.Main} style={{color: 'orange', fontSize: '1.4em', paddingTop: '15%'}}>
+          Main Page
+        </Link>
+      </div>
+    </main>
   );
 }

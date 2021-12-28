@@ -5,7 +5,11 @@ import { Params } from '../types/types';
 
 import qs from 'qs';
 import { Action } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 
+
+const ERROR_MESSAGE_PARAMS = 'incorrect parameters have been entered';
+const PAGE_NULL = '0';
 
 export const getStringPrice = (type: string, price: number | null): Params => price ? ({[type]: `${price}`}) : {};
 
@@ -21,44 +25,48 @@ export const makeFilterParams = ({types, strings, maxPrice, minPrice} : MakeFilt
 
 
 export const makeReducerFromUrl = (params: Params, dispatch: Dispatch<Action>): void => {
-  const types = params[ParamName.Filter.Type];
-  if (types) {
-    const value = typeof types === 'string' ? [types] : types;
-    dispatch(setUserTypes(value));
-  }
+  try {
+    const types = params[ParamName.Filter.Type];
+    if (types) {
+      const value = typeof types === 'string' ? [types] : types;
+      dispatch(setUserTypes(value));
+    }
 
-  const stringCount = params[ParamName.Filter.StringCount];
-  if (stringCount) {
-    const value = typeof stringCount === 'string' ? [+stringCount] : stringCount.map((item) => +item);
-    dispatch(setCheckedStrings(value));
-  }
+    const stringCount = params[ParamName.Filter.StringCount];
+    if (stringCount) {
+      const value = typeof stringCount === 'string' ? [+stringCount] : stringCount.map((item) => +item);
+      dispatch(setCheckedStrings(value));
+    }
 
-  const maxPrice = params[ParamName.Filter.PriceLte];
-  if (maxPrice) {
-    dispatch(setUserMaxPrice(+maxPrice));
-  }
+    const maxPrice = params[ParamName.Filter.PriceLte];
+    if (maxPrice) {
+      dispatch(setUserMaxPrice(+maxPrice));
+    }
 
-  const minPrice = params[ParamName.Filter.PriceGte];
-  if (minPrice) {
-    dispatch(setUserMinPrice(+minPrice));
-  }
+    const minPrice = params[ParamName.Filter.PriceGte];
+    if (minPrice) {
+      dispatch(setUserMinPrice(+minPrice));
+    }
 
-  const sort = params[ParamName.Sort.Sort];
-  if (sort && (sort === ParamName.Sort.Price || sort === ParamName.Sort.Rating)) { // применять параметры сортировки, только если они адекватные
-    dispatch(setSort(sort));
-  }
+    const sort = params[ParamName.Sort.Sort];
+    if (sort && (sort === ParamName.Sort.Price || sort === ParamName.Sort.Rating)) { // применять параметры сортировки, только если они адекватные
+      dispatch(setSort(sort));
+    }
 
-  const order = params[ParamName.Sort.Order];
-  if (order && (order === ParamName.Sort.Asc || order === ParamName.Sort.Desc)) { // ...
-    dispatch(setOrder(order));
-  }
+    const order = params[ParamName.Sort.Order];
+    if (order && (order === ParamName.Sort.Asc || order === ParamName.Sort.Desc)) { // ...
+      dispatch(setOrder(order));
+    }
 
-  const limit = params[ParamName.Range.Limit];
-  const page = params[ParamName.Range.Page];
+    const limit = params[ParamName.Range.Limit];
+    const page = params[ParamName.Range.Page];
 
-  if (limit && page) {
-    dispatch(setLimit(+limit));
-    dispatch(setCurrentPage(+page));
+    if (limit && page) {
+      dispatch(setLimit(+limit));
+      dispatch(setCurrentPage( page === PAGE_NULL ?  1 : +page));
+    }
+  } catch {
+    toast.error(ERROR_MESSAGE_PARAMS);
   }
 };
 

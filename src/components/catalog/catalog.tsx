@@ -15,7 +15,7 @@ import Spinner from '../spinner/spinner';
 import { fetchGuitarsWithPath } from '../../store/api-actions';
 import { getCheckedStrings, getUserMaxPrice, getUserMinPrice, getUserTypes } from '../../store/filter-reducer/filter-reducer-selector';
 import { getGuitars, getGuitarsErrorStatus, getGuitarsLoadingStatus, getParseFromUrlStatus } from '../../store/main-reducer/main-reducer-selectors';
-import { getGuitarCount, getLimit, getStart } from '../../store/pagination-reducer/pagination-reducer-selectors';
+import { getCurrentPage, getGuitarCount, getLimit, getStart } from '../../store/pagination-reducer/pagination-reducer-selectors';
 import { collectParams, makeFilterParams, makePageParams, makeReducerFromUrl, makeSortParams } from '../../utils/param-utils';
 import { Params } from '../../types/types';
 import { noParseParamsFromUrl } from '../../store/actions';
@@ -40,6 +40,7 @@ export default function Catalog(): JSX.Element {
   const order = useSelector(getOrder);
   const start = useSelector(getStart);
   const guitarCount = useSelector(getGuitarCount);
+  const currentPage = useSelector(getCurrentPage);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -78,10 +79,9 @@ export default function Catalog(): JSX.Element {
     return <Spinner/>;
   }
 
-  if (start >= guitarCount) {
+  if ((start >= guitarCount && guitarCount !== 0) || (!start && start !== 0) || (guitarCount === 0 && currentPage > 1)) {
     return <NotFoundPage/>;
   }
-
 
   const guitarList = guitars.map((guitar) => <GuitarCard guitar={guitar} key={guitar.id}/>);
   const messageNoGuitar = <h2 style={{textAlign: 'center'}}>{MESSAGE_NO_GUITARS}</h2>;

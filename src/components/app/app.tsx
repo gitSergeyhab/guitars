@@ -8,6 +8,7 @@ import Header from '../header/header';
 import Catalog from '../catalog/catalog';
 import Modals from '../modals/modals';
 import { APPRoute } from '../../const';
+import Main from '../main/main';
 
 
 export default function App(): JSX.Element {
@@ -16,6 +17,9 @@ export default function App(): JSX.Element {
     <>
       <Header/>
       <Switch>
+        <Route exact path={APPRoute.Main}>
+          <Main/>
+        </Route>
         <Route exact path={APPRoute.Catalog}>
           <Catalog/>
         </Route>

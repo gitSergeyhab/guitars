@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { GUITARS_PER_PAGE } from '../../const';
-import { setCurrentPage, setGuitarCount, setLimit } from '../actions';
+import { resetPagination, setCurrentPage, setGuitarCount, setLimit } from '../actions';
 
 
 type InitialState = {
@@ -25,5 +25,11 @@ export const paginationReducer = createReducer(initialState, (builder) => {
     .addCase(setCurrentPage, (state, action) => {
       state.currentPage = action.payload;
       state.start = (action.payload - 1) * state.limit;
+    })
+    .addCase(resetPagination, (state) => {
+      state.currentPage = 1;
+      state.start = 0;
+      state.limit = GUITARS_PER_PAGE;
+      state.guitarCount = 0;
     });
 });

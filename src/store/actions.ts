@@ -10,7 +10,7 @@ const enum ActionType {
   SetGuitarsErrorStatus = 'main/SetGuitarsErrorStatus',
 
   LoadAllGuitars = 'main/LoadAllGuitars',
-  SetAllGuitarsLoadingStatus = 'main/SetGuitarsLoadingStatus',
+  SetAllGuitarsLoadingStatus = 'main/SetAllGuitarsLoadingStatus',
   SetAllGuitarsErrorStatus = 'main/SetGuitarsErrorStatus',
   // catalog - url
   NoParseParamsFromUrl = 'main/NoParseParamsFromUrl',
@@ -47,6 +47,7 @@ const enum ActionType {
   SetStartPagination = 'pagination/SetStartPagination',
   SetLimit = 'pagination/SetLimit',
   SetGuitarCount = 'pagination/SetGuitarsCount',
+  ResetPagination = 'pagination/ResetPagination',
 }
 
 //catalog
@@ -92,3 +93,5 @@ export const setCurrentPage = createAction(ActionType.SetCurrentPage, (currentPa
 export const setStartPagination = createAction(ActionType.SetStartPagination, (start: number) => ({payload: start}));
 export const setLimit = createAction(ActionType.SetLimit, (limit: number) => ({payload: limit}));
 export const setGuitarCount = createAction(ActionType.SetGuitarCount, (count: number) => ({payload: count}));
+export const resetPagination = createAction(ActionType.ResetPagination);
+

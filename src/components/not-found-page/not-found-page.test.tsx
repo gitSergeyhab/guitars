@@ -35,9 +35,8 @@ describe ('Component NotFoundPage', () => {
       <Provider store={store}>
         <Router history={history}>
           <Switch>
-
-            <Route exact path={APPRoute.Catalog}>
-              {TestPageText.Catalog}
+            <Route exact path={APPRoute.Main}>
+              {TestPageText.Main}
             </Route>
             <Route>
               <NotFoundPage/>
@@ -49,12 +48,12 @@ describe ('Component NotFoundPage', () => {
     );
 
     expect(screen.getByText(TestPageText.NotFoundPage)).toBeInTheDocument();
-    expect(screen.queryByText(TestPageText.Catalog)).not.toBeInTheDocument();
+    expect(screen.queryByText(TestPageText.Main)).not.toBeInTheDocument();
 
     const link = screen.getByRole('link');
     userEvent.click(link);
 
     expect(screen.queryByText(TestPageText.NotFoundPage)).not.toBeInTheDocument();
-    expect(screen.getByText(TestPageText.Catalog)).toBeInTheDocument();
+    expect(screen.getByText(TestPageText.Main)).toBeInTheDocument();
   });
 });

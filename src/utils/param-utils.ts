@@ -63,7 +63,7 @@ export const makeReducerFromUrl = (params: Params, dispatch: Dispatch<Action>): 
 
     if (limit && page) {
       dispatch(setLimit(+limit));
-      dispatch(setCurrentPage( page === PAGE_NULL ?  1 : +page));
+      dispatch(setCurrentPage( page === PAGE_NULL ?  1 : Math.abs(+page)));
     }
   } catch {
     toast.error(ERROR_MESSAGE_PARAMS);

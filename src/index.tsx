@@ -8,7 +8,7 @@ import { ToastContainer } from 'react-toastify';
 import App from './components/app/app';
 import { createAPI } from './services/api';
 import { rootReducer } from './store/root-reducer';
-import { fetchAllGuitars } from './store/api-actions';
+import { fetchExtremePrices } from './store/api-actions';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -20,7 +20,7 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({thunk: {extraArgument: api}}),
 });
 
-store.dispatch(fetchAllGuitars());
+store.dispatch(fetchExtremePrices());
 
 
 ReactDOM.render(

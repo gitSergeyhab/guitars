@@ -1,10 +1,10 @@
-import { loadAllGuitars, loadGuitars, loadSearchGuitars, noParseParamsFromUrl, setGuitarsErrorStatus, setGuitarsLoadingStatus } from '../actions';
+import { loadGuitars, loadSearchGuitars, noParseParamsFromUrl, setGuitarsErrorStatus, setGuitarsLoadingStatus } from '../actions';
 import { mainReducer } from './main-reducer';
 import { fakeAction, stateEmpty, stateFilled } from '../../test-utils/test-constants';
 
 
 const testData = {...stateFilled.Main};
-const initialState = {...stateEmpty.Main, allGuitarsLoading: true, isLoading: true};
+const initialState = {...stateEmpty.Main, isLoading: true};
 
 
 describe('Reducer : mainReducer', () => {
@@ -18,11 +18,6 @@ describe('Reducer : mainReducer', () => {
   it('should update guitars, isLoading by loadGuitars', () => {
     const expectedState = {...state, guitars: testData.guitars, isLoading: false};
     expect(mainReducer(state, loadGuitars(testData.guitars))).toEqual(expectedState);
-  });
-
-  it('should update allGuitars, allGuitarsLoading by loadAllGuitars', () => {
-    const expectedState = {...state, allGuitars: testData.allGuitars, allGuitarsLoading: false};
-    expect(mainReducer(state, loadAllGuitars(testData.allGuitars))).toEqual(expectedState);
   });
 
   it('should update searchGuitars by loadSearchGuitars', () => {

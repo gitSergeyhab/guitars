@@ -2,15 +2,6 @@ import { CartGuitar, Guitar, Order } from '../types/types';
 import { GuitarInfo, GuitarType } from '../const';
 
 
-export const getMinMaxPrice = (guitars: Guitar[]): {min: number, max: number} => {
-  const prices = guitars.map((guitar) => guitar.price);
-  const min = Math.min(...prices);
-  const max = Math.max(...prices);
-
-  return { min, max };
-};
-
-
 export const getStringsCount = (types: GuitarType[]): number[] => {
   const stringsArray = types.map((type) => GuitarInfo[type].strings);
   const unknownStringsArray = [...stringsArray] as unknown; // эти две строки нужны чтобы формально соответствовать критерию № 6, но, по-моему, это бред...

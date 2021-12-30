@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import useDebounce from '../../hooks/use-debounce';
+import { loadSearchGuitars } from '../../store/actions';
 
 import { fetchGuitarsWithSearch } from '../../store/api-actions';
 import { getSearchGuitars, getSearchLoadingStatus } from '../../store/main-reducer/main-reducer-selectors';
@@ -22,7 +23,7 @@ function OneSearchGuitar({guitar, onClick} : {guitar: Guitar, onClick: () => voi
 
   const handleGuitarClick = () => {
     history.push(`${GUITAR_PATH}/${id}`);
-    dispatch(fetchGuitarsWithSearch(''));
+    dispatch(loadSearchGuitars([]));
     onClick();
   };
 
@@ -56,7 +57,11 @@ export default function HeaderSearch(): JSX.Element {
   };
 
   useEffect(() => {
-    dispatch(fetchGuitarsWithSearch(debouncedValue));
+    if (debouncedValue) {
+      dispatch(fetchGuitarsWithSearch(debouncedValue));
+    } else {
+      dispatch(loadSearchGuitars([]));
+    }
   }, [debouncedValue, dispatch]);
 
   const guitars = searchGuitars.map((guitar) => <OneSearchGuitar guitar={guitar} key={guitar.id} onClick={() => setValue('')}/>);

@@ -1,13 +1,15 @@
 import { GuitarType } from '../../const';
 import { fakeAction, stateEmpty } from '../../test-utils/test-constants';
 import { getStringsCount } from '../../utils/utils';
-import { setCheckedStrings, setUserMaxPrice, setUserMinPrice, setUserTypes } from '../actions';
+import { setCheckedStrings, setMaxPrice, setMinPrice, setUserMaxPrice, setUserMinPrice, setUserTypes } from '../actions';
 import { filterReducer } from './filter-reducer';
 
 
 const testData = {
-  userMinPice: 10000,
-  userMaxPice: 30000,
+  minPrice: 5000,
+  maxPrice: 40000,
+  userMinPrice: 10000,
+  userMaxPrice: 30000,
   userType: [GuitarType.Acoustic],
   stringsActive: [6,7,12],
   stringsChecked: [7],
@@ -23,14 +25,24 @@ describe('Reducer : filterReducer', () => {
     expect(filterReducer(undefined, fakeAction)).toEqual(initialState);
   });
 
-  it('should update userMinPice by setUserMinPrice', () => {
-    const expectedState = {...state, userMinPice: testData.userMinPice};
-    expect(filterReducer(state, setUserMinPrice(testData.userMinPice)) ).toEqual(expectedState);
+  it('should update minPrice by setMinPrice', () => {
+    const expectedState = {...state, minPrice: testData.minPrice};
+    expect(filterReducer(state, setMinPrice(testData.minPrice))).toEqual(expectedState);
   });
 
-  it('should update userMaxPice by setUserMaxPrice', () => {
-    const expectedState = {...state, userMaxPice: testData.userMaxPice};
-    expect(filterReducer(state, setUserMaxPrice(testData.userMaxPice)) ).toEqual(expectedState);
+  it('should update maxPrice by setMaxPrice', () => {
+    const expectedState = {...state, maxPrice: testData.maxPrice};
+    expect(filterReducer(state, setMaxPrice(testData.maxPrice)) ).toEqual(expectedState);
+  });
+
+  it('should update userMinPrice by setUserMinPrice', () => {
+    const expectedState = {...state, userMinPrice: testData.userMinPrice};
+    expect(filterReducer(state, setUserMinPrice(testData.userMinPrice)) ).toEqual(expectedState);
+  });
+
+  it('should update userMaxPrice by setUserMaxPrice', () => {
+    const expectedState = {...state, userMaxPrice: testData.userMaxPrice};
+    expect(filterReducer(state, setUserMaxPrice(testData.userMaxPrice)) ).toEqual(expectedState);
   });
 
   it('should update userType, stringsActive by setUserTypes', () => {

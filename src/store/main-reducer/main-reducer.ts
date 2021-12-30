@@ -1,16 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { Guitar, GuitarWithComments } from '../../types/types';
-import { loadAllGuitars, loadGuitars, loadSearchGuitars, noParseParamsFromUrl, setGuitarsErrorStatus, setGuitarsLoadingStatus, setSearchLoadingStatus } from '../actions';
+import { loadGuitars, loadSearchGuitars, noParseParamsFromUrl, setGuitarsErrorStatus, setGuitarsLoadingStatus, setSearchLoadingStatus } from '../actions';
 
 
 type InitialState = {
   guitars: GuitarWithComments[],
   isLoading: boolean,
   isError: boolean,
-
-  allGuitars: Guitar[],
-  allGuitarsLoading: boolean,
-  allGuitarsError: boolean,
 
   searchGuitars: Guitar[],
   searchLoading: boolean,
@@ -24,10 +20,6 @@ export const initialState: InitialState = {
   isLoading: true,
   isError: false,
 
-  allGuitars: [],
-  allGuitarsLoading: true,
-  allGuitarsError: false,
-
   searchGuitars: [],
   searchLoading: false,
 
@@ -40,10 +32,6 @@ export const mainReducer = createReducer(initialState, (builder) => {
     .addCase(loadGuitars, (state, action) => {
       state.guitars = action.payload;
       state.isLoading = false;
-    })
-    .addCase(loadAllGuitars, (state, action) => {
-      state.allGuitars = action.payload;
-      state.allGuitarsLoading = false;
     })
     .addCase(loadSearchGuitars, (state, action) => {state.searchGuitars = action.payload;})
     .addCase(setSearchLoadingStatus, (state, action) => {state.searchLoading = action.payload;})

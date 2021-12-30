@@ -8,10 +8,6 @@ const enum ActionType {
   LoadGuitars = 'main/LoadGuitars',
   SetGuitarsLoadingStatus = 'main/SetGuitarsLoadingStatus',
   SetGuitarsErrorStatus = 'main/SetGuitarsErrorStatus',
-
-  LoadAllGuitars = 'main/LoadAllGuitars',
-  SetAllGuitarsLoadingStatus = 'main/SetAllGuitarsLoadingStatus',
-  SetAllGuitarsErrorStatus = 'main/SetGuitarsErrorStatus',
   // catalog - url
   NoParseParamsFromUrl = 'main/NoParseParamsFromUrl',
   // catalog - search
@@ -19,6 +15,8 @@ const enum ActionType {
   SetSearchLoadingStatus = 'main/SetSearchLoadingStatus',
 
   // catalog - filter
+  SetMinPrice = 'filter/SetMinPrice',
+  SetMaxPrice = 'filter/SetMaxPrice',
   SetUserMinPrice = 'filter/SetUserMinPrice',
   SetUserMaxPrice = 'filter/SetUserMaxPrice',
   SetUserTypes = 'filter/SetUserTypes',
@@ -55,9 +53,6 @@ export const loadGuitars = createAction(ActionType.LoadGuitars, (guitars: Guitar
 export const setGuitarsLoadingStatus = createAction(ActionType.SetGuitarsLoadingStatus, (status: boolean) => ({payload: status}));
 export const setGuitarsErrorStatus = createAction(ActionType.SetGuitarsErrorStatus, (status: boolean) => ({payload: status}));
 
-export const loadAllGuitars = createAction(ActionType.LoadAllGuitars, (guitars: Guitar[]) => ({payload: guitars}));
-export const setAllGuitarsLoadingStatus = createAction(ActionType.SetAllGuitarsLoadingStatus, (status: boolean) => ({payload: status}));
-export const setAllGuitarsErrorStatus = createAction(ActionType.SetAllGuitarsErrorStatus, (status: boolean) => ({payload: status}));
 // catalog - url
 export const noParseParamsFromUrl = createAction(ActionType.NoParseParamsFromUrl);
 // catalog - search
@@ -65,6 +60,8 @@ export const loadSearchGuitars = createAction(ActionType.LoadSearchGuitars, (gui
 export const setSearchLoadingStatus = createAction(ActionType.SetSearchLoadingStatus, (status: boolean) => ({payload: status}));
 
 // catalog - filter
+export const setMinPrice = createAction(ActionType.SetMinPrice, (price: number | null) => ({payload: price}));
+export const setMaxPrice = createAction(ActionType.SetMaxPrice, (price: number | null) => ({payload: price}));
 export const setUserMinPrice = createAction(ActionType.SetUserMinPrice, (price: number | null) => ({payload: price}));
 export const setUserMaxPrice = createAction(ActionType.SetUserMaxPrice, (price: number | null) => ({payload: price}));
 export const setUserTypes = createAction(ActionType.SetUserTypes, (type: string[]) => ({payload: type}));

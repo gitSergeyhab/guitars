@@ -1,12 +1,14 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { GuitarType } from '../../const';
 import { getStringsCount } from '../../utils/utils';
-import { setCheckedStrings, setUserMaxPrice, setUserMinPrice, setUserTypes } from '../actions';
+import { setCheckedStrings, setMaxPrice, setMinPrice, setUserMaxPrice, setUserMinPrice, setUserTypes } from '../actions';
 
 
 export type InitialState = {
-  userMinPice: number | null,
-  userMaxPice: number | null,
+  minPrice: number | null,
+  maxPrice: number | null,
+  userMinPrice: number | null,
+  userMaxPrice: number | null,
   userType: string[],
   stringsActive: number[],
   stringsChecked: number[],
@@ -14,8 +16,10 @@ export type InitialState = {
 
 
 export const initialState: InitialState = {
-  userMinPice: null,
-  userMaxPice: null,
+  minPrice: null,
+  maxPrice: null,
+  userMinPrice: null,
+  userMaxPrice: null,
   userType: [],
   stringsActive: [],
   stringsChecked: [],
@@ -24,8 +28,10 @@ export const initialState: InitialState = {
 
 export const filterReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(setUserMinPrice, (state, action) => {state.userMinPice = action.payload;})
-    .addCase(setUserMaxPrice, (state, action) => {state.userMaxPice = action.payload;})
+    .addCase(setMinPrice, (state, action) => {state.minPrice = action.payload;})
+    .addCase(setMaxPrice, (state, action) => {state.maxPrice = action.payload;})
+    .addCase(setUserMinPrice, (state, action) => {state.userMinPrice = action.payload;})
+    .addCase(setUserMaxPrice, (state, action) => {state.userMaxPrice = action.payload;})
     .addCase(setUserTypes, (state, action) => {
       state.userType = action.payload;
       state.stringsActive = getStringsCount(action.payload as GuitarType[]);

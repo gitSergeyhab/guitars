@@ -1,15 +1,17 @@
 import { toast } from 'react-toastify';
 
 import { Comment, Guitar, GuitarWithComments, Order, ThunkActionResult } from '../types/types';
-import { loadAllGuitars, loadGuitars, loadSearchGuitars, loadTheGuitar, setAllGuitarsErrorStatus, setCartGuitars, setComments, setCoupon, setDiscount, setGuitarCount, setGuitarsErrorStatus, setGuitarToPopup, setPopupType, setSearchLoadingStatus, setTheGuitarErrorStatus } from './actions';
+import { loadGuitars, loadSearchGuitars, loadTheGuitar, setCartGuitars, setComments, setCoupon, setDiscount, setGuitarCount, setGuitarsErrorStatus, setGuitarToPopup, setMaxPrice, setMinPrice, setPopupType, setSearchLoadingStatus, setTheGuitarErrorStatus } from './actions';
 import { ApiRoute, ParamName, PopupType } from '../const';
 
 
 const SUCCESS_ORDER_MESSAGE = 'congratulations, the guitar is ordered';
 const TOTAL_COUNT = 'x-total-count';
+export const SORT_BY_PRICE_URL = '?_sort=price';
 
 export const enum ErrorMessage {
   FetchGuitars = 'Unable to upload guitars',
+  FetchExtremePrices = 'Unable to upload extreme prices',
   FetchGuitar = 'Unable to upload this guitar',
   FetchComments = 'Unable to upload this comments',
   PostCoupons = 'you did not guess )',
@@ -19,20 +21,6 @@ export const enum ErrorMessage {
 
 
 // CATALOG
-
-//all guitars
-export const fetchAllGuitars = (): ThunkActionResult =>
-  async(dispatch, _getState, api) => {
-    try {
-      dispatch(setAllGuitarsErrorStatus(false));
-      const {data} = await api.get<Guitar[]>(ApiRoute.Guitars);
-      dispatch(loadAllGuitars(data));
-    } catch {
-      dispatch(setAllGuitarsErrorStatus(true));
-      toast.error(ErrorMessage.FetchGuitars);
-    }
-  };
-
 // guitars + filter, sort, pagination
 export const fetchGuitarsWithPath = ( path: string ): ThunkActionResult =>
   async(dispatch, _getState, api) => {
@@ -55,7 +43,6 @@ export const fetchGuitarsWithPath = ( path: string ): ThunkActionResult =>
 export const fetchGuitarsWithSearch = (search = ''): ThunkActionResult =>
   async(dispatch, _getState, api) => {
     dispatch(setSearchLoadingStatus(true));
-
     const params = {[ParamName.Search.NameLike] : `^${search}`};
     try {
       const {data} = await api.get<Guitar[]>(ApiRoute.Guitars, {params});
@@ -63,8 +50,19 @@ export const fetchGuitarsWithSearch = (search = ''): ThunkActionResult =>
     } catch (e) {
       toast.error(ErrorMessage.FetchGuitars);
     }
-
     dispatch(setSearchLoadingStatus(false));
+  };
+
+// guitars by price for filter
+export const fetchExtremePrices = (): ThunkActionResult =>
+  async(dispatch, _getState, api) => {
+    try {
+      const {data} = await api.get<Guitar[]>(`${ApiRoute.Guitars}${SORT_BY_PRICE_URL}`);
+      dispatch(setMinPrice(data[0].price));
+      dispatch(setMaxPrice(data[data.length - 1].price));
+    } catch {
+      toast.warn(ErrorMessage.FetchExtremePrices);
+    }
   };
 
 

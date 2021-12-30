@@ -1,7 +1,9 @@
-import { useDispatch, useSelector } from 'react-redux';
+
+import { useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
 import { ParamName } from '../../const';
-import { setCurrentPage, setOrder, setSort } from '../../store/actions';
 import { getOrder, getSort, getSortStatus } from '../../store/sort-reducer/sort-reducer-selectors';
+import { makeNewSearch } from '../../utils/param-utils';
 
 
 const enum ClassActive {
@@ -14,39 +16,45 @@ const styleGrayText = {color: '#585757'};
 
 export default function SortBlock(): JSX.Element {
 
-  const dispatch = useDispatch();
   const isSort = useSelector(getSortStatus);
 
+  const history = useHistory();
+  const {search} = useLocation();
+
   const handlePriceClick = () => {
-    dispatch(setCurrentPage(1));
-    dispatch(setSort(ParamName.Sort.Price));
+    let newSearch = makeNewSearch(search, ParamName.Sort.Sort, ParamName.Sort.Price);
+    newSearch = makeNewSearch(newSearch, ParamName.Range.Page, 1);
     if (!isSort) {
-      dispatch(setOrder(ParamName.Sort.Asc));
+      newSearch = makeNewSearch(newSearch, ParamName.Sort.Order, ParamName.Sort.Asc);
     }
+    history.push(newSearch);
   };
 
   const handleRatingClick = () => {
-    dispatch(setCurrentPage(1));
-    dispatch(setSort(ParamName.Sort.Rating));
+    let newSearch = makeNewSearch(search, ParamName.Sort.Sort, ParamName.Sort.Rating);
+    newSearch = makeNewSearch(newSearch, ParamName.Range.Page, 1);
     if (!isSort) {
-      dispatch(setOrder(ParamName.Sort.Asc));
+      newSearch = makeNewSearch(newSearch, ParamName.Sort.Order, ParamName.Sort.Asc);
     }
+    history.push(newSearch);
   };
 
   const handleAscClick = () => {
-    dispatch(setCurrentPage(1));
-    dispatch(setOrder(ParamName.Sort.Asc));
+    let newSearch = makeNewSearch(search, ParamName.Sort.Order, ParamName.Sort.Asc);
+    newSearch = makeNewSearch(newSearch, ParamName.Range.Page, 1);
     if (!isSort) {
-      dispatch(setSort(ParamName.Sort.Price));
+      newSearch = makeNewSearch(newSearch, ParamName.Sort.Sort, ParamName.Sort.Price);
     }
+    history.push(newSearch);
   };
 
   const handleDescClick = () => {
-    dispatch(setCurrentPage(1));
-    dispatch(setOrder(ParamName.Sort.Desc));
+    let newSearch = makeNewSearch(search, ParamName.Sort.Order, ParamName.Sort.Desc);
+    newSearch = makeNewSearch(newSearch, ParamName.Range.Page, 1);
     if (!isSort) {
-      dispatch(setSort(ParamName.Sort.Price));
+      newSearch = makeNewSearch(newSearch, ParamName.Sort.Sort, ParamName.Sort.Price);
     }
+    history.push(newSearch);
   };
 
   const order = useSelector(getOrder);

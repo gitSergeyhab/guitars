@@ -52,23 +52,24 @@ export default function Catalog(): JSX.Element {
       const search = location.search;
       const searchParam = search.split('?')[1] || '';
       const urlParams = qs.parse(searchParam);
+      dispatch(fetchGuitarsWithPath(search));
       makeReducerFromUrl(urlParams as Params, dispatch); // собирает редьюсеры (filter, sort, pagination)
-      dispatch(noParseParamsFromUrl()); // чтоб больше не брал параметры из url
+      // dispatch(noParseParamsFromUrl()); // чтоб больше не брал параметры из url
     }
   }, [dispatch, location, paramsFromUrlStatus]);
 
 
-  useEffect(() => {
-    if (!paramsFromUrlStatus) { // 2. а потом берет параметры из формы: form -> reducer -> url
-      const filterParams = makeFilterParams({maxPrice, minPrice, strings, types});
-      const sortParams = makeSortParams({sort, order});
-      const pageParams = makePageParams(start, limit);
-      const params = collectParams([filterParams, sortParams, pageParams]);
-      const path = `?${qs.stringify(params)}`;
-      history.push(path); // просто передает строку в url
-      dispatch(fetchGuitarsWithPath(path));
-    }
-  }, [dispatch, maxPrice, minPrice, strings, types, sort, order, start, history, paramsFromUrlStatus, limit]);
+  // useEffect(() => {
+  //   if (!paramsFromUrlStatus) { // 2. а потом берет параметры из формы: form -> reducer -> url
+  //     const filterParams = makeFilterParams({maxPrice, minPrice, strings, types});
+  //     const sortParams = makeSortParams({sort, order});
+  //     const pageParams = makePageParams(start, limit);
+  //     const params = collectParams([filterParams, sortParams, pageParams]);
+  //     const path = `?${qs.stringify(params)}`;
+  //     history.push(path); // просто передает строку в url
+  //     dispatch(fetchGuitarsWithPath(path));
+  //   }
+  // }, [dispatch, maxPrice, minPrice, strings, types, sort, order, start, history, paramsFromUrlStatus, limit]);
 
 
   if (isError) {

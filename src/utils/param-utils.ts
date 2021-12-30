@@ -106,3 +106,11 @@ export const addPriceToParam = (search: string, value: string, typePrice: string
 };
 
 export const getUrlFromParams = (params: Params): string => `?${qs.stringify(params)}`;
+
+
+export const makeNewSearch = (search: string, param: string, value: string | string[] | number | number[]) => {
+  const searchParam = search.split('?')[1] || '';
+  const urlParams = qs.parse(searchParam) as Params;
+  const newParams = {...urlParams, [param]: value};
+  return `?${qs.stringify(newParams)}`;
+};

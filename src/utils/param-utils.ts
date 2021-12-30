@@ -1,5 +1,5 @@
 import { Dispatch } from 'react';
-import { ParamName } from '../const';
+import { GUITARS_PER_PAGE, ParamName } from '../const';
 import { setCheckedStrings, setCurrentPage, setLimit, setOrder, setSort, setUserMaxPrice, setUserMinPrice, setUserTypes } from '../store/actions';
 import { Params } from '../types/types';
 
@@ -10,6 +10,10 @@ import { toast } from 'react-toastify';
 
 const ERROR_MESSAGE_PARAMS = 'incorrect parameters have been entered';
 const PAGE_NULL = '0';
+
+const defaultParams = {
+  [ParamName.Range.Limit] : GUITARS_PER_PAGE,
+};
 
 export const getStringPrice = (type: string, price: number | null): Params => price ? ({[type]: `${price}`}) : {};
 
@@ -107,10 +111,9 @@ export const addPriceToParam = (search: string, value: string, typePrice: string
 
 export const getUrlFromParams = (params: Params): string => `?${qs.stringify(params)}`;
 
-
-export const makeNewSearch = (search: string, param: string, value: string | string[] | number | number[]) => {
+export const makeNewSearch = (search: string, param = '', value: string | string[] | number | number[] = '') => {
   const searchParam = search.split('?')[1] || '';
   const urlParams = qs.parse(searchParam) as Params;
-  const newParams = {...urlParams, [param]: value};
+  const newParams = {...defaultParams, ...urlParams, [param]: value};
   return `?${qs.stringify(newParams)}`;
 };

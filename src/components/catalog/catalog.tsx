@@ -16,7 +16,7 @@ import { fetchGuitarsWithPath } from '../../store/api-actions';
 import { getCheckedStrings, getUserMaxPrice, getUserMinPrice, getUserTypes } from '../../store/filter-reducer/filter-reducer-selector';
 import { getGuitars, getGuitarsErrorStatus, getGuitarsLoadingStatus, getParseFromUrlStatus } from '../../store/main-reducer/main-reducer-selectors';
 import { getCurrentPage, getGuitarCount, getLimit, getStart } from '../../store/pagination-reducer/pagination-reducer-selectors';
-import { collectParams, makeFilterParams, makePageParams, makeReducerFromUrl, makeSortParams } from '../../utils/param-utils';
+import { collectParams, makeFilterParams, makeNewSearch, makePageParams, makeReducerFromUrl, makeSortParams } from '../../utils/param-utils';
 import { Params } from '../../types/types';
 import { noParseParamsFromUrl } from '../../store/actions';
 import { getOrder, getSort } from '../../store/sort-reducer/sort-reducer-selectors';
@@ -29,7 +29,7 @@ export default function Catalog(): JSX.Element {
   const isError = useSelector(getGuitarsErrorStatus);
   const isLoading = useSelector(getGuitarsLoadingStatus);
 
-  const paramsFromUrlStatus = useSelector(getParseFromUrlStatus);
+  // const paramsFromUrlStatus = useSelector(getParseFromUrlStatus);
   const limit = useSelector(getLimit);
 
   const strings = useSelector(getCheckedStrings);
@@ -43,20 +43,16 @@ export default function Catalog(): JSX.Element {
   const currentPage = useSelector(getCurrentPage);
 
   const dispatch = useDispatch();
-  const history = useHistory();
-  const location = useLocation();
+  // const history = useHistory();
+  const {search} = useLocation();
 
 
   useEffect(() => { // 1. забирает параметры из строки только при обновлении страницы : url -> reducer -> form
-    if (paramsFromUrlStatus) {
-      const search = location.search;
-      const searchParam = search.split('?')[1] || '';
-      const urlParams = qs.parse(searchParam);
-      dispatch(fetchGuitarsWithPath(search));
-      makeReducerFromUrl(urlParams as Params, dispatch); // собирает редьюсеры (filter, sort, pagination)
-      // dispatch(noParseParamsFromUrl()); // чтоб больше не брал параметры из url
-    }
-  }, [dispatch, location, paramsFromUrlStatus]);
+    const newSearch = makeNewSearch(search);
+    const urlParams = qs.parse(newSearch.split('?')[1]);
+    dispatch(fetchGuitarsWithPath(newSearch));
+    makeReducerFromUrl(urlParams as Params, dispatch); // собирает редьюсеры (filter, sort, pagination)
+  }, [dispatch, search]);
 
 
   // useEffect(() => {

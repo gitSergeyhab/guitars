@@ -1,8 +1,10 @@
 import { MouseEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentPage } from '../../store/actions';
+import { useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
+import { ParamName } from '../../const';
 import { getCurrentPage, getGuitarCount, getLimit } from '../../store/pagination-reducer/pagination-reducer-selectors';
 import { getDisplayPages, getPageCount, getPageVisualData } from '../../utils/pagination-utils';
+import { makeNewSearch } from '../../utils/param-utils';
 
 
 function Page({page} : {page : number}): JSX.Element {
@@ -15,12 +17,14 @@ function Page({page} : {page : number}): JSX.Element {
 
   const {linkPage, classes, textPage} = getPageVisualData(pageCount, currentPage, page);
 
-  const dispatch = useDispatch();
+  const {search} = useLocation();
+  const {push} = useHistory();
+
   const handlePageClick = (evt: MouseEvent<HTMLAnchorElement>) => {
     evt.preventDefault();
-    dispatch(setCurrentPage(linkPage));
+    const newSearch = makeNewSearch(search, ParamName.Range.Page, linkPage);
+    push(newSearch);
   };
-
 
   return (
     <li className={classes}>

@@ -18,44 +18,57 @@ export default function SortBlock(): JSX.Element {
 
   const isSort = useSelector(getSortStatus);
 
-  const history = useHistory();
+  const {push} = useHistory();
   const {search} = useLocation();
 
-  const handlePriceClick = () => {
-    let newSearch = makeNewSearch(search, ParamName.Sort.Sort, ParamName.Sort.Price);
-    newSearch = makeNewSearch(newSearch, ParamName.Range.Page, 1);
+  const pushByClick = (param: string, value: string, secondParam: string, secondValue: string) => {
+    let newSearch = makeNewSearch(search, param, value);
     if (!isSort) {
-      newSearch = makeNewSearch(newSearch, ParamName.Sort.Order, ParamName.Sort.Asc);
+      newSearch = makeNewSearch(newSearch, secondParam, secondValue);
     }
-    history.push(newSearch);
+    newSearch = makeNewSearch(newSearch, ParamName.Range.Page, 1);
+    push(newSearch);
   };
 
-  const handleRatingClick = () => {
-    let newSearch = makeNewSearch(search, ParamName.Sort.Sort, ParamName.Sort.Rating);
-    newSearch = makeNewSearch(newSearch, ParamName.Range.Page, 1);
-    if (!isSort) {
-      newSearch = makeNewSearch(newSearch, ParamName.Sort.Order, ParamName.Sort.Asc);
-    }
-    history.push(newSearch);
-  };
+  const handlePriceClick = () =>
+    pushByClick(ParamName.Sort.Sort, ParamName.Sort.Price, ParamName.Sort.Order, ParamName.Sort.Asc);
 
-  const handleAscClick = () => {
-    let newSearch = makeNewSearch(search, ParamName.Sort.Order, ParamName.Sort.Asc);
-    newSearch = makeNewSearch(newSearch, ParamName.Range.Page, 1);
-    if (!isSort) {
-      newSearch = makeNewSearch(newSearch, ParamName.Sort.Sort, ParamName.Sort.Price);
-    }
-    history.push(newSearch);
-  };
+  const handleRatingClick = () =>
+    pushByClick(ParamName.Sort.Sort, ParamName.Sort.Rating, ParamName.Sort.Order, ParamName.Sort.Asc);
 
-  const handleDescClick = () => {
-    let newSearch = makeNewSearch(search, ParamName.Sort.Order, ParamName.Sort.Desc);
-    newSearch = makeNewSearch(newSearch, ParamName.Range.Page, 1);
-    if (!isSort) {
-      newSearch = makeNewSearch(newSearch, ParamName.Sort.Sort, ParamName.Sort.Price);
-    }
-    history.push(newSearch);
-  };
+  const handleAscClick = () =>
+    pushByClick(ParamName.Sort.Order, ParamName.Sort.Asc, ParamName.Sort.Sort, ParamName.Sort.Price);
+
+  const handleDescClick = () =>
+    pushByClick(ParamName.Sort.Order, ParamName.Sort.Desc, ParamName.Sort.Sort, ParamName.Sort.Price);
+
+
+  // const handleRatingClick = () => {
+  //   let newSearch = makeNewSearch(search, ParamName.Sort.Sort, ParamName.Sort.Rating);
+  //   if (!isSort) {
+  //     newSearch = makeNewSearch(newSearch, ParamName.Sort.Order, ParamName.Sort.Asc);
+  //   }
+  //   newSearch = makeNewSearch(newSearch, ParamName.Range.Page, 1);
+  //   push(newSearch);
+  // };
+
+  // const handleAscClick = () => {
+  //   let newSearch = makeNewSearch(search, ParamName.Sort.Order, ParamName.Sort.Asc);
+  //   if (!isSort) {
+  //     newSearch = makeNewSearch(newSearch, ParamName.Sort.Sort, ParamName.Sort.Price);
+  //   }
+  //   newSearch = makeNewSearch(newSearch, ParamName.Range.Page, 1);
+  //   push(newSearch);
+  // };
+
+  // const handleDescClick = () => {
+  //   let newSearch = makeNewSearch(search, ParamName.Sort.Order, ParamName.Sort.Desc);
+  //   if (!isSort) {
+  //     newSearch = makeNewSearch(newSearch, ParamName.Sort.Sort, ParamName.Sort.Price);
+  //   }
+  //   newSearch = makeNewSearch(newSearch, ParamName.Range.Page, 1);
+  //   push(newSearch);
+  // };
 
   const order = useSelector(getOrder);
   const sort = useSelector(getSort);

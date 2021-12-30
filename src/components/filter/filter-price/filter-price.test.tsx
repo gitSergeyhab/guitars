@@ -14,6 +14,7 @@ const history = createMemoryHistory();
 const mockStore = configureMockStore([thunk]);
 const store = mockStore(stateFilled);
 
+
 const TestId = {
   PriceMin: 'priceMin',
   PriceMax: 'priceMax',
@@ -39,9 +40,11 @@ describe ('Component FilterPrice', () => {
 
     expect(store.getActions()).toEqual([]);
 
-    const priceMin = screen.getByTestId(TestId.PriceMin);
+    const priceMinInput = screen.getByTestId(TestId.PriceMin);
 
-    userEvent.type(priceMin, TypeText.min);
+    expect(store.getActions()).toEqual([]);
+
+    userEvent.type(priceMinInput, TypeText.min);
 
     expect(store.getActions()).toEqual([setUserMinPrice(+`${DefaultPrice.Min}${TypeText.min}`), setCurrentPage(1)]);
   });

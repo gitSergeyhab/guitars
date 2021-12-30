@@ -1,6 +1,7 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import useDebounce from '../../hooks/use-debounce';
 
 import { fetchGuitarsWithSearch } from '../../store/api-actions';
 import { getSearchGuitars, getSearchLoadingStatus } from '../../store/main-reducer/main-reducer-selectors';
@@ -48,17 +49,19 @@ export default function HeaderSearch(): JSX.Element {
   const isLoading = useSelector(getSearchLoadingStatus);
 
   const [value, setValue] = useState('');
+  const debouncedValue = useDebounce(value);
 
   const handleSearchInput = (evt: FormEvent<HTMLInputElement>) => {
-    const searchValue = evt.currentTarget.value;
-    dispatch(fetchGuitarsWithSearch(searchValue));
-    setValue(searchValue);
-
+    setValue(evt.currentTarget.value);
   };
+
+  useEffect(() => {
+    dispatch(fetchGuitarsWithSearch(debouncedValue));
+  }, [debouncedValue, dispatch]);
 
   const guitars = searchGuitars.map((guitar) => <OneSearchGuitar guitar={guitar} key={guitar.id} onClick={() => setValue('')}/>);
 
-  const guitarList = isLoading ? null : <ul className={`form-search__select-list ${value.length ? '' : CLASS_HIDDEN}`} style={{zIndex: 2}}>{ guitars }</ul>;
+  const guitarList = isLoading ? null : <ul className={`form-search__select-list ${debouncedValue.length && value.length? '' : CLASS_HIDDEN}`} style={{zIndex: 2}}>{ guitars }</ul>;
 
   return (
 

@@ -1,60 +1,56 @@
 import { FormEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
+import { ParamName } from '../../../const';
 
-import { setCurrentPage, setUserMaxPrice, setUserMinPrice } from '../../../store/actions';
 import { getMaxPrice, getMinPrice, getUserMaxPrice, getUserMinPrice } from '../../../store/filter-reducer/filter-reducer-selector';
+import { makeNewSearch } from '../../../utils/param-utils';
 
 
 export default function FilterPrice(): JSX.Element {
 
+  const {search} = useLocation();
+  const {push} = useHistory();
+
   const minCatalogPrice = useSelector(getMinPrice);
   const maxCatalogPrice = useSelector(getMaxPrice);
-
-
-  // const {min, max} = useSelector(getPricesFromCatalog);
-  const dispatch = useDispatch();
-
   const minPrice = useSelector(getUserMinPrice);
   const maxPrice = useSelector(getUserMaxPrice);
 
   const handleMinPriceBlur = () => {
+    let newSearch = makeNewSearch(search, ParamName.Filter.PriceGte, minPrice || '');
     if (minPrice !== null && minCatalogPrice !==null && minPrice < minCatalogPrice) {
-      dispatch(setUserMinPrice(minCatalogPrice));
+      newSearch = makeNewSearch(search, ParamName.Filter.PriceGte, minCatalogPrice);
     } else if (minPrice !== null && maxCatalogPrice !==null && minPrice > maxCatalogPrice) {
-      dispatch(setUserMinPrice(maxCatalogPrice));
-    } else {
-      dispatch(setUserMinPrice(minPrice));
+      newSearch = makeNewSearch(search, ParamName.Filter.PriceGte, maxCatalogPrice);
     }
+    push(newSearch);
   };
 
   const handleMaxPriceBlur = () => {
+    let newSearch = makeNewSearch(search, ParamName.Filter.PriceLte, maxPrice || '');
     if (maxPrice !== null && minCatalogPrice !==null && maxPrice < minCatalogPrice) {
-      dispatch(setUserMaxPrice(minCatalogPrice));
+      newSearch = makeNewSearch(search, ParamName.Filter.PriceLte, minCatalogPrice);
     } else if (maxPrice !== null && maxCatalogPrice !==null && maxPrice > maxCatalogPrice) {
-      dispatch(setUserMaxPrice(maxCatalogPrice));
-    } else {
-      dispatch(setUserMaxPrice(maxPrice));
+      newSearch = makeNewSearch(search, ParamName.Filter.PriceLte, maxCatalogPrice);
     }
+    push(newSearch);
   };
 
-  const handleMinPriceChange = (evt: FormEvent<HTMLInputElement>) => {
-    const value = evt.currentTarget.value;
-    dispatch(setUserMinPrice(+value));
-    dispatch(setCurrentPage(1)); // сбрасывает страницу
+  const pushPriceByType = (evt: FormEvent<HTMLInputElement>, param: string) => {
+    let newSearch = makeNewSearch(search, param, evt.currentTarget.value);
+    newSearch = makeNewSearch(newSearch, ParamName.Range.Page, 1);
+    push(newSearch);
   };
 
-  const handleMaxPriceChange = (evt: FormEvent<HTMLInputElement>) => {
-    const value = evt.currentTarget.value;
-    dispatch(setUserMaxPrice(+value));
-    dispatch(setCurrentPage(1));
-  };
+  const handleMinPriceChange = (evt: FormEvent<HTMLInputElement>) => pushPriceByType(evt, ParamName.Filter.PriceGte);
+  const handleMaxPriceChange = (evt: FormEvent<HTMLInputElement>) => pushPriceByType(evt, ParamName.Filter.PriceLte);
 
   const minPriceAttribute = minCatalogPrice ? minCatalogPrice : '';
   const maxPriceAttribute = maxCatalogPrice ? maxCatalogPrice : '';
 
 
   return (
-
     <fieldset className="catalog-filter__block">
       <legend className="catalog-filter__block-title">Цена, ₽</legend>
       <div className="catalog-filter__price-range">
@@ -80,92 +76,3 @@ export default function FilterPrice(): JSX.Element {
     </fieldset>
   );
 }
-
-
-// export default function FilterPrice(): JSX.Element {
-
-//   const {min, max} = useSelector(getPricesFromCatalog);
-//   const dispatch = useDispatch();
-
-//   const minPrice = useSelector(getUserMinPrice);
-//   const maxPrice = useSelector(getUserMaxPrice);
-//   //
-//   const [minPriceValue, setMinPriceValue] = useState(minPrice);
-//   const [maxPriceValue, setMaxPriceValue] = useState(maxPrice);
-
-//   const debouncedMinPrice = useDebounce(minPriceValue);
-//   const debouncedMaxPrice = useDebounce(maxPriceValue);
-
-
-//   useEffect(() => {
-//     dispatch(setUserMinPrice(debouncedMinPrice));
-//   }, [dispatch, debouncedMinPrice]);
-
-
-//   useEffect(() => {
-//     dispatch(setUserMaxPrice(debouncedMaxPrice));
-//   }, [dispatch, debouncedMaxPrice]);
-
-//   const handleMinPriceBlur = () => {
-//     if (minPriceValue !== null && minPriceValue < min) {
-//       setMinPriceValue(min);
-//     } else if (minPriceValue !== null && minPriceValue > max) {
-//       setMinPriceValue(max);
-//     } else {
-//       setMinPriceValue(minPriceValue);
-//     }
-//   };
-
-//   const handleMaxPriceBlur = () => {
-//     if (maxPriceValue !== null && maxPriceValue < min) {
-//       setMaxPriceValue(min);
-//     } else if (maxPriceValue !== null && maxPriceValue > max) {
-//       setMaxPriceValue(max);
-//     } else {
-//       setMaxPriceValue(maxPriceValue);
-//     }
-//   };
-
-//   const handleMinPriceChange = (evt: FormEvent<HTMLInputElement>) => {
-//     const value = evt.currentTarget.value;
-//     setMinPriceValue(+value);
-//     dispatch(setCurrentPage(1));
-//   };
-
-//   const handleMaxPriceChange = (evt: FormEvent<HTMLInputElement>) => {
-//     const value = evt.currentTarget.value;
-//     setMaxPriceValue(+value);
-//     dispatch(setCurrentPage(1));
-//   };
-
-//   return (
-
-//     <fieldset className="catalog-filter__block">
-//       <legend className="catalog-filter__block-title">Цена, ₽</legend>
-//       <div className="catalog-filter__price-range">
-//         <div className="form-input">
-//           <label className="visually-hidden">Минимальная цена</label>
-//           <input
-//             data-testid='priceMin'
-//             type="number" id="priceMin" name="от"
-//             placeholder={`${min}`} min={min} max={max}
-//             value={`${minPriceValue}`}
-//             onBlur={handleMinPriceBlur}
-//             onChange={handleMinPriceChange}
-//           />
-//         </div>
-//         <div className="form-input">
-//           <label className="visually-hidden">Максимальная цена</label>
-//           <input
-//             data-testid='priceMax'
-//             type="number" id="priceMax" name="до"
-//             placeholder={`${max}`} min={min} max={max}
-//             value={`${maxPriceValue}`}
-//             onBlur={handleMaxPriceBlur}
-//             onChange={handleMaxPriceChange}
-//           />
-//         </div>
-//       </div>
-//     </fieldset>
-//   );
-// }

@@ -13,13 +13,10 @@ import SortBlock from '../sort-block/sort-block';
 import Spinner from '../spinner/spinner';
 
 import { fetchGuitarsWithPath } from '../../store/api-actions';
-import { getCheckedStrings, getUserMaxPrice, getUserMinPrice, getUserTypes } from '../../store/filter-reducer/filter-reducer-selector';
-import { getGuitars, getGuitarsErrorStatus, getGuitarsLoadingStatus, getParseFromUrlStatus } from '../../store/main-reducer/main-reducer-selectors';
-import { getCurrentPage, getGuitarCount, getLimit, getStart } from '../../store/pagination-reducer/pagination-reducer-selectors';
-import { collectParams, makeFilterParams, makeNewSearch, makePageParams, makeReducerFromUrl, makeSortParams } from '../../utils/param-utils';
-import { Params } from '../../types/types';
-import { noParseParamsFromUrl } from '../../store/actions';
-import { getOrder, getSort } from '../../store/sort-reducer/sort-reducer-selectors';
+import { getGuitars, getGuitarsErrorStatus, getGuitarsLoadingStatus } from '../../store/main-reducer/main-reducer-selectors';
+import { getGuitarCount } from '../../store/pagination-reducer/pagination-reducer-selectors';
+import { getPageParamsFromUrl, makeNewSearch } from '../../utils/param-utils';
+
 import { MESSAGE_NO_GUITARS } from '../../const';
 
 
@@ -29,43 +26,18 @@ export default function Catalog(): JSX.Element {
   const isError = useSelector(getGuitarsErrorStatus);
   const isLoading = useSelector(getGuitarsLoadingStatus);
 
-  // const paramsFromUrlStatus = useSelector(getParseFromUrlStatus);
-  const limit = useSelector(getLimit);
-
-  const strings = useSelector(getCheckedStrings);
-  const types = useSelector(getUserTypes);
-  const minPrice = useSelector(getUserMinPrice);
-  const maxPrice = useSelector(getUserMaxPrice);
-  const sort = useSelector(getSort);
-  const order = useSelector(getOrder);
-  const start = useSelector(getStart);
   const guitarCount = useSelector(getGuitarCount);
-  const currentPage = useSelector(getCurrentPage);
 
   const dispatch = useDispatch();
-  // const history = useHistory();
   const {search} = useLocation();
 
 
-  useEffect(() => { // 1. забирает параметры из строки только при обновлении страницы : url -> reducer -> form
+  const {start, currentPage} = getPageParamsFromUrl(search, guitarCount);
+
+  useEffect(() => {
     const newSearch = makeNewSearch(search);
-    const urlParams = qs.parse(newSearch.split('?')[1]);
     dispatch(fetchGuitarsWithPath(newSearch));
-    makeReducerFromUrl(urlParams as Params, dispatch); // собирает редьюсеры (filter, sort, pagination)
   }, [dispatch, search]);
-
-
-  // useEffect(() => {
-  //   if (!paramsFromUrlStatus) { // 2. а потом берет параметры из формы: form -> reducer -> url
-  //     const filterParams = makeFilterParams({maxPrice, minPrice, strings, types});
-  //     const sortParams = makeSortParams({sort, order});
-  //     const pageParams = makePageParams(start, limit);
-  //     const params = collectParams([filterParams, sortParams, pageParams]);
-  //     const path = `?${qs.stringify(params)}`;
-  //     history.push(path); // просто передает строку в url
-  //     dispatch(fetchGuitarsWithPath(path));
-  //   }
-  // }, [dispatch, maxPrice, minPrice, strings, types, sort, order, start, history, paramsFromUrlStatus, limit]);
 
 
   if (isError) {

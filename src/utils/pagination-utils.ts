@@ -15,7 +15,8 @@ const PageNotTransform = {
 } as const;
 
 
-export const getPageCount = (guitarsCount: number, limit: number): number => Math.ceil(guitarsCount/limit);
+export const getPageCount = (guitarsCount: number, limit: number): number => Math.ceil(guitarsCount / limit);
+export const getStartGuitar = (currentPage: number, limit: number) => (currentPage - 1) * limit;
 
 
 export const getDisplayPages = (pageCount: number, currentPage: number) : number[] => {

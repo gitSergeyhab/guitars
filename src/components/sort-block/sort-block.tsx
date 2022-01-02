@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { ParamName } from '../../const';
 import { getOrder, getSort, getSortStatus } from '../../store/sort-reducer/sort-reducer-selectors';
-import { makeNewSearch } from '../../utils/param-utils';
+import { checkSort, getSortAndOrder, makeNewSearch } from '../../utils/param-utils';
 
 
 const enum ClassActive {
@@ -16,10 +16,13 @@ const styleGrayText = {color: '#585757'};
 
 export default function SortBlock(): JSX.Element {
 
-  const isSort = useSelector(getSortStatus);
+  // const isSort = useSelector(getSortStatus);
+
 
   const {push} = useHistory();
   const {search} = useLocation();
+
+  const isSort = checkSort(search);
 
   const pushByClick = (param: string, value: string, secondParam: string, secondValue: string) => {
     let newSearch = makeNewSearch(search, param, value);
@@ -43,35 +46,8 @@ export default function SortBlock(): JSX.Element {
     pushByClick(ParamName.Sort.Order, ParamName.Sort.Desc, ParamName.Sort.Sort, ParamName.Sort.Price);
 
 
-  // const handleRatingClick = () => {
-  //   let newSearch = makeNewSearch(search, ParamName.Sort.Sort, ParamName.Sort.Rating);
-  //   if (!isSort) {
-  //     newSearch = makeNewSearch(newSearch, ParamName.Sort.Order, ParamName.Sort.Asc);
-  //   }
-  //   newSearch = makeNewSearch(newSearch, ParamName.Range.Page, 1);
-  //   push(newSearch);
-  // };
-
-  // const handleAscClick = () => {
-  //   let newSearch = makeNewSearch(search, ParamName.Sort.Order, ParamName.Sort.Asc);
-  //   if (!isSort) {
-  //     newSearch = makeNewSearch(newSearch, ParamName.Sort.Sort, ParamName.Sort.Price);
-  //   }
-  //   newSearch = makeNewSearch(newSearch, ParamName.Range.Page, 1);
-  //   push(newSearch);
-  // };
-
-  // const handleDescClick = () => {
-  //   let newSearch = makeNewSearch(search, ParamName.Sort.Order, ParamName.Sort.Desc);
-  //   if (!isSort) {
-  //     newSearch = makeNewSearch(newSearch, ParamName.Sort.Sort, ParamName.Sort.Price);
-  //   }
-  //   newSearch = makeNewSearch(newSearch, ParamName.Range.Page, 1);
-  //   push(newSearch);
-  // };
-
-  const order = useSelector(getOrder);
-  const sort = useSelector(getSort);
+  const {sort, order} = getSortAndOrder(search);
+  console.log(sort, order);
 
   return (
     <div className="catalog-sort">

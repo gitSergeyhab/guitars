@@ -2,20 +2,25 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { setCheckedStrings, setCurrentPage } from '../../../store/actions';
 import { getActiveStrings, getCheckedStrings } from '../../../store/filter-reducer/filter-reducer-selector';
-import { ALL_STRINGS } from '../../../const';
+import { ALL_STRINGS, GuitarType, ParamName } from '../../../const';
+import { useHistory, useLocation } from 'react-router-dom';
+import { getStringCountFromUrl, getTypesFromUrl, makeNewSearch } from '../../../utils/param-utils';
+import { getStringsCount } from '../../../utils/utils';
 
 
 function OneString({stringCount} : {stringCount : number}): JSX.Element {
 
-  const activeStrings = useSelector(getActiveStrings);
-  const originCheckedStrings = useSelector(getCheckedStrings);
+  const {search} = useLocation();
+  const {push} = useHistory();
+
+  const originTypes = getTypesFromUrl(search);
+  const activeStrings = getStringsCount(originTypes as GuitarType[]);
+  const originCheckedStrings = getStringCountFromUrl(search);
 
   const id = `${stringCount}-strings`;
 
   const isDisabled = activeStrings.every((item) => item !== stringCount) && !!activeStrings.length;
   const isChecked = originCheckedStrings.some((item) => item === stringCount);
-
-  const dispatch = useDispatch();
 
   const handleStringChange = () => {
     const checkedStrings = [...originCheckedStrings];
@@ -26,8 +31,12 @@ function OneString({stringCount} : {stringCount : number}): JSX.Element {
     } else {
       checkedStrings.splice(index, 1);
     }
-    dispatch(setCheckedStrings(checkedStrings));
-    dispatch(setCurrentPage(1)); // сбрасывает страницу
+
+    let newSearch = makeNewSearch(search, ParamName.Filter.StringCount, checkedStrings);
+    newSearch = makeNewSearch(newSearch, ParamName.Range.Page, 1);
+    push(newSearch);
+    // dispatch(setCheckedStrings(checkedStrings));
+    // dispatch(setCurrentPage(1));
   };
 
 

@@ -3,10 +3,11 @@ import { GuitarInfo, GuitarType } from '../const';
 
 
 export const getStringsCount = (types: GuitarType[]): number[] => {
-  const stringsArray = types.map((type) => GuitarInfo[type].strings);
-  const unknownStringsArray = [...stringsArray] as unknown; // эти две строки нужны чтобы формально соответствовать критерию № 6, но, по-моему, это бред...
-  const originStringsArray = unknownStringsArray as number[][]; // ...без    as const  замечательно работает и без них
-  const strings = originStringsArray.reduce((acc, elem) => [...acc, ...elem] , []);
+  const stringsFromType = types.map((type) => GuitarInfo[type] ? GuitarInfo[type].strings : []);
+
+  const unknownStrings = [...stringsFromType] as unknown; // эти две строки нужны чтобы формально соответствовать критерию № 6, но, по-моему, это бред...
+  const originStrings = unknownStrings as number[][]; // ...без    as const  замечательно работает и без них
+  const strings = originStrings.reduce((acc, elem) => [...acc, ...elem] , []);
   return [...Array.from(new Set(strings))];
 };
 

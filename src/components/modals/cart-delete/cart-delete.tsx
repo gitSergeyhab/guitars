@@ -32,6 +32,7 @@ export default function CartDelete({guitar} : {guitar : Guitar | GuitarWithComme
     }
   };
 
+
   const handlePopupOutClick = (evt: MouseEvent) => { // MouseEvent не из Реакт!
     if (evt.target instanceof Element && !evt.target.closest(SELECTOR_MODAL)) {
       closePopup();

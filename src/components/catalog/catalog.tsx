@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -15,6 +15,7 @@ import { fetchGuitarsWithPath } from '../../store/api-actions';
 import { getGuitarCount, getGuitars, getGuitarsErrorStatus, getGuitarsLoadingStatus } from '../../store/catalog-reducer/catalog-reducer-selectors';
 import { getPageParamsFromUrl, makeNewSearch } from '../../utils/param-utils';
 import { MESSAGE_NO_GUITARS } from '../../const';
+import useDebounce from '../../hooks/use-debounce';
 
 
 export default function Catalog(): JSX.Element {
@@ -28,12 +29,20 @@ export default function Catalog(): JSX.Element {
   const dispatch = useDispatch();
   const {search} = useLocation();
 
-  const {start, currentPage} = getPageParamsFromUrl(search, guitarCount);
+  const [url, setUrl] = useState<null | string>(null);
+
+  const debouncedUrl = useDebounce(url);
+
 
   useEffect(() => {
-    const newSearch = makeNewSearch(search);
-    dispatch(fetchGuitarsWithPath(newSearch));
-  }, [dispatch, search]);
+    setUrl(makeNewSearch(search));
+    if (debouncedUrl !== null) {
+      dispatch(fetchGuitarsWithPath(debouncedUrl));
+    }
+  }, [dispatch, debouncedUrl, search]);
+
+
+  const {start, currentPage} = getPageParamsFromUrl(search, guitarCount);
 
 
   if (isError) {

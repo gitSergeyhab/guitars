@@ -14,7 +14,6 @@ export default function HeaderNav(): JSX.Element {
 
   const handleCatalogClick = () => dispatch(setGuitarsLoadingStatus(true));
 
-
   return (
     <nav className="main-nav">
       <ul className="main-nav__list">

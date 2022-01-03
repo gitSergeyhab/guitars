@@ -36,10 +36,14 @@ export default function Catalog(): JSX.Element {
 
   useEffect(() => {
     setUrl(makeNewSearch(search));
+  }, [search]);
+
+
+  useEffect(() => {
     if (debouncedUrl !== null) {
       dispatch(fetchGuitarsWithPath(debouncedUrl));
     }
-  }, [dispatch, debouncedUrl, search]);
+  }, [dispatch, debouncedUrl]);
 
 
   const {start, currentPage} = getPageParamsFromUrl(search, guitarCount);

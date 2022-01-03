@@ -22,8 +22,8 @@ export default function SuccessReview(): JSX.Element {
     }
   };
 
-  const handlePopupOutClick = (evt: any) => {
-    if (!evt.target.closest(SELECTOR_MODAL)) {
+  const handlePopupOutClick = (evt: MouseEvent) => { // MouseEvent не из Реакт!
+    if (evt.target instanceof Element && !evt.target.closest(SELECTOR_MODAL)) {
       closePopup();
     }
   };

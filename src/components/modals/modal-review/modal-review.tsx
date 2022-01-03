@@ -86,12 +86,11 @@ export default function ModalReview({guitar} : {guitar : Guitar | GuitarWithComm
     }
   };
 
-  const handlePopupOutClick = (evt: any) => {
-    if (!evt.target.closest(SELECTOR_MODAL)) {
+  const handlePopupOutClick = (evt: MouseEvent) => { // MouseEvent не из Реакт!
+    if (evt.target instanceof Element && !evt.target.closest(SELECTOR_MODAL)) {
       closePopup();
     }
   };
-
 
   return (
     <div style={{position: 'relative', width: '550px', height: '610px', marginBottom: '50px'}}>

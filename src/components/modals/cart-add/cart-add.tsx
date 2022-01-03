@@ -1,4 +1,4 @@
-import { MouseEvent, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setCartGuitars, setGuitarToPopup, setPopupType } from '../../../store/actions';
@@ -33,8 +33,8 @@ export default function CartAdd({guitar} : {guitar : Guitar | GuitarWithComments
     }
   };
 
-  const handlePopupOutClick = (evt: any) => {
-    if (!evt.target.closest(SELECTOR_MODAL)) {
+  const handlePopupOutClick = (evt: MouseEvent) => { // MouseEvent не из Реакт!
+    if (evt.target instanceof Element && !evt.target.closest(SELECTOR_MODAL)) {
       closePopup();
     }
   };
@@ -53,7 +53,7 @@ export default function CartAdd({guitar} : {guitar : Guitar | GuitarWithComments
 
   const cartGuitarsOrigin = useSelector(getCartGuitars);
 
-  const handleAddBtnClick = (evt: MouseEvent<HTMLElement>) => {
+  const handleAddBtnClick = (evt: React.MouseEvent<HTMLElement>) => {
     evt.preventDefault();
     const cartGuitars = [...cartGuitarsOrigin];
     const newCartGuitars = changeGuitarInCart(guitar, cartGuitars, true);

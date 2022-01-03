@@ -6,9 +6,8 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 
 import SortBlock from './sort-block';
 import { renderComponent } from '../../test-utils/render-util';
-import { setCurrentPage, setOrder, setSort } from '../../store/actions';
-import { ScreenText, stateEmpty, stateFilled } from '../../test-utils/test-constants';
-import { ParamName } from '../../const';
+import { ScreenText, stateEmpty } from '../../test-utils/test-constants';
+import { GUITARS_PER_PAGE, ParamName } from '../../const';
 
 
 const history = createMemoryHistory();
@@ -16,10 +15,10 @@ const mockStore = configureMockStore([thunk]);
 
 const sortBlock = <SortBlock/>;
 
-
 const BTN_SORT_COUNT = 4;
 
 describe ('Component SortBlock', () => {
+  beforeEach(() => history.push(''));
   it ('should render correctly', () => {
     const store = mockStore(stateEmpty);
     renderComponent(sortBlock, store, history);
@@ -32,70 +31,63 @@ describe ('Component SortBlock', () => {
   });
 
 
-  it ('should dispatch setCurrentPage, setSort (price), setOrder when stateEmpty and click Price', () => {
+  it ('should push ?_limit=9&_sort=price&_order=asc&_page=1 when stateEmpty and click Price', () => {
     const store = mockStore(stateEmpty);
     renderComponent(sortBlock, store, history);
 
-    expect(store.getActions()).toEqual([]);
+    expect(history.location.search).toBe('');
 
     const btnPrice = screen.getByText(ScreenText.Sort.Price);
 
     userEvent.click(btnPrice);
 
-    expect(store.getActions()).toEqual([
-      setCurrentPage(1),
-      setSort(ParamName.Sort.Price),
-      setOrder(ParamName.Sort.Asc),
-    ]);
+    expect(history.location.search).toBe(
+      `?_limit=${GUITARS_PER_PAGE}&${ParamName.Sort.Sort}=${ParamName.Sort.Price}&${ParamName.Sort.Order}=${ParamName.Sort.Asc}&_page=${1}`,
+    );
   });
 
-
-  it ('should dispatch setSort(Rating)  when stateFilled and click Price', () => {
-    const store = mockStore(stateFilled);
+  it ('should push ?_limit=9&_sort=rating&_order=asc&_page=1 when stateEmpty and click Rating', () => {
+    const store = mockStore(stateEmpty);
     renderComponent(sortBlock, store, history);
 
-    expect(store.getActions()).toEqual([]);
+    expect(history.location.search).toBe('');
 
     const btnRating = screen.getByText(ScreenText.Sort.Rating);
 
     userEvent.click(btnRating);
-    expect(store.getActions()).toEqual([
-      setCurrentPage(1),
-      setSort(ParamName.Sort.Rating),
-    ]);
+
+    expect(history.location.search).toBe(
+      `?_limit=${GUITARS_PER_PAGE}&${ParamName.Sort.Sort}=${ParamName.Sort.Rating}&${ParamName.Sort.Order}=${ParamName.Sort.Asc}&_page=${1}`,
+    );
   });
 
-  it ('should dispatch setCurrentPage, setOrder, setSort (price) when stateEmpty and click asc', () => {
+  it ('should push ?_limit=9&_order=asc&_sort=price&_page=1 when stateEmpty and click Asc', () => {
     const store = mockStore(stateEmpty);
     renderComponent(sortBlock, store, history);
 
-    expect(store.getActions()).toEqual([]);
+    expect(history.location.search).toBe('');
 
     const btnAsc = screen.getByLabelText(ScreenText.Sort.LabelUp);
 
     userEvent.click(btnAsc);
 
-    expect(store.getActions()).toEqual([
-      setCurrentPage(1),
-      setOrder(ParamName.Sort.Asc),
-      setSort(ParamName.Sort.Price),
-    ]);
+    expect(history.location.search).toBe(
+      `?_limit=${GUITARS_PER_PAGE}&${ParamName.Sort.Order}=${ParamName.Sort.Asc}&${ParamName.Sort.Sort}=${ParamName.Sort.Price}&_page=${1}`,
+    );
   });
 
-  it ('should dispatch setCurrentPage, setOrder, when stateFilled and click desc', () => {
-    const store = mockStore(stateFilled);
+  it ('should push ?_limit=9&_order=desc&_sort=price&_page=1 when stateEmpty and click Desc', () => {
+    const store = mockStore(stateEmpty);
     renderComponent(sortBlock, store, history);
 
-    expect(store.getActions()).toEqual([]);
+    expect(history.location.search).toBe('');
 
     const btnDesc = screen.getByLabelText(ScreenText.Sort.LabelDown);
 
     userEvent.click(btnDesc);
 
-    expect(store.getActions()).toEqual([
-      setCurrentPage(1),
-      setOrder(ParamName.Sort.Desc),
-    ]);
+    expect(history.location.search).toBe(
+      `?_limit=${GUITARS_PER_PAGE}&${ParamName.Sort.Order}=${ParamName.Sort.Desc}&${ParamName.Sort.Sort}=${ParamName.Sort.Price}&_page=${1}`,
+    );
   });
-
 });

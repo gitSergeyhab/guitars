@@ -1,8 +1,5 @@
-
-import { useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { ParamName } from '../../const';
-import { getOrder, getSort, getSortStatus } from '../../store/sort-reducer/sort-reducer-selectors';
 import { checkSort, getSortAndOrder, makeNewSearch } from '../../utils/param-utils';
 
 
@@ -15,9 +12,6 @@ const styleGrayText = {color: '#585757'};
 
 
 export default function SortBlock(): JSX.Element {
-
-  // const isSort = useSelector(getSortStatus);
-
 
   const {push} = useHistory();
   const {search} = useLocation();
@@ -47,7 +41,6 @@ export default function SortBlock(): JSX.Element {
 
 
   const {sort, order} = getSortAndOrder(search);
-  console.log(sort, order);
 
   return (
     <div className="catalog-sort">

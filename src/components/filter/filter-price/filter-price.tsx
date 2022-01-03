@@ -1,10 +1,10 @@
 import { FormEvent } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import { ParamName } from '../../../const';
 
-import { getMaxPrice, getMinPrice, getUserMaxPrice, getUserMinPrice } from '../../../store/filter-reducer/filter-reducer-selector';
+import { getMaxPrice, getMinPrice } from '../../../store/catalog-reducer/catalog-reducer-selectors';
 import { getPriceFromUrl, makeNewSearch } from '../../../utils/param-utils';
+import { ParamName } from '../../../const';
 
 
 const ZERO_STRING = '0';

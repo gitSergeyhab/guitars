@@ -6,9 +6,8 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 
 import FilterString from './filter-string';
 import { renderComponent } from '../../../test-utils/render-util';
-import { setCheckedStrings, setCurrentPage } from '../../../store/actions';
 import { stateEmpty } from '../../../test-utils/test-constants';
-import { ALL_STRINGS } from '../../../const';
+import { ALL_STRINGS, GUITARS_PER_PAGE } from '../../../const';
 
 
 const history = createMemoryHistory();
@@ -26,19 +25,16 @@ describe ('Component FilterString', () => {
 
   });
 
-  it ('should change checkbox correctly', () => {
+  it ('should push to url correctly', () => {
     renderComponent(filterPrice, store, history);
 
-    expect(store.getActions()).toEqual([]);
+    expect(history.location.search).toBe('');
 
     const fourStringGuitar = screen.getByText(ALL_STRINGS[0]);
 
     userEvent.click(fourStringGuitar);
 
-    expect(store.getActions()).toEqual([
-      setCheckedStrings([ALL_STRINGS[0]]),
-      setCurrentPage(1),
-    ]);
+    expect(history.location.search).toBe(`?_limit=${GUITARS_PER_PAGE}&stringCount%5B0%5D=${ALL_STRINGS[0]}&_page=${1}`);
   });
 
 });

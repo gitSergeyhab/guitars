@@ -5,26 +5,18 @@ import { PopupType } from '../const';
 
 const enum ActionType {
   //catalog
-  LoadGuitars = 'main/LoadGuitars',
-  SetGuitarsLoadingStatus = 'main/SetGuitarsLoadingStatus',
-  SetGuitarsErrorStatus = 'main/SetGuitarsErrorStatus',
-  // catalog - url
-  NoParseParamsFromUrl = 'main/NoParseParamsFromUrl',
+  LoadGuitars = 'catalog/LoadGuitars',
+  SetGuitarsLoadingStatus = 'catalog/SetGuitarsLoadingStatus',
+  SetGuitarsErrorStatus = 'catalog/SetGuitarsErrorStatus',
   // catalog - search
-  LoadSearchGuitars = 'main/LoadSearchGuitars',
-  SetSearchLoadingStatus = 'main/SetSearchLoadingStatus',
-
+  LoadSearchGuitars = 'catalog/LoadSearchGuitars',
+  SetSearchLoadingStatus = 'catalog/SetSearchLoadingStatus',
   // catalog - filter
-  SetMinPrice = 'filter/SetMinPrice',
-  SetMaxPrice = 'filter/SetMaxPrice',
-  SetUserMinPrice = 'filter/SetUserMinPrice',
-  SetUserMaxPrice = 'filter/SetUserMaxPrice',
-  SetUserTypes = 'filter/SetUserTypes',
-  SetCheckedStrings = 'filter/SetCheckedStrings',
+  SetMinPrice = 'catalog/SetMinPrice',
+  SetMaxPrice = 'catalog/SetMaxPrice',
+  // catalog - pagination
+  SetGuitarCount = 'pagination/SetGuitarsCount',
 
-  // catalog - sort
-  SetSort = 'sort/SetSort',
-  SetOrder = 'sort/SetOrder',
 
   //product
   LoadTheGuitar = 'guitar/LoadTheGuitar',
@@ -39,13 +31,6 @@ const enum ActionType {
   SetCartGuitars = 'cart/SetCartGuitars',
   SetDiscount = 'cart/SetDiscount',
   SetCoupon = 'cart/SetCoupon',
-
-  //pagination
-  SetCurrentPage = 'pagination/SetCurrentPage',
-  SetStartPagination = 'pagination/SetStartPagination',
-  SetLimit = 'pagination/SetLimit',
-  SetGuitarCount = 'pagination/SetGuitarsCount',
-  ResetPagination = 'pagination/ResetPagination',
 }
 
 //catalog
@@ -53,8 +38,6 @@ export const loadGuitars = createAction(ActionType.LoadGuitars, (guitars: Guitar
 export const setGuitarsLoadingStatus = createAction(ActionType.SetGuitarsLoadingStatus, (status: boolean) => ({payload: status}));
 export const setGuitarsErrorStatus = createAction(ActionType.SetGuitarsErrorStatus, (status: boolean) => ({payload: status}));
 
-// catalog - url
-export const noParseParamsFromUrl = createAction(ActionType.NoParseParamsFromUrl);
 // catalog - search
 export const loadSearchGuitars = createAction(ActionType.LoadSearchGuitars, (guitars: Guitar[]) => ({payload: guitars}));
 export const setSearchLoadingStatus = createAction(ActionType.SetSearchLoadingStatus, (status: boolean) => ({payload: status}));
@@ -62,14 +45,10 @@ export const setSearchLoadingStatus = createAction(ActionType.SetSearchLoadingSt
 // catalog - filter
 export const setMinPrice = createAction(ActionType.SetMinPrice, (price: number | null) => ({payload: price}));
 export const setMaxPrice = createAction(ActionType.SetMaxPrice, (price: number | null) => ({payload: price}));
-export const setUserMinPrice = createAction(ActionType.SetUserMinPrice, (price: number | null) => ({payload: price}));
-export const setUserMaxPrice = createAction(ActionType.SetUserMaxPrice, (price: number | null) => ({payload: price}));
-export const setUserTypes = createAction(ActionType.SetUserTypes, (type: string[]) => ({payload: type}));
-export const setCheckedStrings = createAction(ActionType.SetCheckedStrings, (type: number[]) => ({payload: type}));
 
-// catalog - sort
-export const setSort = createAction(ActionType.SetSort, (sort: string) => ({payload: sort}));
-export const setOrder = createAction(ActionType.SetOrder, (order: string) => ({payload: order}));
+// catalog - Pagination
+
+export const setGuitarCount = createAction(ActionType.SetGuitarCount, (count: number) => ({payload: count}));
 
 //product
 export const loadTheGuitar = createAction(ActionType.LoadTheGuitar, (guitars: Guitar) => ({payload: guitars}));
@@ -84,11 +63,3 @@ export const setPopupType = createAction(ActionType.SetPopupType, (status: Popup
 export const setCartGuitars = createAction(ActionType.SetCartGuitars, (cartGuitars: CartGuitar[]) => ({payload: cartGuitars}));
 export const setDiscount = createAction(ActionType.SetDiscount, (percent: number) => ({payload: percent}));
 export const setCoupon = createAction(ActionType.SetCoupon, (coupon: string) => ({payload: coupon}));
-
-//Pagination
-export const setCurrentPage = createAction(ActionType.SetCurrentPage, (currentPage: number) => ({payload: currentPage}));
-export const setStartPagination = createAction(ActionType.SetStartPagination, (start: number) => ({payload: start}));
-export const setLimit = createAction(ActionType.SetLimit, (limit: number) => ({payload: limit}));
-export const setGuitarCount = createAction(ActionType.SetGuitarCount, (count: number) => ({payload: count}));
-export const resetPagination = createAction(ActionType.ResetPagination);
-

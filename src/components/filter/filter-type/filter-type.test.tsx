@@ -6,9 +6,8 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 
 import FilterType from './filter-type';
 import { renderComponent } from '../../../test-utils/render-util';
-import { setCheckedStrings, setCurrentPage, setUserTypes } from '../../../store/actions';
 import { stateEmpty } from '../../../test-utils/test-constants';
-import { GuitarType, GUITAR_TYPES } from '../../../const';
+import { GUITARS_PER_PAGE, GuitarType, GUITAR_TYPES } from '../../../const';
 
 
 const history = createMemoryHistory();
@@ -28,20 +27,16 @@ describe ('Component FilterType', () => {
 
   });
 
-  it ('should change checkbox correctly', () => {
+  it ('should push to url correctly', () => {
     renderComponent(filterPrice, store, history);
 
-    expect(store.getActions()).toEqual([]);
+    expect(history.location.search).toBe('');
 
     const acoustic = screen.getByTestId(TEST_ID);
 
     userEvent.click(acoustic);
 
-    expect(store.getActions()).toEqual([
-      setCheckedStrings([]),
-      setUserTypes([GuitarType.Acoustic]),
-      setCurrentPage(1),
-    ]);
+    expect(history.location.search).toBe(`?_limit=${GUITARS_PER_PAGE}&type%5B0%5D=${GuitarType.Acoustic}&_page=${1}`);
   });
 
 });

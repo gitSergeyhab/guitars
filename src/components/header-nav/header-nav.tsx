@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { APPRoute } from '../../const';
-import { resetPagination, setGuitarsLoadingStatus } from '../../store/actions';
+import { setGuitarsLoadingStatus } from '../../store/actions';
 
 
 const CLASS_CURRENT = 'link--current';
@@ -12,10 +12,8 @@ export default function HeaderNav(): JSX.Element {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const handleCatalogClick = () => {
-    dispatch(resetPagination());
-    dispatch(setGuitarsLoadingStatus(true));
-  };
+  const handleCatalogClick = () => dispatch(setGuitarsLoadingStatus(true));
+
 
   return (
     <nav className="main-nav">

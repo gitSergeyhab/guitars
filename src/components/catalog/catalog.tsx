@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import qs from 'qs';
 
 import BreadcrumbMain from '../breadcrumbs/breadcramb-main/breadcramb-main';
 import BreadcrumbCatalog from '../breadcrumbs/breadcramb-catalog/breadcramb-catalog';
@@ -13,10 +12,8 @@ import SortBlock from '../sort-block/sort-block';
 import Spinner from '../spinner/spinner';
 
 import { fetchGuitarsWithPath } from '../../store/api-actions';
-import { getGuitars, getGuitarsErrorStatus, getGuitarsLoadingStatus } from '../../store/main-reducer/main-reducer-selectors';
-import { getGuitarCount } from '../../store/pagination-reducer/pagination-reducer-selectors';
+import { getGuitarCount, getGuitars, getGuitarsErrorStatus, getGuitarsLoadingStatus } from '../../store/catalog-reducer/catalog-reducer-selectors';
 import { getPageParamsFromUrl, makeNewSearch } from '../../utils/param-utils';
-
 import { MESSAGE_NO_GUITARS } from '../../const';
 
 
@@ -30,7 +27,6 @@ export default function Catalog(): JSX.Element {
 
   const dispatch = useDispatch();
   const {search} = useLocation();
-
 
   const {start, currentPage} = getPageParamsFromUrl(search, guitarCount);
 

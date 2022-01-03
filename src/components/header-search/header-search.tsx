@@ -1,11 +1,11 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+
 import useDebounce from '../../hooks/use-debounce';
 import { loadSearchGuitars } from '../../store/actions';
-
 import { fetchGuitarsWithSearch } from '../../store/api-actions';
-import { getSearchGuitars, getSearchLoadingStatus } from '../../store/main-reducer/main-reducer-selectors';
+import { getSearchGuitars, getSearchLoadingStatus } from '../../store/catalog-reducer/catalog-reducer-selectors';
 import { Guitar } from '../../types/types';
 
 

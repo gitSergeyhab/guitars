@@ -1,11 +1,9 @@
-import { useDispatch, useSelector } from 'react-redux';
 
-import { setCheckedStrings, setCurrentPage } from '../../../store/actions';
-import { getActiveStrings, getCheckedStrings } from '../../../store/filter-reducer/filter-reducer-selector';
-import { ALL_STRINGS, GuitarType, ParamName } from '../../../const';
 import { useHistory, useLocation } from 'react-router-dom';
+
 import { getStringCountFromUrl, getTypesFromUrl, makeNewSearch } from '../../../utils/param-utils';
 import { getStringsCount } from '../../../utils/utils';
+import { ALL_STRINGS, GuitarType, ParamName } from '../../../const';
 
 
 function OneString({stringCount} : {stringCount : number}): JSX.Element {
@@ -35,8 +33,6 @@ function OneString({stringCount} : {stringCount : number}): JSX.Element {
     let newSearch = makeNewSearch(search, ParamName.Filter.StringCount, checkedStrings);
     newSearch = makeNewSearch(newSearch, ParamName.Range.Page, 1);
     push(newSearch);
-    // dispatch(setCheckedStrings(checkedStrings));
-    // dispatch(setCurrentPage(1));
   };
 
 

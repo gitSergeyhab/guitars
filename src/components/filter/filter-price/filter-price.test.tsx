@@ -6,7 +6,6 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 
 import FilterPrice from './filter-price';
 import { renderComponent } from '../../../test-utils/render-util';
-import { setCurrentPage, setUserMaxPrice, setUserMinPrice } from '../../../store/actions';
 import { DefaultPrice, stateFilled } from '../../../test-utils/test-constants';
 
 
@@ -21,8 +20,8 @@ const TestId = {
 }as const;
 
 const TypeText = {
-  min: '1',
-  max: '9',
+  min: '1000',
+  max: '9000',
 } as const;
 
 describe ('Component FilterPrice', () => {
@@ -30,39 +29,31 @@ describe ('Component FilterPrice', () => {
   it ('should render correctly', () => {
     renderComponent(filterPrice, store, history);
 
-    expect(screen.getByDisplayValue(DefaultPrice.Min.toString())).toBeInTheDocument();
-    expect(screen.getByDisplayValue(DefaultPrice.Max.toString())).toBeInTheDocument();
-
+    expect(screen.getByPlaceholderText(DefaultPrice.Min.toString())).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(DefaultPrice.Max.toString())).toBeInTheDocument();
   });
 
   it ('should input PriceMin correctly', () => {
     renderComponent(filterPrice, store, history);
 
-    expect(store.getActions()).toEqual([]);
+    expect(screen.queryByDisplayValue(TypeText.min)).not.toBeInTheDocument();
 
     const priceMinInput = screen.getByTestId(TestId.PriceMin);
 
-    expect(store.getActions()).toEqual([]);
-
     userEvent.type(priceMinInput, TypeText.min);
 
-    expect(store.getActions()).toEqual([setUserMinPrice(+`${DefaultPrice.Min}${TypeText.min}`), setCurrentPage(1)]);
+    expect(screen.getByDisplayValue(TypeText.min)).toBeInTheDocument();
   });
 
   it ('should input PriceMax correctly', () => {
     renderComponent(filterPrice, store, history);
 
-    expect(store.getActions()).toEqual([setUserMinPrice(+`${DefaultPrice.Min}${TypeText.min}`), setCurrentPage(1)]);
+    expect(screen.queryByDisplayValue(TypeText.max)).not.toBeInTheDocument();
 
-    const priceMin = screen.getByTestId(TestId.PriceMax);
+    const priceMinInput = screen.getByTestId(TestId.PriceMax);
 
-    userEvent.type(priceMin, TypeText.max);
+    userEvent.type(priceMinInput, TypeText.max);
 
-    expect(store.getActions()).toEqual([
-      setUserMinPrice(+`${DefaultPrice.Min}${TypeText.min}`),
-      setCurrentPage(1),
-      setUserMaxPrice(+`${DefaultPrice.Max}${TypeText.max}`),
-      setCurrentPage(1),
-    ]);
+    expect(screen.getByDisplayValue(TypeText.max)).toBeInTheDocument();
   });
 });

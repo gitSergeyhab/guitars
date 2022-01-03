@@ -31,7 +31,7 @@ describe ('Catalog Component', () => {
   });
 
   it ('LOADING: should render Spinner', () => {
-    const store = mockStore({...stateFilled, Main: {isLoading: true}});
+    const store = mockStore({...stateFilled, Catalog: {isLoading: true}});
 
     renderComponent(catalog, store, history);
 

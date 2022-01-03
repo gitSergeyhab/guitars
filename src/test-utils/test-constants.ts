@@ -1,7 +1,7 @@
-import { ALL_STRINGS, GUITARS_PER_PAGE, GUITAR_TYPES, MESSAGE_NO_GUITARS, PageName, ParamName } from '../const';
 import { ReducerName } from '../store/root-reducer';
 import { State } from '../types/types';
 import { makeFakeCommentList, makeFakeGuitar, makeFakeGuitarList } from './test-mocks';
+import { MESSAGE_NO_GUITARS, PageName } from '../const';
 
 
 export const DefaultPrice =  {
@@ -14,10 +14,8 @@ export const fakeAction = {type: 'FAKE_ACTION'};
 
 const fakeGuitars = makeFakeGuitarList();
 const fakeGuitar = makeFakeGuitar();
-
 const fakeComments = makeFakeCommentList(1);
 
-// это не перечисление - это просто объект, из которого собирается стейт для тестов
 export const stateFilled: State = {
   [ReducerName.Cart]: {
     cartGuitars: [{guitar: fakeGuitar, count: 2}],
@@ -34,36 +32,15 @@ export const stateFilled: State = {
     comments: fakeComments,
   },
 
-  [ReducerName.Main]: {
+  [ReducerName.Catalog]: {
     guitars: fakeGuitars,
     isLoading: false,
     isError: false,
     searchGuitars: fakeGuitars,
     searchLoading: false,
-    parseParamsFromUrl: false,
-  },
-
-  [ReducerName.Filter]: {
     minPrice: DefaultPrice.Min,
     maxPrice: DefaultPrice.Max,
-    userMinPrice: DefaultPrice.Min,
-    userMaxPrice: DefaultPrice.Max,
-    userType: GUITAR_TYPES,
-    stringsActive: ALL_STRINGS,
-    stringsChecked: ALL_STRINGS,
-  },
-
-  [ReducerName.Pagination]: {
-    currentPage: 1,
-    start: 0,
-    limit: 5,
     guitarCount: 20,
-  },
-
-  [ReducerName.Sort]: {
-    sort: ParamName.Sort.Price,
-    order: ParamName.Sort.Desc,
-    isSort: true,
   },
 };
 
@@ -82,36 +59,15 @@ export const stateEmpty: State = {
     isError: false,
     comments: [],
   },
-  [ReducerName.Main]: {
+  [ReducerName.Catalog]: {
     guitars: [],
     isLoading: false,
     isError: false,
     searchGuitars: [],
     searchLoading: false,
-    parseParamsFromUrl: true,
-  },
-
-  [ReducerName.Filter]: {
     minPrice: null,
     maxPrice: null,
-    userMinPrice: null,
-    userMaxPrice: null,
-    userType: [],
-    stringsActive: [],
-    stringsChecked: [],
-  },
-
-  [ReducerName.Pagination]: {
-    currentPage: 1,
-    start: 0,
-    limit: GUITARS_PER_PAGE,
     guitarCount: 0,
-  },
-
-  [ReducerName.Sort]: {
-    sort: ParamName.Sort.Origin,
-    order: ParamName.Sort.Origin,
-    isSort: false,
   },
 };
 

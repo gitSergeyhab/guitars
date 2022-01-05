@@ -1,7 +1,7 @@
 import { ReducerName } from '../store/root-reducer';
 import { State } from '../types/types';
 import { makeFakeCommentList, makeFakeGuitar, makeFakeGuitarList } from './test-mocks';
-import { MESSAGE_NO_GUITARS, PageName } from '../const';
+import { EMPTY_CART_TEXT, MESSAGE_NO_GUITARS, PageName } from '../const';
 
 
 export const DefaultPrice =  {
@@ -121,7 +121,7 @@ export const ScreenText = {
   },
   Cart: {
     Cart: /Корзина/i,
-    Empty: RegExp(MESSAGE_NO_GUITARS, 'i'),
+    Empty: RegExp(EMPTY_CART_TEXT, 'i'),
     Filled: {
       PromoCode: /Промокод на скидку/i,
       PriceAll: /Всего/i,
@@ -137,6 +137,33 @@ export const ScreenText = {
   },
   Loading: /Loading/i,
   Logo: /Логотип/i,
+  Modal: {
+    CartAdd: {
+      Title: /Добавить товар в корзину/i,
+      Btn: /Добавить в корзину/i,
+    },
+    CardDelete: {
+      Title: /Удалить этот товар/i,
+      BtnDelete: /Удалить товар/i,
+      BtnCancel: /Продолжить покупки/i,
+    },
+    Review: {
+      Title: /Оставить отзыв/i,
+      Send: /Отправить отзыв/i,
+    },
+    SuccessAdd: {
+      Title: /Товар успешно добавлен в корзину/i,
+      BtnToCart: /Перейти в корзину/i,
+      BtnCancel: /Продолжить покупки/i,
+    },
+    SuccessReview: {
+      Title: /Спасибо за ваш отзыв!/i,
+      Continue: /К покупкам/i,
+    },
+    Label: {
+      Close: /Закрыть/i,
+    },
+  },
 };
 
 

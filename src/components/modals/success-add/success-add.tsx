@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+
+import { closePopup } from '../../../utils/utils';
 import { APPRoute, ESCAPE, SELECTOR_MODAL } from '../../../const';
-import { setGuitarToPopup, setPopupType } from '../../../store/actions';
+
 
 // С Л Е Д У Ю Щ И Й   Э Т А П
 
@@ -12,28 +14,30 @@ export default function SuccessAdd(): JSX.Element {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const closePopup = () => {
-    dispatch(setGuitarToPopup(null));
-    dispatch(setPopupType(null));
-  };
+  const closeSuccessAdd = () => closePopup(dispatch);
 
   const handleEscapeKeyDown = (evt: KeyboardEvent) => {
     if (evt.code === ESCAPE) {
-      closePopup();
+      closeSuccessAdd();
     }
   };
 
   const handlePopupOutClick = (evt: MouseEvent) => { // MouseEvent не из Реакт!
     if (evt.target instanceof Element && !evt.target.closest(SELECTOR_MODAL)) {
-      closePopup();
+      closeSuccessAdd();
     }
   };
 
-  const handleCancelBtnClick = () => closePopup();
-  const handleCloseBtnClick = () => closePopup();
+  const handleCloseBtnClick = () => closeSuccessAdd();
+
   const handleToCartBtnClick = () => {
     history.push(APPRoute.Cart);
-    closePopup();
+    closeSuccessAdd();
+  };
+
+  const handleToCatalogBtnClick = () => {
+    history.push(APPRoute.Catalog);
+    closeSuccessAdd();
   };
 
   useEffect(() => {
@@ -63,7 +67,7 @@ export default function SuccessAdd(): JSX.Element {
               >Перейти в корзину
               </button>
               <button
-                onClick={handleCancelBtnClick}
+                onClick={handleToCatalogBtnClick}
                 className="button button--black-border button--small modal__button modal__button--right"
               >Продолжить покупки
               </button>

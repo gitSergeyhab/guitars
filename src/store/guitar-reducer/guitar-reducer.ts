@@ -26,8 +26,12 @@ export const guitarReducer = createReducer(initialState, (builder) => {
     .addCase(loadTheGuitar, (state, action) => {
       state.guitar = action.payload;
       state.isLoading = false;
+      state.isError = false;
     })
-    .addCase(setTheGuitarLoadingStatus, (state, action) => {state.isLoading =action.payload;})
-    .addCase(setTheGuitarErrorStatus, (state, action) => {state.isError =action.payload;})
-    .addCase(setComments, (state, action) => {state.comments =action.payload;});
+    .addCase(setTheGuitarLoadingStatus, (state, action) => {state.isLoading = action.payload;})
+    .addCase(setTheGuitarErrorStatus, (state, action) => {
+      state.isError = action.payload;
+      state.isLoading = false;
+    })
+    .addCase(setComments, (state, action) => {state.comments = action.payload;});
 });

@@ -1,6 +1,6 @@
 import { internet, commerce, datatype, image, date } from 'faker';
 import { ALL_STRINGS, GUITAR_TYPES } from '../const';
-import { Comment, GuitarWithComments} from '../types/types';
+import { Comment, Guitar, GuitarWithComments} from '../types/types';
 
 const MAX_RARING = 5;
 const MAX_GUITARS = 5;
@@ -10,25 +10,12 @@ const getRandomStringCount = (): number => ALL_STRINGS[Math.floor(Math.random()*
 const getRandomGuitarType = (): string => GUITAR_TYPES[Math.floor(Math.random()*GUITAR_TYPES.length)];
 
 
-export type Guitar = {
-  id: number,
-  name: string,
-  vendorCode: string,
-  type: string,
-  description: string,
-  previewImg: string,
-  stringCount: number,
-  rating: number,
-  price: number
-};
-
-
 export const makeFakeComment = (guitarId: number): Comment => ({
   id: datatype.string(),
-  advantage: commerce.productDescription(),
+  advantage: commerce.productAdjective(),
   comment: commerce.productDescription(),
   createAt: date.past().toISOString(),
-  disadvantage: commerce.productDescription(),
+  disadvantage: commerce.productMaterial(),
   guitarId,
   rating: datatype.float({min: 1, max: 5}),
   userName: internet.userName(),

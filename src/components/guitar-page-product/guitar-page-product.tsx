@@ -1,12 +1,11 @@
 import { MouseEvent, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { GuitarInfo, GuitarType, PopupType } from '../../const';
-import { setGuitarToPopup, setPopupType } from '../../store/actions';
-import { getGuitarErrorStatus, getGuitarLoadingStatus, getTheGuitar } from '../../store/guitar-reducer/guitar-reducer-selectors';
-import { getTruePath, makeStringPrice } from '../../utils/utils';
-import NotFoundPage from '../not-found-page/not-found-page';
+import { useDispatch } from 'react-redux';
+
 import Rating from '../rating/rating';
-import Spinner from '../spinner/spinner';
+import { setGuitarToPopup, setPopupType } from '../../store/actions';
+import { Guitar } from '../../types/types';
+import { getTruePath, makeStringPrice } from '../../utils/utils';
+import { GuitarInfo, GuitarType, PopupType } from '../../const';
 
 
 // С Л Е Д У Ю Щ И Й   Э Т А П
@@ -18,23 +17,12 @@ const enum Option {
 }
 
 
-export default function GuitarPageProduct(): JSX.Element{
-
-  const guitar = useSelector(getTheGuitar);
-  const isError = useSelector(getGuitarErrorStatus);
-  const isLoading = useSelector(getGuitarLoadingStatus);
+export default function GuitarPageProduct({guitar} : {guitar : Guitar}): JSX.Element{
 
   const dispatch = useDispatch();
 
   const [option, setOption] = useState(Option.Characteristic);
 
-  if (isError) {
-    return <NotFoundPage/>;
-  }
-
-  if (isLoading || !guitar) {
-    return <Spinner/>;
-  }
 
   const {name, previewImg, price, rating, stringCount, type, vendorCode, description} = guitar;
   const stringPrice = makeStringPrice(price);
@@ -56,7 +44,6 @@ export default function GuitarPageProduct(): JSX.Element{
 
   const handleBuyClick = (evt: MouseEvent<HTMLElement>) => {
     evt.preventDefault();
-
     dispatch(setGuitarToPopup(guitar));
     dispatch(setPopupType(PopupType.CartAdd));
   };

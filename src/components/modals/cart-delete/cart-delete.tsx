@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setCartGuitars, setGuitarToPopup, setPopupType } from '../../../store/actions';
+import { setCartGuitars } from '../../../store/actions';
 import { getCartGuitars } from '../../../store/cart-reducer/cart-reducer-selectors';
 import { Guitar, GuitarWithComments } from '../../../types/types';
-import { changeGuitarInCart, getTruePath, makeStringPrice } from '../../../utils/utils';
+import { changeGuitarInCart, closePopup, getTruePath, makeStringPrice } from '../../../utils/utils';
 import { ESCAPE, GuitarInfo, GuitarType, SELECTOR_MODAL } from '../../../const';
 
 
@@ -21,21 +21,19 @@ export default function CartDelete({guitar} : {guitar : Guitar | GuitarWithComme
 
   const dispatch = useDispatch();
 
-  const closePopup = () => {
-    dispatch(setGuitarToPopup(null));
-    dispatch(setPopupType(null));
-  };
+  const closeCartDelete = () => closePopup(dispatch);
+
 
   const handleEscapeKeyDown = (evt: KeyboardEvent) => {
     if (evt.code === ESCAPE) {
-      closePopup();
+      closeCartDelete();
     }
   };
 
 
   const handlePopupOutClick = (evt: MouseEvent) => { // MouseEvent не из Реакт!
     if (evt.target instanceof Element && !evt.target.closest(SELECTOR_MODAL)) {
-      closePopup();
+      closeCartDelete();
     }
   };
 
@@ -58,8 +56,8 @@ export default function CartDelete({guitar} : {guitar : Guitar | GuitarWithComme
     dispatch(setCartGuitars(newCartGuitars));
   };
 
-  const handleCancelBtnClick = () => closePopup();
-  const handleCloseBtnClick = () => closePopup();
+  const handleCancelBtnClick = () => closeCartDelete();
+  const handleCloseBtnClick = () => closeCartDelete();
 
 
   return (

@@ -10,7 +10,7 @@ import {setCartGuitars, setCoupon, setDiscount, setGuitarToPopup, setPopupType }
 type InitialState = {
   cartGuitars: CartGuitar[],
   discount: number,
-  coupon: string,
+  coupon: string | null,
 
   guitarPopup: Guitar | null
   popupType: PopupType | null,
@@ -20,6 +20,7 @@ export const initialState: InitialState = {
   cartGuitars: [],
   discount: 0,
   coupon: '',
+
 
   guitarPopup: null,
   popupType: null,

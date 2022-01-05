@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import BreadcrumbMain from '../breadcrumbs/breadcramb-main/breadcramb-main';
@@ -8,12 +8,19 @@ import BreadcrumbProduct from '../breadcrumbs/breadcramb-product/breadcramb-prod
 import GuitarPageProduct from '../guitar-page-product/guitar-page-product';
 import { fetchComments, fetchTheGuitar } from '../../store/api-actions';
 import { GuitarPageReviews } from '../guitar-page-reviews/guitar-page-reviews';
+import { getGuitarErrorStatus, getGuitarLoadingStatus, getTheGuitar } from '../../store/guitar-reducer/guitar-reducer-selectors';
+import Spinner from '../spinner/spinner';
+import NotFoundPage from '../not-found-page/not-found-page';
 
 
 // С Л Е Д У Ю Щ И Й   Э Т А П
 
 
 export default function GuitarPage(): JSX.Element {
+
+  const guitar = useSelector(getTheGuitar);
+  const isError = useSelector(getGuitarErrorStatus);
+  const isLoading = useSelector(getGuitarLoadingStatus);
 
   const dispatch = useDispatch();
 
@@ -27,6 +34,15 @@ export default function GuitarPage(): JSX.Element {
     dispatch(fetchComments(id));
   }, [id, dispatch]);
 
+
+  if (isLoading ) {
+    return <Spinner/>;
+  }
+
+  if (isError || !guitar) {
+    return <NotFoundPage/>;
+  }
+
   return (
     <main className="page-content">
       <div className="container">
@@ -38,7 +54,7 @@ export default function GuitarPage(): JSX.Element {
           <BreadcrumbProduct/>
         </ul>
 
-        <GuitarPageProduct/>
+        <GuitarPageProduct guitar={guitar}/>
         <GuitarPageReviews/>
       </div>
     </main>

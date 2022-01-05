@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { ESCAPE, SELECTOR_MODAL } from '../../../const';
-import { setGuitarToPopup, setPopupType } from '../../../store/actions';
+import { useHistory } from 'react-router-dom';
+
+import { closePopup } from '../../../utils/utils';
+import { APPRoute, ESCAPE, SELECTOR_MODAL } from '../../../const';
 
 
 // С Л Е Д У Ю Щ И Й   Э Т А П
@@ -9,27 +11,28 @@ import { setGuitarToPopup, setPopupType } from '../../../store/actions';
 
 export default function SuccessReview(): JSX.Element {
 
+  const history = useHistory();
   const dispatch = useDispatch();
-
-  const closePopup = () => {
-    dispatch(setGuitarToPopup(null));
-    dispatch(setPopupType(null));
-  };
+  const closeSuccessReview = () => closePopup(dispatch);
 
   const handleEscapeKeyDown = (evt: KeyboardEvent) => {
     if (evt.code === ESCAPE) {
-      closePopup();
+      closeSuccessReview();
     }
   };
 
   const handlePopupOutClick = (evt: MouseEvent) => { // MouseEvent не из Реакт!
     if (evt.target instanceof Element && !evt.target.closest(SELECTOR_MODAL)) {
-      closePopup();
+      closeSuccessReview();
     }
   };
 
-  const handleCancelBtnClick = () => closePopup();
-  const handleCloseBtnClick = () => closePopup();
+  const handleToCatalogBtnClick = () => {
+    history.push(APPRoute.Catalog);
+    closeSuccessReview();
+  };
+
+  const handleCloseBtnClick = () => closeSuccessReview();
 
 
   useEffect(() => {
@@ -54,7 +57,7 @@ export default function SuccessReview(): JSX.Element {
             <p className="modal__message">Спасибо за ваш отзыв!</p>
             <div className="modal__button-container modal__button-container--review">
               <button
-                onClick={handleCancelBtnClick}
+                onClick={handleToCatalogBtnClick}
                 className="button button--small modal__button modal__button--review"
               >К покупкам!
               </button>

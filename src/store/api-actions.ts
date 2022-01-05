@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 
 import { Comment, Guitar, GuitarWithComments, Order, ThunkActionResult } from '../types/types';
-import { loadGuitars, loadSearchGuitars, loadTheGuitar, setCartGuitars, setComments, setCoupon, setDiscount, setGuitarCount, setGuitarsErrorStatus, setGuitarToPopup, setMaxPrice, setMinPrice, setPopupType, setSearchLoadingStatus, setTheGuitarErrorStatus } from './actions';
+import { loadGuitars, loadSearchGuitars, loadTheGuitar, setCartGuitars, setComments, setCoupon, setDiscount, setGuitarCount, setGuitarsErrorStatus, setGuitarToPopup, setMaxPrice, setMinPrice, setPopupType, setSearchLoadingStatus, setTheGuitarErrorStatus, setTheGuitarLoadingStatus } from './actions';
 import { ApiRoute, ParamName, PopupType } from '../const';
 
 
@@ -47,10 +47,10 @@ export const fetchGuitarsWithSearch = (search = ''): ThunkActionResult =>
     try {
       const {data} = await api.get<Guitar[]>(ApiRoute.Guitars, {params});
       dispatch(loadSearchGuitars(data));
+      dispatch(setSearchLoadingStatus(false));
     } catch (e) {
       toast.error(ErrorMessage.FetchGuitars);
     }
-    dispatch(setSearchLoadingStatus(false));
   };
 
 // guitars by price for filter
@@ -74,7 +74,7 @@ export const fetchExtremePrices = (): ThunkActionResult =>
 export const fetchTheGuitar = (id: string): ThunkActionResult =>
   async(dispatch, _getState, api) => {
     try {
-      dispatch(setTheGuitarErrorStatus(false));
+      dispatch(setTheGuitarLoadingStatus(true));
       const {data} = await api.get<Guitar>(`${ApiRoute.Guitars}/${id}`);
       dispatch(loadTheGuitar(data));
     } catch {
@@ -87,6 +87,7 @@ export const fetchTheGuitar = (id: string): ThunkActionResult =>
 export const fetchComments = (id: string) : ThunkActionResult =>
   async(dispatch, _getState, api) => {
     try {
+      dispatch(setComments([]));
       const {data} = await api.get<Comment[]>(`${ApiRoute.Guitars}/${id}/${ApiRoute.Comments}`);
       dispatch(setComments(data));
     } catch {
@@ -97,15 +98,30 @@ export const fetchComments = (id: string) : ThunkActionResult =>
 // product - post - comment
 type CommentPost = {guitarId: number, userName: string, advantage: string, disadvantage: string, comment: string, ratting: number}
 export const postComment = ({body} : {body : CommentPost}) : ThunkActionResult =>
-  async(dispatch, _getState, api) => {
+  async(dispatch, getState, api) => {
     try {
-      await api.post(ApiRoute.Comments, body);
+      await api.post<Comment>(ApiRoute.Comments, body);
       dispatch(setPopupType(PopupType.SuccessReview));
       dispatch(setGuitarToPopup(null));
     } catch {
       toast.error(ErrorMessage.PostComment);
     }
   };
+
+// когда поправят бэкэнд:
+// export const postComment = ({body} : {body : CommentPost}) : ThunkActionResult =>
+//   async(dispatch, getState, api) => {
+//     try {
+//       const {data} = await api.post<Comment>(ApiRoute.Comments, body);
+//       dispatch(setPopupType(PopupType.SuccessReview));
+//       dispatch(setGuitarToPopup(null));
+//       const comments = getState().Guitar.comments;
+//       const newComments = {...comments, data};
+//       dispatch(setComments(newComments));
+//     } catch {
+//       toast.error(ErrorMessage.PostComment);
+//     }
+//   };
 
 //CART
 
@@ -117,6 +133,8 @@ export const postCoupons = (body: {coupon: string}) : ThunkActionResult =>
       dispatch(setDiscount(+data));
       dispatch(setCoupon(body.coupon));
     } catch {
+      dispatch(setDiscount(0));
+      dispatch(setCoupon(null));
       toast.error(ErrorMessage.PostCoupons);
     }
   };
@@ -128,6 +146,8 @@ export const postOrder = ({body} : {body : Order}) : ThunkActionResult =>
       await api.post(ApiRoute.Orders, body);
       toast.success(SUCCESS_ORDER_MESSAGE);
       dispatch(setCartGuitars([]));
+      dispatch(setCoupon(''));
+      dispatch(setDiscount(0));
     } catch {
       toast.error(ErrorMessage.PostOrder);
     }

@@ -1,12 +1,16 @@
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { ESCAPE, SELECTOR_MODAL } from '../../../const';
-import { setGuitarToPopup, setPopupType } from '../../../store/actions';
+import { toast } from 'react-toastify';
+
 import { postComment } from '../../../store/api-actions';
 import { Guitar, GuitarWithComments } from '../../../types/types';
+import { closePopup } from '../../../utils/utils';
+import { ESCAPE, SELECTOR_MODAL } from '../../../const';
 
 
 // С Л Е Д У Ю Щ И Й   Э Т А П
+
+const MESSAGE_ADD_RATING = 'без оценки не отправлю)';
 
 
 const STARS = [
@@ -39,11 +43,8 @@ export default function ModalReview({guitar} : {guitar : Guitar | GuitarWithComm
   const {name, id } = guitar;
 
   const dispatch = useDispatch();
+  const closeCartDelete = () => closePopup(dispatch);
 
-  const closePopup = () => {
-    dispatch(setGuitarToPopup(null));
-    dispatch(setPopupType(null));
-  };
 
   useEffect(() => {
     document.addEventListener('keydown', handleEscapeKeyDown);
@@ -56,9 +57,10 @@ export default function ModalReview({guitar} : {guitar : Guitar | GuitarWithComm
   });
 
 
-  const handleCloseBtnClick = () => closePopup();
+  const handleCloseBtnClick = () => closeCartDelete();
 
   const [rating, setRating] = useState(0);
+  const [userName, setUserName] = useState('');
 
   const stars = STARS.map((star) => <ReviewStar score={star} key={star.value} onChange={() => setRating(star.value)}/>);
 
@@ -69,12 +71,15 @@ export default function ModalReview({guitar} : {guitar : Guitar | GuitarWithComm
 
   const handleFormSubmit = (evt: FormEvent) => {
     evt.preventDefault();
-    const userName = userNameRef.current?.value;
-    const advantage = advantageRef.current?.value;
-    const disadvantage = disadvantageRef.current?.value;
-    const comment = commentRef.current?.value;
+    const advantage = advantageRef.current?.value || '';
+    const disadvantage = disadvantageRef.current?.value || '';
+    const comment = commentRef.current?.value || '';
 
-    if (rating && userName && advantage && disadvantage && comment ) {
+    if (!rating) {
+      toast.info(MESSAGE_ADD_RATING);
+    }
+
+    if (rating && userName) {
       const body = {guitarId: id, ratting: rating, userName, advantage, disadvantage, comment};
       dispatch(postComment({body}));
     }
@@ -82,15 +87,17 @@ export default function ModalReview({guitar} : {guitar : Guitar | GuitarWithComm
 
   const handleEscapeKeyDown = (evt: KeyboardEvent) => {
     if (evt.code === ESCAPE) {
-      closePopup();
+      closeCartDelete();
     }
   };
 
   const handlePopupOutClick = (evt: MouseEvent) => { // MouseEvent не из Реакт!
     if (evt.target instanceof Element && !evt.target.closest(SELECTOR_MODAL)) {
-      closePopup();
+      closeCartDelete();
     }
   };
+
+  const handleNameInput = (evt: React.FormEvent<HTMLInputElement>) => setUserName(evt.currentTarget.value.trim());
 
   return (
     <div style={{position: 'relative', width: '550px', height: '610px', marginBottom: '50px'}}>
@@ -107,18 +114,23 @@ export default function ModalReview({guitar} : {guitar : Guitar | GuitarWithComm
 
                   <input
                     ref={userNameRef}
-                    className="form-review__input form-review__input--name" id="user-name" type="text" autoComplete="off"
+                    className="form-review__input form-review__input--name" id="user-name" data-testid='user-name' type="text" autoComplete="off"
+                    value={userName}
+                    onChange={handleNameInput}
+                    required
                   />
+                  <span className="form-review__warning">
+                    {userName ? <br/> : 'Заполните поле'}
+                  </span>
 
-                  <span className="form-review__warning">Заполните поле</span>
                 </div>
                 <div><span className="form-review__label form-review__label--required">Ваша Оценка</span>
                   <div className="rate rate--reverse">
 
                     {stars}
-
                     <span className="rate__count"></span>
-                    <span className="rate__message">Поставьте оценку</span>
+                    {rating ? null : <span className="rate__message">Поставьте оценку</span>}
+
                   </div>
                 </div>
 

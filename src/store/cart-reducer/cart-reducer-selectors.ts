@@ -10,5 +10,5 @@ export const getDiscount = (state: State): number => state[field].discount;
 
 export const getGuitarFromPopup = (state: State): Guitar | null => state[field].guitarPopup;
 export const getPopupType = (state: State): PopupType | null => state[field].popupType;
-export const getCoupon = (state: State): string => state[field].coupon;
+export const getCoupon = (state: State): string | null => state[field].coupon;
 

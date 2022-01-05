@@ -1,5 +1,8 @@
 import { CartGuitar, Guitar, Order } from '../types/types';
 import { GuitarInfo, GuitarType } from '../const';
+import { Dispatch } from 'react';
+import { Action } from '@reduxjs/toolkit';
+import { setGuitarToPopup, setPopupType } from '../store/actions';
 
 
 export const getStringsCount = (types: GuitarType[]): number[] => {
@@ -50,12 +53,12 @@ export const changeGuitarInCart = (guitar: Guitar, cartGuitars: CartGuitar[], pl
 export const getFullPrice = (cartGuitars: CartGuitar[]): number => cartGuitars.reduce((acc, item) => acc + item.count * item.guitar.price , 0);
 
 
-const getGuitarUds = (cartGuitars: CartGuitar[]): number[] => {
+const getGuitarIds = (cartGuitars: CartGuitar[]): number[] => {
   const idArrays = cartGuitars.map((guitar) => new Array(guitar.count).fill(null).map(() => guitar.guitar.id));
   return idArrays.reduce((acc, item) => [...acc, ...item] , []);
 };
 
-export const getOrder = (cartGuitars: CartGuitar[], coupon: string): Order => ({guitarsIds: getGuitarUds(cartGuitars), coupon});
+export const getOrder = (cartGuitars: CartGuitar[], coupon: string): Order => ({guitarsIds: getGuitarIds(cartGuitars), coupon});
 
 export const makeStringPrice = (price : number): string => {
   const stringPrice = price.toString();
@@ -64,4 +67,9 @@ export const makeStringPrice = (price : number): string => {
     return `${stringPrice.slice(0, length - 3)} ${stringPrice.slice(length - 3)}`;
   }
   return stringPrice;
+};
+
+export const closePopup = (dispatch: Dispatch<Action>) => {
+  dispatch(setGuitarToPopup(null));
+  dispatch(setPopupType(null));
 };

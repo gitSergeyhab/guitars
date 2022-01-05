@@ -9,6 +9,8 @@ export const EMPTY_CART_TEXT = 'Корзина пуста';
 
 export const GUITARS_PER_PAGE = 9;
 
+export const MAX_RATING = 5;
+
 export const ALL_STRINGS = [4, 6, 7, 12];
 
 

@@ -22,7 +22,7 @@ const renderFakeApp = () => renderComponent(app, store, history);
 
 
 describe ('App Component', () => {
-  it ('test rout /', () => {
+  it ('test rout /catalog', () => {
 
     history.push(APPRoute.Catalog);
 

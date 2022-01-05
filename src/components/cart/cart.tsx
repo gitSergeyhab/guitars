@@ -11,6 +11,8 @@ import { EMPTY_CART_TEXT } from '../../const';
 
 // С Л Е Д У Ю Щ И Й   Э Т А П
 
+export const TEST_CART_ID = 'TEST_CART_ID';
+
 
 export default function Cart(): JSX.Element {
 
@@ -30,7 +32,7 @@ export default function Cart(): JSX.Element {
           <BreadcrumbCart/>
         </ul>
 
-        <div className="cart">
+        <div className="cart" data-testid={TEST_CART_ID}>
 
           { cartGuitars.length ? cardsCartGuitar : emptyCart}
 

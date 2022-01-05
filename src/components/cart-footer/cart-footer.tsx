@@ -9,6 +9,9 @@ import { getFullPrice, getOrder, makeStringPrice } from '../../utils/utils';
 // С Л Е Д У Ю Щ И Й   Э Т А П
 
 
+const DISCOUNT_CLASS = 'cart__total-value--bonus';
+
+
 export default function CartFooter(): JSX.Element {
 
   const cartGuitars = useSelector(getCartGuitars);
@@ -16,7 +19,7 @@ export default function CartFooter(): JSX.Element {
 
   const fullPrice = getFullPrice(cartGuitars);
 
-  const moneyDiscount = discount / 100 * fullPrice;
+  const moneyDiscount = discount ? discount / 100 * fullPrice : 0;
 
   const discountRef = useRef<HTMLInputElement | null>(null);
 
@@ -32,10 +35,17 @@ export default function CartFooter(): JSX.Element {
     }
   };
 
+  // light-333 , medium-444 , height-555
+
   const handleOrderBtnClick = () => {
-    const body = getOrder(cartGuitars, coupon);
+    const body = getOrder(cartGuitars, coupon || '');
     dispatch(postOrder({body}));
   };
+
+
+  const promoCodeMessage = coupon ?
+    <p className='form-input__message form-input__message--success'>Промокод принят</p> :
+    <p className='form-input__message form-input__message--error'>неверный промокод</p>;
 
 
   return (
@@ -50,7 +60,7 @@ export default function CartFooter(): JSX.Element {
               type="text" placeholder="Введите промокод" id="coupon" name="coupon"
               ref={discountRef}
             />
-            <p className="form-input__message form-input__message--success">Промокод принят</p>
+            {coupon !== '' ? promoCodeMessage : null}
           </div>
 
           <button
@@ -64,9 +74,20 @@ export default function CartFooter(): JSX.Element {
         </form>
       </div>
       <div className="cart__total-info">
-        <p className="cart__total-item"><span className="cart__total-value-name">Всего:</span><span className="cart__total-value">{makeStringPrice(fullPrice)} ₽</span></p>
-        <p className="cart__total-item"><span className="cart__total-value-name">Скидка:</span><span className="cart__total-value cart__total-value--bonus">- {makeStringPrice(moneyDiscount)} ₽</span></p>
-        <p className="cart__total-item"><span className="cart__total-value-name">К оплате:</span><span className="cart__total-value cart__total-value--payment">{makeStringPrice(priceWithDiscount)} ₽</span></p>
+        <p className="cart__total-item">
+          <span className="cart__total-value-name">Всего:</span>
+          <span className="cart__total-value">{makeStringPrice(fullPrice)} ₽</span>
+        </p>
+        <p className="cart__total-item">
+          <span className="cart__total-value-name">Скидка:</span>
+          <span className={`cart__total-value ${discount ? DISCOUNT_CLASS : ''}`}>
+            {discount ? '-' : ''} {makeStringPrice(moneyDiscount)} ₽
+          </span>
+        </p>
+        <p className="cart__total-item">
+          <span className="cart__total-value-name">К оплате:</span>
+          <span className="cart__total-value cart__total-value--payment">{makeStringPrice(priceWithDiscount)} ₽</span>
+        </p>
         <button
           onClick={handleOrderBtnClick}
           className="button button--red button--big cart__order-button"

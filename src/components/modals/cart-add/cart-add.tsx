@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setCartGuitars, setGuitarToPopup, setPopupType } from '../../../store/actions';
+import { setCartGuitars, setPopupType } from '../../../store/actions';
 import { getCartGuitars } from '../../../store/cart-reducer/cart-reducer-selectors';
 import { Guitar, GuitarWithComments } from '../../../types/types';
-import { changeGuitarInCart, getTruePath, makeStringPrice } from '../../../utils/utils';
+import { changeGuitarInCart, closePopup, getTruePath, makeStringPrice } from '../../../utils/utils';
 import { ESCAPE, GuitarInfo, GuitarType, PopupType, SELECTOR_MODAL } from '../../../const';
 
 
@@ -21,21 +21,18 @@ export default function CartAdd({guitar} : {guitar : Guitar | GuitarWithComments
   const {src, srcSet} = getTruePath(previewImg);
 
   const dispatch = useDispatch();
+  const closeCartAdd = () => closePopup(dispatch);
 
-  const closePopup = () => {
-    dispatch(setGuitarToPopup(null));
-    dispatch(setPopupType(null));
-  };
 
   const handleEscapeKeyDown = (evt: KeyboardEvent) => {
     if (evt.code === ESCAPE) {
-      closePopup();
+      closeCartAdd();
     }
   };
 
   const handlePopupOutClick = (evt: MouseEvent) => { // MouseEvent не из Реакт!
     if (evt.target instanceof Element && !evt.target.closest(SELECTOR_MODAL)) {
-      closePopup();
+      closeCartAdd();
     }
   };
 
@@ -49,7 +46,7 @@ export default function CartAdd({guitar} : {guitar : Guitar | GuitarWithComments
     };
   });
 
-  const handleCloseBtnClick = () => closePopup();
+  const handleCloseBtnClick = () => closeCartAdd();
 
   const cartGuitarsOrigin = useSelector(getCartGuitars);
 

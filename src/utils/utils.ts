@@ -49,6 +49,10 @@ export const changeGuitarInCart = (guitar: Guitar, cartGuitars: CartGuitar[], pl
   return cartGuitars;
 };
 
+export const checkGuitarInCart = (cartGuitars: CartGuitar[], id: number) => {
+  const cartIds = cartGuitars.map((item) => item.guitar.id);
+  return cartIds.some((cartId) => cartId === id);
+};
 
 export const getFullPrice = (cartGuitars: CartGuitar[]): number => cartGuitars.reduce((acc, item) => acc + item.count * item.guitar.price , 0);
 

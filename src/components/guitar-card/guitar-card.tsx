@@ -1,12 +1,13 @@
 import { MouseEvent } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import Rating from '../rating/rating';
 import { setPopupType, setGuitarToPopup } from '../../store/actions';
 import { GuitarWithComments } from '../../types/types';
-import { getTruePath, makeStringPrice } from '../../utils/utils';
-import { PopupType } from '../../const';
+import { checkGuitarInCart, getTruePath, makeStringPrice } from '../../utils/utils';
+import { APPRoute, PopupType } from '../../const';
+import { getCartGuitars } from '../../store/cart-reducer/cart-reducer-selectors';
 
 
 const GUITAR_PATH = 'guitars';
@@ -15,9 +16,11 @@ export default function GuitarCard({guitar} : {guitar : GuitarWithComments}): JS
   const {id, name, previewImg, rating, price, comments} = guitar;
 
   const stringPrice = makeStringPrice(price);
+  const cartGuitars = useSelector(getCartGuitars);
+  const isGuitarInCart = checkGuitarInCart(cartGuitars, id);
 
   const {src, srcSet} = getTruePath(previewImg);
-  const path = `${GUITAR_PATH}/${id}`;
+  const guitarPath = `${GUITAR_PATH}/${id}`;
 
   const dispatch = useDispatch();
   const handleBuyClick = (evt: MouseEvent<HTMLElement>) => {
@@ -43,12 +46,21 @@ export default function GuitarCard({guitar} : {guitar : GuitarWithComments}): JS
         </p>
       </div>
       <div className="product-card__buttons">
-        <Link className="button button--mini" to={path}>Подробнее</Link>
-        <a
-          onClick={handleBuyClick}
-          className="button button--red button--mini button--add-to-cart" href="/"
-        >Купить
-        </a>
+        <Link className="button button--mini" to={guitarPath}>Подробнее</Link>
+
+        {
+          isGuitarInCart
+            ?
+            <Link className="button button--red-border button--mini button--in-cart" to={APPRoute.Cart}>В Корзине</Link>
+            :
+            <a
+              onClick={handleBuyClick}
+              className="button button--red button--mini button--add-to-cart" href="/"
+            >Купить
+            </a>
+        }
+
+
       </div>
     </div>
   );

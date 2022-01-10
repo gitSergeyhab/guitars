@@ -6,6 +6,7 @@ import { getCartGuitars } from '../../../store/cart-reducer/cart-reducer-selecto
 import { Guitar, GuitarWithComments } from '../../../types/types';
 import { changeGuitarInCart, closePopup, getTruePath, makeStringPrice } from '../../../utils/utils';
 import { ESCAPE, GuitarInfo, GuitarType, SELECTOR_MODAL } from '../../../const';
+import { setCartGuitarsToStorage } from '../../../utils/cart-storage-utils';
 
 
 // С Л Е Д У Ю Щ И Й   Э Т А П
@@ -49,10 +50,12 @@ export default function CartDelete({guitar} : {guitar : Guitar | GuitarWithComme
 
   const cartGuitarsOrigin = useSelector(getCartGuitars);
 
+
   const handleDeleteBtnClick = (evt: React.MouseEvent<HTMLElement>) => {
     evt.preventDefault();
     const cartGuitars = [...cartGuitarsOrigin];
     const newCartGuitars = changeGuitarInCart(guitar, cartGuitars, false);
+    setCartGuitarsToStorage(newCartGuitars);
     dispatch(setCartGuitars(newCartGuitars));
   };
 

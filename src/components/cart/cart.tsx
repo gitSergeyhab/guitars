@@ -18,6 +18,7 @@ export default function Cart(): JSX.Element {
 
   const cartGuitars = useSelector(getCartGuitars);
 
+
   const cardsCartGuitar = cartGuitars.map((item) => <CartGuitar cartGuitar={item} key={item.guitar.id}/>);
   const emptyCart = <div style={{padding: '11% 0 20%'}}><h2>{EMPTY_CART_TEXT}</h2></div>;
 

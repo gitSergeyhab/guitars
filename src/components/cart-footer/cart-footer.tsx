@@ -15,6 +15,7 @@ const DISCOUNT_CLASS = 'cart__total-value--bonus';
 export default function CartFooter(): JSX.Element {
 
   const cartGuitars = useSelector(getCartGuitars);
+
   const discount = useSelector(getDiscount);
 
   const fullPrice = getFullPrice(cartGuitars);

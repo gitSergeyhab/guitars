@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { Comment, Guitar, GuitarWithComments, Order, ThunkActionResult } from '../types/types';
 import { loadGuitars, loadSearchGuitars, loadTheGuitar, setCartGuitars, setComments, setCoupon, setDiscount, setGuitarCount, setGuitarsErrorStatus, setGuitarToPopup, setMaxPrice, setMinPrice, setPopupType, setSearchLoadingStatus, setTheGuitarErrorStatus, setTheGuitarLoadingStatus } from './actions';
 import { ApiRoute, ParamName, PopupType } from '../const';
+import { setCartGuitarsToStorage } from '../utils/cart-storage-utils';
 
 
 const SUCCESS_ORDER_MESSAGE = 'congratulations, the guitar is ordered';
@@ -145,6 +146,7 @@ export const postOrder = ({body} : {body : Order}) : ThunkActionResult =>
     try {
       await api.post(ApiRoute.Orders, body);
       toast.success(SUCCESS_ORDER_MESSAGE);
+      setCartGuitarsToStorage([]);
       dispatch(setCartGuitars([]));
       dispatch(setCoupon(''));
       dispatch(setDiscount(0));

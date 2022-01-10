@@ -11,6 +11,8 @@ import { rootReducer } from './store/root-reducer';
 import { fetchExtremePrices } from './store/api-actions';
 
 import 'react-toastify/dist/ReactToastify.css';
+import { getCartGuitarsFromStorage } from './utils/cart-storage-utils';
+import { setCartGuitars } from './store/actions';
 
 
 const api = createAPI();
@@ -21,6 +23,8 @@ const store = configureStore({
 });
 
 store.dispatch(fetchExtremePrices());
+const cartGuitars = getCartGuitarsFromStorage();
+store.dispatch(setCartGuitars(cartGuitars));
 
 
 ReactDOM.render(

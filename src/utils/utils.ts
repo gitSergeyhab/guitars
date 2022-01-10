@@ -1,4 +1,4 @@
-import { CartGuitar, Guitar, Order } from '../types/types';
+import { CartGuitar, Guitar, GuitarWithComments, Order } from '../types/types';
 import { GuitarInfo, GuitarType } from '../const';
 import { Dispatch } from 'react';
 import { Action } from '@reduxjs/toolkit';
@@ -26,7 +26,7 @@ export const getTruePath = (str: string): {src: string, srcSet: string} => {
 
 export const getReviewDate = (date: string): string => new Date(date).toLocaleString('ru', {month: 'long',  day: '2-digit'});
 
-export const changeGuitarInCart = (guitar: Guitar, cartGuitars: CartGuitar[], plus: boolean) : CartGuitar[] => {
+export const changeGuitarInCart = (guitar: Guitar | GuitarWithComments, cartGuitars: CartGuitar[], plus: boolean) : CartGuitar[] => {
   const index = cartGuitars.findIndex((cartGuitar) => cartGuitar.guitar.vendorCode === guitar.vendorCode);
 
   if (index === -1 && plus) {

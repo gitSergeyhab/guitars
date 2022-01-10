@@ -6,6 +6,7 @@ import { getCartGuitars } from '../../../store/cart-reducer/cart-reducer-selecto
 import { Guitar, GuitarWithComments } from '../../../types/types';
 import { changeGuitarInCart, closePopup, getTruePath, makeStringPrice } from '../../../utils/utils';
 import { ESCAPE, GuitarInfo, GuitarType, PopupType, SELECTOR_MODAL } from '../../../const';
+import { setCartGuitarsToStorage } from '../../../utils/cart-storage-utils';
 
 
 // С Л Е Д У Ю Щ И Й   Э Т А П
@@ -53,7 +54,8 @@ export default function CartAdd({guitar} : {guitar : Guitar | GuitarWithComments
   const handleAddBtnClick = (evt: React.MouseEvent<HTMLElement>) => {
     evt.preventDefault();
     const cartGuitars = [...cartGuitarsOrigin];
-    const newCartGuitars = changeGuitarInCart(guitar, cartGuitars, true);
+    const newCartGuitars = changeGuitarInCart({...guitar, comments: [], description: ''}, cartGuitars, true);
+    setCartGuitarsToStorage(newCartGuitars);
     dispatch(setCartGuitars(newCartGuitars));
     dispatch(setPopupType(PopupType.SuccessAddToCard));
   };

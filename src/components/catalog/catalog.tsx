@@ -46,7 +46,7 @@ export default function Catalog(): JSX.Element {
   }, [dispatch, debouncedUrl]);
 
 
-  const {start, currentPage} = getPageParamsFromUrl(search, guitarCount);
+  const {currentPage, pageCount} = getPageParamsFromUrl(search, guitarCount);
 
 
   if (isError) {
@@ -57,7 +57,8 @@ export default function Catalog(): JSX.Element {
     return <Spinner/>;
   }
 
-  if ((start >= guitarCount && guitarCount !== 0) || (!start && start !== 0) || (guitarCount === 0 && currentPage > 1)) {
+
+  if (currentPage > pageCount && currentPage !== 1) {
     return <NotFoundPage/>;
   }
 

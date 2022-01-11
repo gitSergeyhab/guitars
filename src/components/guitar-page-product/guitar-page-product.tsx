@@ -1,14 +1,12 @@
 import { MouseEvent, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Rating from '../rating/rating';
 import { setGuitarToPopup, setPopupType } from '../../store/actions';
 import { Guitar } from '../../types/types';
-import { getTruePath, makeStringPrice } from '../../utils/utils';
+import { getRealRating, getTruePath, makeStringPrice } from '../../utils/utils';
 import { GuitarInfo, GuitarType, PopupType } from '../../const';
-
-
-// С Л Е Д У Ю Щ И Й   Э Т А П
+import { getComments } from '../../store/guitar-reducer/guitar-reducer-selectors';
 
 
 const enum Option {
@@ -21,12 +19,16 @@ export default function GuitarPageProduct({guitar} : {guitar : Guitar}): JSX.Ele
 
   const dispatch = useDispatch();
 
+  const comments = useSelector(getComments);
+
+
   const [option, setOption] = useState(Option.Characteristic);
 
 
-  const {name, previewImg, price, rating, stringCount, type, vendorCode, description} = guitar;
+  const {name, previewImg, price, stringCount, type, vendorCode, rating, description} = guitar;
   const stringPrice = makeStringPrice(price);
 
+  const realRating = comments.length ? getRealRating(comments) : rating;
 
   const rusType = GuitarInfo[type as GuitarType].nameOne;
 
@@ -55,9 +57,9 @@ export default function GuitarPageProduct({guitar} : {guitar : Guitar}): JSX.Ele
         <h2 className="product-container__title title title--big title--uppercase">{name}</h2>
         <div className="rate product-container__rating" aria-hidden="true"><span className="visually-hidden">Рейтинг:</span>
 
-          <Rating rating={rating} height='14' width='14'/>
+          <Rating rating={realRating} height='14' width='14'/>
 
-          <span className="rate__count"></span><span className="rate__message"></span>
+          <span className="rate__count">{comments.length}</span><span className="rate__message"></span>
         </div>
         <div className="tabs">
           <a

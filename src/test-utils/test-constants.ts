@@ -119,6 +119,13 @@ export const ScreenText = {
     Characteristic: /Характеристики/i,
     Description: /Описание/i,
   },
+  Reviews: {
+    Review: /Оставить отзыв/i,
+    BtnUp: /Наверх/i,
+    BtnMore: /Показать еще отзывы/i,
+    Advantage: /Достоинства/i,
+    Disadvantage: /Недостатки/i,
+  },
   Cart: {
     Cart: /Корзина/i,
     Empty: RegExp(EMPTY_CART_TEXT, 'i'),

@@ -7,9 +7,6 @@ import { setGuitarToPopup, setPopupType } from '../../store/actions';
 import { PopupType } from '../../const';
 
 
-// С Л Е Д У Ю Щ И Й   Э Т А П
-
-
 const REVIEW_COUNT = 3;
 
 
@@ -24,6 +21,18 @@ function BtnMore({onClick}: {onClick: () => void}): JSX.Element {
   );
 }
 
+function BtnUp({onClick}: {onClick: () => void}): JSX.Element {
+  return (
+    <a
+      style={{zIndex: 1}}
+      onClick={onClick}
+      className="button button--up button--red-border button--big reviews__up-button" href="#header"
+    >
+      Наверх
+    </a>
+  );
+}
+
 export function GuitarPageReviews(): JSX.Element {
 
   const comments = useSelector(getComments);
@@ -33,6 +42,7 @@ export function GuitarPageReviews(): JSX.Element {
   const reviews = comments.slice(0, shownReviews).map((comment) => <Review review={comment} key={comment.id} />);
 
   const handleBtnShowMoreClick = () => setShownReviews(Infinity);
+  const handleBtnUpClick = () => setShownReviews(REVIEW_COUNT);
 
   const dispatch = useDispatch();
   const handleBtnPostReviewClick = (evt: MouseEvent) => {
@@ -40,6 +50,7 @@ export function GuitarPageReviews(): JSX.Element {
     dispatch(setGuitarToPopup(guitar));
     dispatch(setPopupType(PopupType.Review));
   };
+
 
   return (
 
@@ -55,7 +66,8 @@ export function GuitarPageReviews(): JSX.Element {
       {reviews}
       {(shownReviews === REVIEW_COUNT && comments.length > REVIEW_COUNT)  && <BtnMore onClick={handleBtnShowMoreClick}/>}
 
-      <a className="button button--up button--red-border button--big reviews__up-button" href="#header">Наверх</a>
+      {reviews.length > REVIEW_COUNT && <BtnUp onClick={handleBtnUpClick}/>}
+
     </section>
   );
 }

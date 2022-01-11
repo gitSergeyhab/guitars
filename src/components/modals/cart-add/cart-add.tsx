@@ -9,9 +9,6 @@ import { ESCAPE, GuitarInfo, GuitarType, PopupType, SELECTOR_MODAL } from '../..
 import { setCartGuitarsToStorage } from '../../../utils/cart-storage-utils';
 
 
-// С Л Е Д У Ю Щ И Й   Э Т А П
-
-
 export default function CartAdd({guitar} : {guitar : Guitar | GuitarWithComments}): JSX.Element {
 
   const {previewImg, name, price,stringCount,type, vendorCode } = guitar;

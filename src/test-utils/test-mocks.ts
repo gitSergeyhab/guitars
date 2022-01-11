@@ -4,6 +4,7 @@ import { Comment, Guitar, GuitarWithComments} from '../types/types';
 
 const MAX_RARING = 5;
 const MAX_GUITARS = 5;
+const COMMENTS_COUNT = 5;
 
 
 const getRandomStringCount = (): number => ALL_STRINGS[Math.floor(Math.random()*ALL_STRINGS.length)];
@@ -43,4 +44,4 @@ export const makeFakeGuitarWithComment = (): GuitarWithComments => {
 
 
 export const makeFakeGuitarList = () => new Array(datatype.number({min: 1, max: MAX_GUITARS})).fill(null).map(() => makeFakeGuitarWithComment());
-export const makeFakeCommentList = (guitarId: number) => new Array(datatype.number({min: 1, max: MAX_GUITARS})).fill(null).map(() => makeFakeComment(guitarId));
+export const makeFakeCommentList = (guitarId: number) => new Array(COMMENTS_COUNT).fill(null).map(() => makeFakeComment(guitarId));

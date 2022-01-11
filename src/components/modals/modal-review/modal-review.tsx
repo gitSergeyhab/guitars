@@ -8,8 +8,6 @@ import { closePopup } from '../../../utils/utils';
 import { ESCAPE, SELECTOR_MODAL } from '../../../const';
 
 
-// С Л Е Д У Ю Щ И Й   Э Т А П
-
 const MESSAGE_ADD_RATING = 'без оценки не отправлю)';
 
 
@@ -71,16 +69,17 @@ export default function ModalReview({guitar} : {guitar : Guitar | GuitarWithComm
 
   const handleFormSubmit = (evt: FormEvent) => {
     evt.preventDefault();
-    const advantage = advantageRef.current?.value || '';
-    const disadvantage = disadvantageRef.current?.value || '';
-    const comment = commentRef.current?.value || '';
+    const advantage = advantageRef.current?.value || ' ';
+    const disadvantage = disadvantageRef.current?.value || ' ';
+    const comment = commentRef.current?.value || ' ';
 
     if (!rating) {
       toast.info(MESSAGE_ADD_RATING);
     }
 
     if (rating && userName) {
-      const body = {guitarId: id, ratting: rating, userName, advantage, disadvantage, comment};
+      const body = {
+        guitarId: id, rating, userName, advantage, disadvantage, comment};
       dispatch(postComment({body}));
     }
   };

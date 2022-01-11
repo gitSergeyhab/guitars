@@ -6,9 +6,6 @@ import { closePopup } from '../../../utils/utils';
 import { APPRoute, ESCAPE, SELECTOR_MODAL } from '../../../const';
 
 
-// С Л Е Д У Ю Щ И Й   Э Т А П
-
-
 export default function SuccessAdd(): JSX.Element {
 
   const dispatch = useDispatch();

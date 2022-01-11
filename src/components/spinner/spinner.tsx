@@ -2,8 +2,6 @@ import ScaleLoader from 'react-spinners/ScaleLoader';
 import { css } from '@emotion/react';
 
 
-// С Л Е Д У Ю Щ И Й   Э Т А П
-
 const override = css`
   display: block;
   margin: 0 auto;

@@ -13,9 +13,6 @@ import Spinner from '../spinner/spinner';
 import NotFoundPage from '../not-found-page/not-found-page';
 
 
-// С Л Е Д У Ю Щ И Й   Э Т А П
-
-
 export default function GuitarPage(): JSX.Element {
 
   const guitar = useSelector(getTheGuitar);
@@ -51,7 +48,7 @@ export default function GuitarPage(): JSX.Element {
         <ul className="breadcrumbs page-content__breadcrumbs">
           <BreadcrumbMain/>
           <BreadcrumbCatalog/>
-          <BreadcrumbProduct/>
+          <BreadcrumbProduct name={guitar.name}/>
         </ul>
 
         <GuitarPageProduct guitar={guitar}/>

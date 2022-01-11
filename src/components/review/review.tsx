@@ -3,9 +3,6 @@ import { getReviewDate } from '../../utils/utils';
 import Rating from '../rating/rating';
 
 
-// С Л Е Д У Ю Щ И Й   Э Т А П
-
-
 export default function Review({review} : {review: Comment}): JSX.Element {
 
   const {rating, comment, userName, createAt, advantage, disadvantage} = review;

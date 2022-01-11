@@ -7,15 +7,18 @@ import SuccessAdd from './success-add/success-add';
 import SuccessReview from './success-review/success-review';
 import { getGuitarFromPopup, getPopupType } from '../../store/cart-reducer/cart-reducer-selectors';
 import { PopupType } from '../../const';
+import { useEffect } from 'react';
 
 
-// С Л Е Д У Ю Щ И Й   Э Т А П
-
-
-export default function Modals(): JSX.Element {
+export default function Modal(): JSX.Element {
 
   const popupGuitar = useSelector(getGuitarFromPopup);
   const popupType = useSelector(getPopupType);
+
+  useEffect(() => {
+    document.body.style.overflow = popupType ? 'hidden' : '';
+  }, [popupType]);
+
 
   const popupAdd = popupGuitar && popupType === PopupType.CartAdd ? <CartAdd guitar={popupGuitar}/> : null;
   const popupDelete = popupGuitar && popupType === PopupType.CartDelete ? <CartDelete guitar={popupGuitar}/> : null;

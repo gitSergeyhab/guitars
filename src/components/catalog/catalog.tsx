@@ -31,7 +31,7 @@ export default function Catalog(): JSX.Element {
 
   const [url, setUrl] = useState<null | string>(null);
 
-  const debouncedUrl = useDebounce(url);
+  const debouncedUrl = useDebounce(url, 300);
 
 
   useEffect(() => {

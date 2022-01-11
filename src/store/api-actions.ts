@@ -66,11 +66,7 @@ export const fetchExtremePrices = (): ThunkActionResult =>
     }
   };
 
-
-// С Л Е Д У Ю Щ И Й   Э Т А П
-
 // PRODUCT
-
 // Product - get - guitar
 export const fetchTheGuitar = (id: string): ThunkActionResult =>
   async(dispatch, _getState, api) => {
@@ -96,33 +92,23 @@ export const fetchComments = (id: string) : ThunkActionResult =>
     }
   };
 
+
 // product - post - comment
-type CommentPost = {guitarId: number, userName: string, advantage: string, disadvantage: string, comment: string, ratting: number}
+type CommentPost = {guitarId: number, userName: string, advantage: string, disadvantage: string, comment: string, rating: number}
+
 export const postComment = ({body} : {body : CommentPost}) : ThunkActionResult =>
   async(dispatch, getState, api) => {
+    const comments = getState().Guitar.comments;
     try {
-      await api.post<Comment>(ApiRoute.Comments, body);
+      const {data} = await api.post<Comment>(ApiRoute.Comments, body);
       dispatch(setPopupType(PopupType.SuccessReview));
       dispatch(setGuitarToPopup(null));
+      const newComments = [...comments, data];
+      dispatch(setComments(newComments));
     } catch {
       toast.error(ErrorMessage.PostComment);
     }
   };
-
-// когда поправят бэкэнд:
-// export const postComment = ({body} : {body : CommentPost}) : ThunkActionResult =>
-//   async(dispatch, getState, api) => {
-//     try {
-//       const {data} = await api.post<Comment>(ApiRoute.Comments, body);
-//       dispatch(setPopupType(PopupType.SuccessReview));
-//       dispatch(setGuitarToPopup(null));
-//       const comments = getState().Guitar.comments;
-//       const newComments = {...comments, data};
-//       dispatch(setComments(newComments));
-//     } catch {
-//       toast.error(ErrorMessage.PostComment);
-//     }
-//   };
 
 //CART
 

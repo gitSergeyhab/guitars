@@ -7,9 +7,11 @@ import { createMemoryHistory } from 'history';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 
 import BreadcrumbProduct from './breadcramb-product';
-import { ScreenText, stateFilled, TestPageText } from '../../../test-utils/test-constants';
+import { stateFilled, TestPageText } from '../../../test-utils/test-constants';
 import { APPRoute } from '../../../const';
 
+
+const TEST_NAME = 'TEST_NAME';
 
 const mockStore = configureMockStore([thunk]);
 const store = mockStore(stateFilled);
@@ -20,11 +22,11 @@ describe ('Component BreadcrumbProduct', () => {
   it ('should render correctly', () => {
     render(
       <Router history={history}>
-        <BreadcrumbProduct/>
+        <BreadcrumbProduct name={TEST_NAME}/>
       </Router>,
     );
 
-    expect(screen.getByText(ScreenText.Breadcrumbs.Product)).toBeInTheDocument();
+    expect(screen.getByText(TEST_NAME)).toBeInTheDocument();
   });
 
   it ('should link correctly', () => {
@@ -34,7 +36,7 @@ describe ('Component BreadcrumbProduct', () => {
     render(
       <Provider store={store}>
         <Router history={history}>
-          <BreadcrumbProduct/>
+          <BreadcrumbProduct name={TEST_NAME}/>
           <Switch>
             <Route exact path={APPRoute.Guitars}>
               {TestPageText.Guitars}

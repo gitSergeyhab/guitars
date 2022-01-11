@@ -1,17 +1,12 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 
 import { closePopup } from '../../../utils/utils';
-import { APPRoute, ESCAPE, SELECTOR_MODAL } from '../../../const';
-
-
-// С Л Е Д У Ю Щ И Й   Э Т А П
+import { ESCAPE, SELECTOR_MODAL } from '../../../const';
 
 
 export default function SuccessReview(): JSX.Element {
 
-  const history = useHistory();
   const dispatch = useDispatch();
   const closeSuccessReview = () => closePopup(dispatch);
 
@@ -27,10 +22,6 @@ export default function SuccessReview(): JSX.Element {
     }
   };
 
-  const handleToCatalogBtnClick = () => {
-    history.push(APPRoute.Catalog);
-    closeSuccessReview();
-  };
 
   const handleCloseBtnClick = () => closeSuccessReview();
 
@@ -57,7 +48,7 @@ export default function SuccessReview(): JSX.Element {
             <p className="modal__message">Спасибо за ваш отзыв!</p>
             <div className="modal__button-container modal__button-container--review">
               <button
-                onClick={handleToCatalogBtnClick}
+                onClick={handleCloseBtnClick}
                 className="button button--small modal__button modal__button--review"
               >К покупкам!
               </button>

@@ -1,4 +1,4 @@
-import { CartGuitar, Guitar, GuitarWithComments, Order } from '../types/types';
+import { CartGuitar, Comment, Guitar, GuitarWithComments, Order } from '../types/types';
 import { GuitarInfo, GuitarType } from '../const';
 import { Dispatch } from 'react';
 import { Action } from '@reduxjs/toolkit';
@@ -8,8 +8,8 @@ import { setGuitarToPopup, setPopupType } from '../store/actions';
 export const getStringsCount = (types: GuitarType[]): number[] => {
   const stringsFromType = types.map((type) => GuitarInfo[type] ? GuitarInfo[type].strings : []);
 
-  const unknownStrings = [...stringsFromType] as unknown; // эти две строки нужны чтобы формально соответствовать критерию № 6, но, по-моему, это бред...
-  const originStrings = unknownStrings as number[][]; // ...без    as const  замечательно работает и без них
+  const unknownStrings = [...stringsFromType] as unknown;
+  const originStrings = unknownStrings as number[][];
   const strings = originStrings.reduce((acc, elem) => [...acc, ...elem] , []);
   return [...Array.from(new Set(strings))];
 };
@@ -77,3 +77,5 @@ export const closePopup = (dispatch: Dispatch<Action>) => {
   dispatch(setGuitarToPopup(null));
   dispatch(setPopupType(null));
 };
+
+export const getRealRating = (comments: Comment[]) =>  comments.reduce((acc, comment) => acc + comment.rating, 0) / comments.length;

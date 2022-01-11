@@ -7,11 +7,8 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { ScreenText, stateFilled } from '../../../test-utils/test-constants';
 import { renderComponent } from '../../../test-utils/render-util';
 import { setGuitarToPopup, setPopupType } from '../../../store/actions';
-import { APPRoute } from '../../../const';
 import SuccessReview from './success-review';
 
-
-const GUITAR_ID = 1;
 
 const history = createMemoryHistory();
 const mockStore = configureMockStore([thunk]);
@@ -60,17 +57,14 @@ describe ('Component SuccessReview', () => {
 
   it ('should dispatch setGuitarToPopup, setPopupType and push /catalog when click btnToCatalog', () => {
     renderComponent(successReview, store, history);
-    history.push(`${APPRoute.Guitars}/${GUITAR_ID}`);
 
     expect(store.getActions()).toEqual([]);
 
     const btnToCatalog = screen.getByText(ScreenText.Modal.SuccessReview.Continue);
     expect(btnToCatalog).toBeInTheDocument();
-    expect(history.location.pathname).toBe(`${APPRoute.Guitars}/${GUITAR_ID}`);
 
     userEvent.click(btnToCatalog);
 
-    expect(history.location.pathname).toBe(APPRoute.Catalog);
     expect(store.getActions()).toEqual([
       setGuitarToPopup(null),
       setPopupType(null),

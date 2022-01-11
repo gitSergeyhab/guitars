@@ -28,7 +28,7 @@ const fakeCommentBody ={
   advantage: TEST_FIELD,
   disadvantage: TEST_FIELD,
   comment: TEST_FIELD,
-  ratting: TEST_RATING,
+  rating: TEST_RATING,
 };
 
 
@@ -105,32 +105,18 @@ describe('Async actions', () => {
     ]);
   });
 
-
-  it('postComment: should dispatch setPopupType, setGuitarToPopup when POST /comments', async() => {
+  it('postComment: should dispatch setPopupType, setGuitarToPopup, setComments when POST /comments', async() => {
     const store = mockStore(stateFilled);
+    const comments = stateFilled.Guitar.comments;
     const data = {...fakeComments[0], id: TEST_COMMENT_ID};
+    const newComments = [...comments, data];
     mockAPI.onPost(ApiRoute.Comments).reply(201, data);
     expect(store.getActions()).toEqual([]);
     await store.dispatch(postComment({body: fakeCommentBody}));
     expect(store.getActions()).toEqual([
       setPopupType(PopupType.SuccessReview),
       setGuitarToPopup(null),
+      setComments(newComments),
     ]);
   });
-
-  // когда поправят бэкэнд:
-  // it('postComment: should dispatch setPopupType, setGuitarToPopup, setComments when POST /comments', async() => {
-  //   const store = mockStore(stateFilled);
-  //   const comments = stateFilled.Guitar.comments;
-  //   const data = {...fakeComments[0], id: TEST_COMMENT_ID};
-  //   const newComments = {...comments, data};
-  //   mockAPI.onPost(ApiRoute.Comments).reply(201, data);
-  //   expect(store.getActions()).toEqual([]);
-  //   await store.dispatch(postComment({body: fakeCommentBody}));
-  //   expect(store.getActions()).toEqual([
-  //     setPopupType(PopupType.SuccessReview),
-  //     setGuitarToPopup(null),
-  //     setComments(newComments),
-  //   ]);
-  // });
 });

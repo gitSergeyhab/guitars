@@ -18,6 +18,10 @@ import { MESSAGE_NO_GUITARS } from '../../const';
 import useDebounce from '../../hooks/use-debounce';
 
 
+const DEBOUNCE_TIME = 300;
+const FIRST_PAGE_NUMBER = 1;
+
+
 export default function Catalog(): JSX.Element {
 
   const guitars = useSelector(getGuitars);
@@ -31,7 +35,7 @@ export default function Catalog(): JSX.Element {
 
   const [url, setUrl] = useState<null | string>(null);
 
-  const debouncedUrl = useDebounce(url, 300);
+  const debouncedUrl = useDebounce(url, DEBOUNCE_TIME);
 
 
   useEffect(() => {
@@ -58,11 +62,11 @@ export default function Catalog(): JSX.Element {
   }
 
 
-  if (currentPage > pageCount && currentPage !== 1) {
+  if (currentPage > pageCount && currentPage !== FIRST_PAGE_NUMBER) {
     return <NotFoundPage/>;
   }
 
-  const guitarList = guitars.map((guitar) => <GuitarCard guitar={guitar} key={guitar.id}/>);
+  const guitarCards = guitars.map((guitar) => <GuitarCard guitar={guitar} key={guitar.id}/>);
   const messageNoGuitar = <h2 style={{textAlign: 'center'}}>{MESSAGE_NO_GUITARS}</h2>;
 
   return (
@@ -82,7 +86,7 @@ export default function Catalog(): JSX.Element {
           <SortBlock/>
           <div className="cards catalog__cards">
 
-            {guitarList.length ? guitarList : messageNoGuitar}
+            {guitarCards.length ? guitarCards : messageNoGuitar}
 
           </div>
 

@@ -4,10 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Review from '../review/review';
 import { getComments, getTheGuitar } from '../../store/guitar-reducer/guitar-reducer-selectors';
 import { setGuitarToPopup, setPopupType } from '../../store/actions';
-import { PopupType } from '../../const';
-
-
-const REVIEW_COUNT = 3;
+import { DEFAULT_COMMENTS_COUNT, PopupType } from '../../const';
 
 
 function BtnMore({onClick}: {onClick: () => void}): JSX.Element {
@@ -37,12 +34,12 @@ export function GuitarPageReviews(): JSX.Element {
 
   const comments = useSelector(getComments);
   const guitar = useSelector(getTheGuitar);
-  const [shownReviews, setShownReviews] = useState(REVIEW_COUNT);
+  const [shownReviews, setShownReviews] = useState(DEFAULT_COMMENTS_COUNT);
 
   const reviews = comments.slice(0, shownReviews).map((comment) => <Review review={comment} key={comment.id} />);
 
   const handleBtnShowMoreClick = () => setShownReviews(Infinity);
-  const handleBtnUpClick = () => setShownReviews(REVIEW_COUNT);
+  const handleBtnUpClick = () => setShownReviews(DEFAULT_COMMENTS_COUNT);
 
   const dispatch = useDispatch();
   const handleBtnPostReviewClick = (evt: MouseEvent) => {
@@ -64,9 +61,9 @@ export function GuitarPageReviews(): JSX.Element {
       </a>
 
       {reviews}
-      {(shownReviews === REVIEW_COUNT && comments.length > REVIEW_COUNT)  && <BtnMore onClick={handleBtnShowMoreClick}/>}
+      {(shownReviews === DEFAULT_COMMENTS_COUNT && comments.length > DEFAULT_COMMENTS_COUNT)  && <BtnMore onClick={handleBtnShowMoreClick}/>}
 
-      {reviews.length > REVIEW_COUNT && <BtnUp onClick={handleBtnUpClick}/>}
+      {reviews.length > DEFAULT_COMMENTS_COUNT && <BtnUp onClick={handleBtnUpClick}/>}
 
     </section>
   );

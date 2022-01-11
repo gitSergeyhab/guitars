@@ -1,5 +1,4 @@
-export const STAR_COUNT = 5;
-
+import { MAX_RATING } from '../../const';
 
 function Star({height, width} : {height: string, width: string}): JSX.Element {
   return (
@@ -22,7 +21,7 @@ type RatingArgs = {rating: number, height: string, width: string}
 export default function Rating({rating, height, width} : RatingArgs): JSX.Element {
 
   const fullCount = Math.round(rating);
-  const emptyCount = STAR_COUNT - fullCount;
+  const emptyCount = MAX_RATING - fullCount;
 
   const fullStars = new Array(fullCount).fill(null).map((_, i) => i).map((i) => <FullStar key={i} width={width} height={height}/>);
   const emptyStars = new Array(emptyCount).fill(null).map((_, i) => i).map((i) => <Star key={i} width={width} height={height}/>);

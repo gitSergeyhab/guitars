@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { HIDDEN_CLASS } from '../../const';
 
 import useDebounce from '../../hooks/use-debounce';
 import { loadSearchGuitars } from '../../store/actions';
@@ -10,7 +11,6 @@ import { Guitar } from '../../types/types';
 
 
 const GUITAR_PATH = '/guitars';
-const CLASS_HIDDEN = 'hidden';
 const ENTER = 'Enter';
 
 
@@ -66,7 +66,7 @@ export default function HeaderSearch(): JSX.Element {
 
   const guitars = searchGuitars.map((guitar) => <OneSearchGuitar guitar={guitar} key={guitar.id} onClick={() => setValue('')}/>);
 
-  const guitarList = isLoading ? null : <ul className={`form-search__select-list ${debouncedValue.length && value.length? '' : CLASS_HIDDEN}`} style={{zIndex: 2}}>{ guitars }</ul>;
+  const guitarList = isLoading ? null : <ul className={`form-search__select-list ${debouncedValue.length && value.length? '' : HIDDEN_CLASS}`} style={{zIndex: 2}}>{ guitars }</ul>;
 
   return (
 

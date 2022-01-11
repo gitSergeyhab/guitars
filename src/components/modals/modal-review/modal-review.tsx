@@ -10,6 +10,7 @@ import { ESCAPE, SELECTOR_MODAL } from '../../../const';
 
 const MESSAGE_ADD_RATING = 'без оценки не отправлю)';
 
+const ZERO_FIELD_VALUE = ' ';
 
 const STARS = [
   {value: 5, name: 'Отлично'},
@@ -69,9 +70,9 @@ export default function ModalReview({guitar} : {guitar : Guitar | GuitarWithComm
 
   const handleFormSubmit = (evt: FormEvent) => {
     evt.preventDefault();
-    const advantage = advantageRef.current?.value || ' ';
-    const disadvantage = disadvantageRef.current?.value || ' ';
-    const comment = commentRef.current?.value || ' ';
+    const advantage = advantageRef.current?.value || ZERO_FIELD_VALUE;
+    const disadvantage = disadvantageRef.current?.value || ZERO_FIELD_VALUE;
+    const comment = commentRef.current?.value || ZERO_FIELD_VALUE;
 
     if (!rating) {
       toast.info(MESSAGE_ADD_RATING);

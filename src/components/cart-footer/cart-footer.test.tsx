@@ -1,11 +1,10 @@
 import { screen } from '@testing-library/react';
-
 import { createMemoryHistory } from 'history';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 
+import CartFooter from './cart-footer';
 import { ScreenText, stateFilled } from '../../test-utils/test-constants';
 import { renderComponent } from '../../test-utils/render-util';
-import CartFooter from './cart-footer';
 
 
 const history = createMemoryHistory();

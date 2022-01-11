@@ -5,9 +5,11 @@ import Rating from '../rating/rating';
 import { setGuitarToPopup, setPopupType } from '../../store/actions';
 import { Guitar } from '../../types/types';
 import { getRealRating, getTruePath, makeStringPrice } from '../../utils/utils';
-import { GuitarInfo, GuitarType, PopupType } from '../../const';
+import { GuitarInfo, GuitarType, HIDDEN_CLASS, PopupType } from '../../const';
 import { getComments } from '../../store/guitar-reducer/guitar-reducer-selectors';
 
+
+const BLACK_BORDER_CLASS = 'button--black-border';
 
 const enum Option {
   Characteristic = 'Characteristic',
@@ -52,7 +54,7 @@ export default function GuitarPageProduct({guitar} : {guitar : Guitar}): JSX.Ele
 
   return (
     <div className="product-container">
-      <img className="product-container__img" src={src} srcSet={srcSet} width="90" height="235" alt=""/>
+      <img className="product-container__img" src={src} srcSet={srcSet} width="90" height="235" alt={name}/>
       <div className="product-container__info-wrapper">
         <h2 className="product-container__title title title--big title--uppercase">{name}</h2>
         <div className="rate product-container__rating" aria-hidden="true"><span className="visually-hidden">Рейтинг:</span>
@@ -63,21 +65,21 @@ export default function GuitarPageProduct({guitar} : {guitar : Guitar}): JSX.Ele
         </div>
         <div className="tabs">
           <a
-            className={`button button--medium tabs__button ${option === Option.Description && 'button--black-border'}`}
+            className={`button button--medium tabs__button ${option === Option.Description && BLACK_BORDER_CLASS}`}
             href="#characteristics"
             onClick={handleCharacteristicClick}
           >
              Характеристики
           </a>
           <a
-            className={`button button--medium tabs__button ${option === Option.Characteristic && 'button--black-border'}`}
+            className={`button button--medium tabs__button ${option === Option.Characteristic && BLACK_BORDER_CLASS}`}
             href="#description"
             onClick={handleDescriptionClick}
           >
             Описание
           </a>
           <div className="tabs__content" id="characteristics"  >
-            <table className={`tabs__table ${option === Option.Description && 'hidden'}`}>
+            <table className={`tabs__table ${option === Option.Description && HIDDEN_CLASS}`}>
               <tbody>
                 <tr className="tabs__table-row">
                   <td className="tabs__title">Артикул:</td>
@@ -93,7 +95,7 @@ export default function GuitarPageProduct({guitar} : {guitar : Guitar}): JSX.Ele
                 </tr>
               </tbody>
             </table>
-            <p className={`tabs__product-description ${option === Option.Characteristic && 'hidden'}`}>{description}</p>
+            <p className={`tabs__product-description ${option === Option.Characteristic && HIDDEN_CLASS}`}>{description}</p>
           </div>
         </div>
       </div>

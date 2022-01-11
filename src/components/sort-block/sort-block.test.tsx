@@ -7,7 +7,7 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import SortBlock from './sort-block';
 import { renderComponent } from '../../test-utils/render-util';
 import { ScreenText, stateEmpty } from '../../test-utils/test-constants';
-import { GUITARS_PER_PAGE, ParamName } from '../../const';
+import { DEFAULT_PAGE_FOR_PUSH, GUITARS_PER_PAGE, ParamName } from '../../const';
 
 
 const history = createMemoryHistory();
@@ -42,7 +42,7 @@ describe ('Component SortBlock', () => {
     userEvent.click(btnPrice);
 
     expect(history.location.search).toBe(
-      `?_limit=${GUITARS_PER_PAGE}&${ParamName.Sort.Sort}=${ParamName.Sort.Price}&${ParamName.Sort.Order}=${ParamName.Sort.Asc}&_page=${1}`,
+      `?_limit=${GUITARS_PER_PAGE}&${ParamName.Sort.Sort}=${ParamName.Sort.Price}&${ParamName.Sort.Order}=${ParamName.Sort.Asc}&_page=${DEFAULT_PAGE_FOR_PUSH}`,
     );
   });
 
@@ -57,7 +57,7 @@ describe ('Component SortBlock', () => {
     userEvent.click(btnRating);
 
     expect(history.location.search).toBe(
-      `?_limit=${GUITARS_PER_PAGE}&${ParamName.Sort.Sort}=${ParamName.Sort.Rating}&${ParamName.Sort.Order}=${ParamName.Sort.Asc}&_page=${1}`,
+      `?_limit=${GUITARS_PER_PAGE}&${ParamName.Sort.Sort}=${ParamName.Sort.Rating}&${ParamName.Sort.Order}=${ParamName.Sort.Asc}&_page=${DEFAULT_PAGE_FOR_PUSH}`,
     );
   });
 
@@ -72,7 +72,7 @@ describe ('Component SortBlock', () => {
     userEvent.click(btnAsc);
 
     expect(history.location.search).toBe(
-      `?_limit=${GUITARS_PER_PAGE}&${ParamName.Sort.Order}=${ParamName.Sort.Asc}&${ParamName.Sort.Sort}=${ParamName.Sort.Price}&_page=${1}`,
+      `?_limit=${GUITARS_PER_PAGE}&${ParamName.Sort.Order}=${ParamName.Sort.Asc}&${ParamName.Sort.Sort}=${ParamName.Sort.Price}&_page=${DEFAULT_PAGE_FOR_PUSH}`,
     );
   });
 
@@ -87,7 +87,7 @@ describe ('Component SortBlock', () => {
     userEvent.click(btnDesc);
 
     expect(history.location.search).toBe(
-      `?_limit=${GUITARS_PER_PAGE}&${ParamName.Sort.Order}=${ParamName.Sort.Desc}&${ParamName.Sort.Sort}=${ParamName.Sort.Price}&_page=${1}`,
+      `?_limit=${GUITARS_PER_PAGE}&${ParamName.Sort.Order}=${ParamName.Sort.Desc}&${ParamName.Sort.Sort}=${ParamName.Sort.Price}&_page=${DEFAULT_PAGE_FOR_PUSH}`,
     );
   });
 });

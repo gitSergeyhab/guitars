@@ -4,7 +4,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 import { getMaxPrice, getMinPrice } from '../../../store/catalog-reducer/catalog-reducer-selectors';
 import { getPriceFromUrl, makeNewSearch } from '../../../utils/param-utils';
-import { ParamName } from '../../../const';
+import { DEFAULT_PAGE_FOR_PUSH, ParamName } from '../../../const';
 
 
 const ZERO_STRING = '0';
@@ -40,15 +40,15 @@ export default function FilterPrice(): JSX.Element {
 
   const pushPriceByType = (evt: FormEvent<HTMLInputElement>, param: string) => {
     let newSearch = makeNewSearch(search, param, evt.currentTarget.value || ZERO_STRING);
-    newSearch = makeNewSearch(newSearch, ParamName.Range.Page, 1);
+    newSearch = makeNewSearch(newSearch, ParamName.Range.Page, DEFAULT_PAGE_FOR_PUSH);
     push(newSearch);
   };
 
   const handleMinPriceChange = (evt: FormEvent<HTMLInputElement>) => pushPriceByType(evt, ParamName.Filter.PriceGte);
   const handleMaxPriceChange = (evt: FormEvent<HTMLInputElement>) => pushPriceByType(evt, ParamName.Filter.PriceLte);
 
-  const minPriceAttribute = minCatalogPrice ? minCatalogPrice : '0';
-  const maxPriceAttribute = maxCatalogPrice ? maxCatalogPrice : '0';
+  const minPriceAttribute = minCatalogPrice ? minCatalogPrice : ZERO_STRING;
+  const maxPriceAttribute = maxCatalogPrice ? maxCatalogPrice : ZERO_STRING;
 
 
   return (

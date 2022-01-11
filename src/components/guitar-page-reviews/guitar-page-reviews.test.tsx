@@ -6,14 +6,12 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { ScreenText, stateFilled } from '../../test-utils/test-constants';
 import { renderComponent } from '../../test-utils/render-util';
 import { GuitarPageReviews } from './guitar-page-reviews';
+import { DEFAULT_COMMENTS_COUNT } from '../../const';
 
 
 const history = createMemoryHistory();
 const mockStore = configureMockStore();
 const guitarPageReviews = <GuitarPageReviews/>;
-
-
-const DEFAULT_COMMENTS_COUNT = 3;
 
 
 describe ('Component GuitarPageReviews', () => {

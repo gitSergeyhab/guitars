@@ -3,7 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 import { getStringCountFromUrl, getTypesFromUrl, makeNewSearch } from '../../../utils/param-utils';
 import { getStringsCount } from '../../../utils/utils';
-import { ALL_STRINGS, GuitarType, ParamName } from '../../../const';
+import { ALL_STRINGS, DEFAULT_PAGE_FOR_PUSH, GuitarType, ParamName } from '../../../const';
 
 
 function OneString({stringCount} : {stringCount : number}): JSX.Element {
@@ -31,7 +31,7 @@ function OneString({stringCount} : {stringCount : number}): JSX.Element {
     }
 
     let newSearch = makeNewSearch(search, ParamName.Filter.StringCount, checkedStrings);
-    newSearch = makeNewSearch(newSearch, ParamName.Range.Page, 1);
+    newSearch = makeNewSearch(newSearch, ParamName.Range.Page, DEFAULT_PAGE_FOR_PUSH);
     push(newSearch);
   };
 

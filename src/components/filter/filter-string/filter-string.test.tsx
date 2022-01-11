@@ -7,7 +7,7 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import FilterString from './filter-string';
 import { renderComponent } from '../../../test-utils/render-util';
 import { stateEmpty } from '../../../test-utils/test-constants';
-import { ALL_STRINGS, GUITARS_PER_PAGE } from '../../../const';
+import { ALL_STRINGS, DEFAULT_PAGE_FOR_PUSH, GUITARS_PER_PAGE } from '../../../const';
 
 
 const history = createMemoryHistory();
@@ -34,7 +34,7 @@ describe ('Component FilterString', () => {
 
     userEvent.click(fourStringGuitar);
 
-    expect(history.location.search).toBe(`?_limit=${GUITARS_PER_PAGE}&stringCount%5B0%5D=${ALL_STRINGS[0]}&_page=${1}`);
+    expect(history.location.search).toBe(`?_limit=${GUITARS_PER_PAGE}&stringCount%5B0%5D=${ALL_STRINGS[0]}&_page=${DEFAULT_PAGE_FOR_PUSH}`);
   });
 
 });

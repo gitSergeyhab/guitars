@@ -3,9 +3,15 @@ export const ESCAPE = 'Escape';
 
 export const SELECTOR_MODAL = '.modal__content';
 
+export const HIDDEN_CLASS = 'hidden';
+
 export const MESSAGE_NO_GUITARS = 'Ты угадал! Именно таких гитар у нас нет...';
 
 export const EMPTY_CART_TEXT = 'Корзина пуста';
+
+export const DEFAULT_PAGE_FOR_PUSH = 1;
+
+export const DEFAULT_COMMENTS_COUNT = 3;
 
 export const GUITARS_PER_PAGE = 9;
 
@@ -19,8 +25,8 @@ export const enum APPRoute {
   Catalog = '/catalog',
   Guitars = '/guitars/:id',
   Cart = '/cart',
-  Contacts = 'Contacts',
-  Info = 'Info',
+  Contacts = '/contacts',
+  Info = '/info',
 }
 
 

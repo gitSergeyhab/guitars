@@ -14,6 +14,7 @@ import { MAX_RATING } from '../../../const';
 
 const TEST_TEXT = 'TEST_TEXT';
 const TEST_ID = 'user-name';
+const LAST_BTN_INDEX = 0;
 
 
 const history = createMemoryHistory();
@@ -38,7 +39,7 @@ describe ('Component ModalReview', () => {
   it ('should checked radio by click', () => {
     renderComponent(modalReview, store, history);
 
-    const lastBtn = screen.getAllByRole('radio')[0];
+    const lastBtn = screen.getAllByRole('radio')[LAST_BTN_INDEX];
 
     expect(lastBtn).not.toBeChecked();
 

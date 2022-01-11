@@ -7,7 +7,7 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import FilterType from './filter-type';
 import { renderComponent } from '../../../test-utils/render-util';
 import { stateEmpty } from '../../../test-utils/test-constants';
-import { GUITARS_PER_PAGE, GuitarType, GUITAR_TYPES } from '../../../const';
+import { DEFAULT_PAGE_FOR_PUSH, GUITARS_PER_PAGE, GuitarType, GUITAR_TYPES } from '../../../const';
 
 
 const history = createMemoryHistory();
@@ -36,7 +36,7 @@ describe ('Component FilterType', () => {
 
     userEvent.click(acoustic);
 
-    expect(history.location.search).toBe(`?_limit=${GUITARS_PER_PAGE}&type%5B0%5D=${GuitarType.Acoustic}&_page=${1}`);
+    expect(history.location.search).toBe(`?_limit=${GUITARS_PER_PAGE}&type%5B0%5D=${GuitarType.Acoustic}&_page=${DEFAULT_PAGE_FOR_PUSH}`);
   });
 
 });

@@ -2,7 +2,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 import { getStringCountFromUrl, getTypesFromUrl, makeNewSearch } from '../../../utils/param-utils';
 import { getStringsCount } from '../../../utils/utils';
-import { ALL_STRINGS, GuitarInfo, GuitarType, GUITAR_TYPES, ParamName } from '../../../const';
+import { ALL_STRINGS, DEFAULT_PAGE_FOR_PUSH, GuitarInfo, GuitarType, GUITAR_TYPES, ParamName } from '../../../const';
 
 
 function FilterOneType({type}: {type: GuitarType}): JSX.Element {
@@ -32,7 +32,7 @@ function FilterOneType({type}: {type: GuitarType}): JSX.Element {
 
     let newSearch = makeNewSearch(search, ParamName.Filter.StringCount, newCheckedStrings);
     newSearch = makeNewSearch(newSearch, ParamName.Filter.Type, types);
-    newSearch = makeNewSearch(newSearch, ParamName.Range.Page, 1);
+    newSearch = makeNewSearch(newSearch, ParamName.Range.Page, DEFAULT_PAGE_FOR_PUSH);
     push(newSearch);
   };
 

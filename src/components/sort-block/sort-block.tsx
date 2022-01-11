@@ -1,5 +1,5 @@
 import { useHistory, useLocation } from 'react-router-dom';
-import { ParamName } from '../../const';
+import { DEFAULT_PAGE_FOR_PUSH, ParamName } from '../../const';
 import { checkSort, getSortAndOrder, makeNewSearch } from '../../utils/param-utils';
 
 
@@ -23,7 +23,7 @@ export default function SortBlock(): JSX.Element {
     if (!isSort) {
       newSearch = makeNewSearch(newSearch, secondParam, secondValue);
     }
-    newSearch = makeNewSearch(newSearch, ParamName.Range.Page, 1);
+    newSearch = makeNewSearch(newSearch, ParamName.Range.Page, DEFAULT_PAGE_FOR_PUSH);
     push(newSearch);
   };
 
@@ -49,7 +49,6 @@ export default function SortBlock(): JSX.Element {
 
         <button
           onClick={handlePriceClick}
-          // стили в исходной верстке не работают, поэтому так:
           style={sort === ParamName.Sort.Price ? {} : styleGrayText}
           className={`catalog-sort__type-button ${sort === ParamName.Sort.Price ? ClassActive.Sort : ''}`}
           aria-label="по цене" tabIndex={ sort === ParamName.Sort.Price ? -1 : 0}

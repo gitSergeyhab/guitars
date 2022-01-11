@@ -10,26 +10,30 @@ import { stateFilled } from '../../test-utils/test-constants';
 import { GUITARS_PER_PAGE } from '../../const';
 
 
+const enum PageCount {
+  Max = 5,
+  Min = 4,
+}
+
+const enum TextPage {
+  First = '1',
+  Second = '2',
+}
+
 const history = createMemoryHistory();
 const mockStore = configureMockStore([thunk]);
 const store = mockStore(stateFilled);
 const pagination = <Pagination/>;
-
-
-const MAX_PAGE_COUNT = 5;
-const MIN_PAGE_COUNT = 4;
-const TEXT_FIRST_PAGE = '1';
-const TEXT_SECOND_PAGE = '2';
 
 describe ('Component Pagination', () => {
   it ('should render correctly', () => {
     renderComponent(pagination, store, history);
 
     const pageCount = Math.ceil(stateFilled.Catalog.guitarCount / GUITARS_PER_PAGE);
-    const minCountDisplayedPage = Math.min(MIN_PAGE_COUNT, pageCount);
+    const minCountDisplayedPage = Math.min(PageCount.Min, pageCount);
 
-    expect(screen.getByText(TEXT_FIRST_PAGE)).toBeInTheDocument();
-    expect(screen.getAllByRole('link').length).toBeLessThanOrEqual(MAX_PAGE_COUNT);
+    expect(screen.getByText(TextPage.First)).toBeInTheDocument();
+    expect(screen.getAllByRole('link').length).toBeLessThanOrEqual(PageCount.Max);
     expect(screen.getAllByRole('link').length).toBeGreaterThanOrEqual(minCountDisplayedPage);
   });
 
@@ -37,11 +41,11 @@ describe ('Component Pagination', () => {
 
     renderComponent(pagination, store, history);
     expect(history.location.search).toBe('');
-    const secondPage = screen.getByText(TEXT_SECOND_PAGE);
+    const secondPage = screen.getByText(TextPage.Second);
     expect(secondPage).toBeInTheDocument();
 
     userEvent.click(secondPage);
 
-    expect(history.location.search).toBe(`?_limit=${GUITARS_PER_PAGE}&_page=${TEXT_SECOND_PAGE}`);
+    expect(history.location.search).toBe(`?_limit=${GUITARS_PER_PAGE}&_page=${TextPage.Second}`);
   });
 });

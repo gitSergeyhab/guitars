@@ -1,37 +1,53 @@
 import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
 
 import { postComment } from '../../../store/api-actions';
 import { Guitar, GuitarWithComments } from '../../../types/types';
 import { closePopup } from '../../../utils/utils';
 import { ESCAPE, SELECTOR_MODAL } from '../../../const';
 
+import './modal-review.css';
 
-const MESSAGE_ADD_RATING = 'без оценки не отправлю)';
 
 const ZERO_FIELD_VALUE = ' ';
 
 const STARS = [
-  {value: 5, name: 'Отлично'},
-  {value: 4, name: 'Хорошо'},
-  {value: 3, name: 'Нормально'},
-  {value: 2, name: 'Плохо'},
   {value: 1, name: 'Ужасно'},
+  {value: 2, name: 'Плохо'},
+  {value: 3, name: 'Нормально'},
+  {value: 4, name: 'Хорошо'},
+  {value: 5, name: 'Отлично'},
 ];
 
 
-function ReviewStar({score, onChange}: {score: {value: number, name: string}, onChange: () => void}): JSX.Element {
+type ReviewStarType = {score: {value: number, name: string}, onChange: () => void,  onFocus: () => void, onBluer: () => void, focusedStar: number, checkedStar: number}
+
+
+function ReviewStar({score, onFocus, onBluer, onChange, focusedStar, checkedStar}: ReviewStarType): JSX.Element {
 
   const id = `star-${score.value}`;
+
+  const isStarFilled = focusedStar >= score.value || (!focusedStar && checkedStar >= score.value);
+
+  const usedStarHref = isStarFilled ? <use xlinkHref="#icon-full-star"></use> : <use xlinkHref="#icon-star"></use>;
+
 
   return (
     <>
       <input
         onChange={onChange}
+        onFocus={onFocus}
         className="visually-hidden" type="radio" id={id} name="rate" value={score.value}
       />
-      <label className="rate__label" htmlFor={id} title={score.name}></label>
+      <label htmlFor={id} title={score.name}
+        onMouseEnter={onFocus}
+        onMouseLeave={onBluer}
+      >
+
+        <svg width={20} height={20} aria-hidden="true">
+          {usedStarHref}
+        </svg>
+      </label>
     </>
   );
 }
@@ -58,10 +74,22 @@ export default function ModalReview({guitar} : {guitar : Guitar | GuitarWithComm
 
   const handleCloseBtnClick = () => closeCartDelete();
 
-  const [rating, setRating] = useState(0);
   const [userName, setUserName] = useState('');
+  const [errorName, setErrorName] = useState(false);
+  const [errorStar, setErrorStar] = useState(false);
+  const [focusedStar, setStarFocused] = useState(0);
+  const [checkedStar, setStarChecked] = useState(0);
 
-  const stars = STARS.map((star) => <ReviewStar score={star} key={star.value} onChange={() => setRating(star.value)}/>);
+
+  const handleNameInput = (evt: React.FormEvent<HTMLInputElement>) => {
+    setUserName(evt.currentTarget.value);
+    setErrorName(false);
+  };
+
+  const stars = STARS.map((star) => (
+    <ReviewStar score={star} key={star.value} focusedStar={focusedStar} checkedStar={checkedStar} onFocus={() => setStarFocused(star.value)} onChange={() => setStarChecked(star.value)} onBluer={() => setStarFocused(0)}/>),
+  );
+
 
   const userNameRef = useRef<HTMLInputElement | null>(null);
   const advantageRef = useRef<HTMLInputElement | null>(null);
@@ -74,13 +102,11 @@ export default function ModalReview({guitar} : {guitar : Guitar | GuitarWithComm
     const disadvantage = disadvantageRef.current?.value || ZERO_FIELD_VALUE;
     const comment = commentRef.current?.value || ZERO_FIELD_VALUE;
 
-    if (!rating) {
-      toast.info(MESSAGE_ADD_RATING);
-    }
+    setErrorStar(!checkedStar);
+    setErrorName(!userName.trim());
 
-    if (rating && userName) {
-      const body = {
-        guitarId: id, rating, userName, advantage, disadvantage, comment};
+    if (checkedStar && userName.trim()) {
+      const body = {guitarId: id, rating: checkedStar, userName, advantage, disadvantage, comment};
       dispatch(postComment({body}));
     }
   };
@@ -97,7 +123,6 @@ export default function ModalReview({guitar} : {guitar : Guitar | GuitarWithComm
     }
   };
 
-  const handleNameInput = (evt: React.FormEvent<HTMLInputElement>) => setUserName(evt.currentTarget.value.trim());
 
   return (
     <div style={{position: 'relative', width: '550px', height: '610px', marginBottom: '50px'}}>
@@ -117,19 +142,18 @@ export default function ModalReview({guitar} : {guitar : Guitar | GuitarWithComm
                     className="form-review__input form-review__input--name" id="user-name" data-testid='user-name' type="text" autoComplete="off"
                     value={userName}
                     onChange={handleNameInput}
-                    required
                   />
                   <span className="form-review__warning">
-                    {userName ? <br/> : 'Заполните поле'}
+                    {errorName ? 'Заполните поле' : <br/>}
                   </span>
 
                 </div>
-                <div><span className="form-review__label form-review__label--required">Ваша Оценка</span>
-                  <div className="rate rate--reverse">
-
+                <div><span className="form-review__label form-review__label--required" style={{marginBottom: '10px'}}>Ваша Оценка</span>
+                  <div className='rect-rate'>
                     {stars}
+
                     <span className="rate__count"></span>
-                    {rating ? null : <span className="rate__message">Поставьте оценку</span>}
+                    {errorStar && <span className="rate__message" style={{marginLeft: '-3px'}} >Поставьте оценку</span>}
 
                   </div>
                 </div>
@@ -153,12 +177,15 @@ export default function ModalReview({guitar} : {guitar : Guitar | GuitarWithComm
               >
               </textarea>
               <button className="button button--medium-20 form-review__button" type="submit">Отправить отзыв</button>
+
+
             </form>
             <button
               onClick={handleCloseBtnClick}
               className="modal__close-btn button-cross" type="button" aria-label="Закрыть"
             >
               <span className="button-cross__icon"></span><span className="modal__close-btn-interactive-area"></span>
+
             </button>
           </div>
         </div>

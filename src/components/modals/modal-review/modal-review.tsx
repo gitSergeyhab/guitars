@@ -20,10 +20,10 @@ const STARS = [
 ];
 
 
-type ReviewStarType = {score: {value: number, name: string}, onChange: () => void,  onFocus: () => void, onBluer: () => void, focusedStar: number, checkedStar: number}
+type ReviewStarType = {score: {value: number, name: string}, onChange: () => void,  onMouseEnter: () => void, onMouseLeave: () => void, focusedStar: number, checkedStar: number}
 
 
-function ReviewStar({score, onFocus, onBluer, onChange, focusedStar, checkedStar}: ReviewStarType): JSX.Element {
+function ReviewStar({score, onMouseEnter, onMouseLeave, onChange, focusedStar, checkedStar}: ReviewStarType): JSX.Element {
 
   const id = `star-${score.value}`;
 
@@ -36,12 +36,12 @@ function ReviewStar({score, onFocus, onBluer, onChange, focusedStar, checkedStar
     <>
       <input
         onChange={onChange}
-        onFocus={onFocus}
+        onFocus={onChange}
         className="visually-hidden" type="radio" id={id} name="rate" value={score.value}
       />
       <label htmlFor={id} title={score.name}
-        onMouseEnter={onFocus}
-        onMouseLeave={onBluer}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
       >
 
         <svg width={20} height={20} aria-hidden="true">
@@ -86,8 +86,15 @@ export default function ModalReview({guitar} : {guitar : Guitar | GuitarWithComm
     setErrorName(false);
   };
 
+
+  const handleStarChange = (star: number) => {
+    setStarChecked(star);
+    setErrorStar(false);
+  };
+
+
   const stars = STARS.map((star) => (
-    <ReviewStar score={star} key={star.value} focusedStar={focusedStar} checkedStar={checkedStar} onFocus={() => setStarFocused(star.value)} onChange={() => setStarChecked(star.value)} onBluer={() => setStarFocused(0)}/>),
+    <ReviewStar score={star} key={star.value} focusedStar={focusedStar} checkedStar={checkedStar} onMouseEnter={() => setStarFocused(star.value)} onChange={() => handleStarChange(star.value)} onMouseLeave={() => setStarFocused(0)}/>),
   );
 
 
@@ -117,7 +124,7 @@ export default function ModalReview({guitar} : {guitar : Guitar | GuitarWithComm
     }
   };
 
-  const handlePopupOutClick = (evt: MouseEvent) => { // MouseEvent не из Реакт!
+  const handlePopupOutClick = (evt: MouseEvent) => {
     if (evt.target instanceof Element && !evt.target.closest(SELECTOR_MODAL)) {
       closeCartDelete();
     }

@@ -5,11 +5,12 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 
 import { createAPI } from '../services/api';
 import { State } from '../types/types';
-import { fetchComments, fetchExtremePrices, fetchGuitarsWithPath, fetchGuitarsWithSearch, fetchTheGuitar, postComment, SORT_BY_PRICE_URL } from './api-actions';
-import { loadGuitars, loadSearchGuitars, loadTheGuitar, setComments, setGuitarCount, setGuitarsErrorStatus, setGuitarToPopup, setMaxPrice, setMinPrice, setPopupType, setSearchLoadingStatus, setTheGuitarLoadingStatus } from './actions';
+import { fetchComments, fetchExtremePrices, fetchGuitarsWithPath, fetchGuitarsWithSearch, fetchTheGuitar, postComment, postCoupons, postOrder, SORT_BY_PRICE_URL } from './api-actions';
+import { loadGuitars, loadSearchGuitars, loadTheGuitar, setCartGuitars, setComments, setCoupon, setDiscount, setGuitarCount, setGuitarsErrorStatus, setGuitarToPopup, setMaxPrice, setMinPrice, setPopupType, setSearchLoadingStatus, setTheGuitarLoadingStatus } from './actions';
 import { makeFakeCommentList, makeFakeGuitar, makeFakeGuitarList } from '../test-utils/test-mocks';
 import { ApiRoute, ParamName, PopupType } from '../const';
 import { stateFilled } from '../test-utils/test-constants';
+import { getOrder } from '../utils/utils';
 
 
 const SEARCH_STRING = 'curt';
@@ -119,4 +120,32 @@ describe('Async actions', () => {
       setComments(newComments),
     ]);
   });
+
+  // CART PAGE
+  it('postCoupons: should dispatch setDiscount, setCoupon when POST /coupons', async() => {
+    const store = mockStore(stateFilled);
+    mockAPI.onPost(ApiRoute.Coupons).reply(201, stateFilled.Cart.discount);
+    expect(store.getActions()).toEqual([]);
+    const body = {coupon: stateFilled.Cart.coupon as string};
+    await store.dispatch(postCoupons(body));
+    expect(store.getActions()).toEqual([
+      setDiscount(stateFilled.Cart.discount),
+      setCoupon(stateFilled.Cart.coupon),
+    ]);
+  });
+
+  it('postOrder: should dispatch setCartGuitars, setCoupon, setDiscount when POST /orders', async() => {
+    const store = mockStore(stateFilled);
+    mockAPI.onPost(ApiRoute.Orders).reply(201);
+    expect(store.getActions()).toEqual([]);
+    const body = getOrder(stateFilled.Cart.cartGuitars, stateFilled.Cart.coupon as string);
+    await store.dispatch(postOrder({body}));
+    expect(store.getActions()).toEqual([
+      setCartGuitars([]),
+      setCoupon(''),
+      setDiscount(0),
+    ]);
+  });
 });
+
+

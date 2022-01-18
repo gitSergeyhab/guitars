@@ -3,9 +3,6 @@ import { Comment, Guitar } from '../../types/types';
 import { loadTheGuitar, setComments, setTheGuitarErrorStatus, setTheGuitarLoadingStatus } from '../actions';
 
 
-// С Л Е Д У Ю Щ И Й   Э Т А П
-
-
 type InitialState = {
   guitar: Guitar | null,
   isLoading: boolean,

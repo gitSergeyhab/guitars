@@ -4,9 +4,6 @@ import { Guitar } from '../../types/types';
 import { setGuitarToPopup, setPopupType } from '../actions';
 
 
-// С Л Е Д У Ю Щ И Й   Э Т А П
-
-
 type InitialState = {
 
   guitarPopup: Guitar | null

@@ -9,9 +9,6 @@ import { getCartGuitars } from '../../store/cart-reducer/cart-reducer-selectors'
 import { setCartGuitarsToStorage } from '../../utils/cart-storage-utils';
 
 
-// С Л Е Д У Ю Щ И Й   Э Т А П
-
-
 export default function OneCartGuitar({cartGuitar} : {cartGuitar: CartGuitar}): JSX.Element {
 
   const {guitar, count} = cartGuitar;

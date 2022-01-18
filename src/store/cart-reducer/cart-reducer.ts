@@ -3,9 +3,6 @@ import { CartGuitar } from '../../types/types';
 import {setCartGuitars, setCoupon, setCouponValidStatus, setDiscount } from '../actions';
 
 
-// С Л Е Д У Ю Щ И Й   Э Т А П
-
-
 type InitialState = {
   cartGuitars: CartGuitar[],
   discount: number,

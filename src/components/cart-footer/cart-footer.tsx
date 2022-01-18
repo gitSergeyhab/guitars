@@ -30,14 +30,14 @@ export default function CartFooter(): JSX.Element {
   const dispatch = useDispatch();
 
 
-  const handleDiscountBtnClick = () => {
+  const handleDiscountBtnClick = (evt: FormEvent) => {
+    evt.preventDefault();
     if (promoCode) {
       dispatch(setCoupon(promoCode));
       dispatch(postCoupons({coupon: promoCode}));
     }
   };
 
-  // light-333 , medium-444 , height-555
 
   const handleOrderBtnClick = () => {
     const body = getOrder(cartGuitars, coupon || '');
@@ -57,7 +57,10 @@ export default function CartFooter(): JSX.Element {
       <div className="cart__coupon coupon">
         <h2 className="title title--little coupon__title">Промокод на скидку</h2>
         <p className="coupon__info">Введите свой промокод, если он у вас есть.</p>
-        <form className="coupon__form" id="coupon-form" method="post" action="/">
+        <form
+          onSubmit={handleDiscountBtnClick}
+          className="coupon__form" id="coupon-form" method="post" action="/"
+        >
           <div className="form-input coupon__input">
             <label className="visually-hidden">Промокод</label>
             <input
@@ -70,8 +73,7 @@ export default function CartFooter(): JSX.Element {
           </div>
 
           <button
-            type='button'
-            onClick={handleDiscountBtnClick}
+            type='submit'
             className="button button--big coupon__button"
           >
             Применить
@@ -87,7 +89,7 @@ export default function CartFooter(): JSX.Element {
         <p className="cart__total-item">
           <span className="cart__total-value-name">Скидка:</span>
           <span className={`cart__total-value ${discount ? DISCOUNT_CLASS : ''}`}>
-            {discount ? '-' : ''} {makeStringPrice(moneyDiscount)} ₽
+            {discount && moneyDiscount ? '-' : ''} {makeStringPrice(moneyDiscount)} ₽
           </span>
         </p>
         <p className="cart__total-item">

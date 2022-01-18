@@ -1,10 +1,12 @@
-import { MouseEvent } from 'react';
-import { useDispatch } from 'react-redux';
+import { FormEvent, MouseEvent } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { setPopupType, setGuitarToPopup } from '../../store/actions';
+import { setPopupType, setGuitarToPopup, setCartGuitars } from '../../store/actions';
 import { CartGuitar } from '../../types/types';
-import { getTruePath, makeStringPrice } from '../../utils/utils';
+import { addGuitar, deleteGuitar, getTruePath, makeStringPrice, setCountTheGuitars } from '../../utils/utils';
 import { PopupType } from '../../const';
+import { getCartGuitars } from '../../store/cart-reducer/cart-reducer-selectors';
+import { setCartGuitarsToStorage } from '../../utils/cart-storage-utils';
 
 
 // С Л Е Д У Ю Щ И Й   Э Т А П
@@ -18,25 +20,46 @@ export default function OneCartGuitar({cartGuitar} : {cartGuitar: CartGuitar}): 
 
   const stringPrice = makeStringPrice(price);
 
+  const cartGuitarsOrigin = useSelector(getCartGuitars);
+
   const dispatch = useDispatch();
 
   const handlePluseClick = (evt: MouseEvent<HTMLElement>) => {
     evt.preventDefault();
-
-    dispatch(setGuitarToPopup(guitar));
-    dispatch(setPopupType(PopupType.CartAdd));
+    addGuitar(cartGuitarsOrigin, dispatch, guitar);
   };
 
   const handleMinusClick = (evt: MouseEvent<HTMLElement>) => {
     evt.preventDefault();
+    if (count <= 1) {
+      dispatch(setGuitarToPopup(guitar));
+      dispatch(setPopupType(PopupType.CartDelete));
+    } else {
+      deleteGuitar(cartGuitarsOrigin, dispatch, guitar);
+    }
+  };
 
+
+  const handleDeleteAllTheGuitars = () => {
     dispatch(setGuitarToPopup(guitar));
     dispatch(setPopupType(PopupType.CartDelete));
   };
 
+
+  const handleGuitarCountChange = (evt: FormEvent<HTMLInputElement>) => {
+    const value = evt.currentTarget.value;
+    const cartGuitars = setCountTheGuitars(guitar, cartGuitarsOrigin, +value);
+
+    setCartGuitarsToStorage(cartGuitars);
+    dispatch(setCartGuitars(cartGuitars));
+  };
+
   return (
     <div className="cart-item">
-      <button className="cart-item__close-button button-cross" type="button" aria-label="Удалить">
+      <button
+        onClick={handleDeleteAllTheGuitars}
+        className="cart-item__close-button button-cross" type="button" aria-label="Удалить"
+      >
         <span className="button-cross__icon"></span><span className="cart-item__close-button-interactive-area"></span>
       </button>
       <div className="cart-item__image">
@@ -57,7 +80,12 @@ export default function OneCartGuitar({cartGuitar} : {cartGuitar: CartGuitar}): 
             <use xlinkHref="#icon-minus"></use>
           </svg>
         </button>
-        <input className="quantity__input" type="number" placeholder={`${count}`} id="4-count" name="4-count" max="99"/>
+        <input
+          onChange={handleGuitarCountChange}
+          value={`${count}`}
+          className="quantity__input" type="number" id="4-count" name="4-count" max="99"
+        />
+
         <button
           className="quantity__button" aria-label="Увеличить количество"
           onClick={handlePluseClick}

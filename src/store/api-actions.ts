@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 
 import { Comment, Guitar, GuitarWithComments, Order, ThunkActionResult } from '../types/types';
-import { loadGuitars, loadSearchGuitars, loadTheGuitar, setCartGuitars, setComments, setCoupon, setDiscount, setGuitarCount, setGuitarsErrorStatus, setGuitarToPopup, setMaxPrice, setMinPrice, setPopupType, setSearchLoadingStatus, setTheGuitarErrorStatus, setTheGuitarLoadingStatus } from './actions';
+import { loadGuitars, loadSearchGuitars, loadTheGuitar, setCartGuitars, setComments, setCoupon, setCouponValidStatus, setDiscount, setGuitarCount, setGuitarsErrorStatus, setGuitarToPopup, setMaxPrice, setMinPrice, setPopupType, setSearchLoadingStatus, setTheGuitarErrorStatus, setTheGuitarLoadingStatus } from './actions';
 import { ApiRoute, ParamName, PopupType } from '../const';
 import { setCartGuitarsToStorage } from '../utils/cart-storage-utils';
 
@@ -118,14 +118,16 @@ export const postCoupons = (body: {coupon: string}) : ThunkActionResult =>
     try {
       const {data} = await api.post(ApiRoute.Coupons, body);
       dispatch(setDiscount(+data));
-      dispatch(setCoupon(body.coupon));
+      dispatch(setCouponValidStatus(true));
     } catch {
       dispatch(setDiscount(0));
-      dispatch(setCoupon(null));
+      dispatch(setCouponValidStatus(false));
       toast.error(ErrorMessage.PostCoupons);
     }
   };
 
+
+// ВНЕ ТЗ
 // cart - post - order
 export const postOrder = ({body} : {body : Order}) : ThunkActionResult =>
   async(dispatch, _getState, api) => {

@@ -15,7 +15,7 @@ const modals = <Modal/>;
 
 describe ('Component Modal', () => {
   it ('should render popupAdd when PopupType.CartAdd and popupGuitar', () => {
-    const state = {...stateFilled, Cart: {...stateFilled.Cart, popupType: PopupType.CartAdd }};
+    const state = {...stateFilled, Popup: {...stateFilled.Popup, popupType: PopupType.CartAdd }};
     const store = mockStore(state);
     renderComponent(modals, store, history);
 
@@ -28,7 +28,7 @@ describe ('Component Modal', () => {
   });
 
   it ('should render popupDelete when PopupType.CartDelete and popupGuitar', () => {
-    const state = {...stateFilled, Cart: {...stateFilled.Cart, popupType: PopupType.CartDelete }};
+    const state = {...stateFilled, Popup: {...stateFilled.Popup, popupType: PopupType.CartDelete }};
     const store = mockStore(state);
     renderComponent(modals, store, history);
 
@@ -41,7 +41,7 @@ describe ('Component Modal', () => {
   });
 
   it ('should render Review when PopupType.Review and popupGuitar', () => {
-    const state = {...stateFilled, Cart: {...stateFilled.Cart, popupType: PopupType.Review }};
+    const state = {...stateFilled, Popup: {...stateFilled.Popup, popupType: PopupType.Review}};
     const store = mockStore(state);
     renderComponent(modals, store, history);
 
@@ -54,7 +54,7 @@ describe ('Component Modal', () => {
   });
 
   it ('should render popupSuccessReview when PopupType.SuccessReview', () => {
-    const state = {...stateFilled, Cart: {...stateFilled.Cart, popupType: PopupType.SuccessReview }};
+    const state = {...stateFilled, Popup: {...stateFilled.Popup, popupType: PopupType.SuccessReview }};
     const store = mockStore(state);
     renderComponent(modals, store, history);
 
@@ -68,7 +68,7 @@ describe ('Component Modal', () => {
 
 
   it ('should render popupSuccessAdd when PopupType.SuccessAddToCard', () => {
-    const state = {...stateFilled, Cart: {...stateFilled.Cart, popupType: PopupType.SuccessAddToCard }};
+    const state = {...stateFilled, Popup: {...stateFilled.Popup, popupType: PopupType.SuccessAddToCard }};
     const store = mockStore(state);
     renderComponent(modals, store, history);
 

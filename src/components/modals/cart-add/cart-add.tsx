@@ -1,12 +1,11 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setCartGuitars, setPopupType } from '../../../store/actions';
+import {  setPopupType } from '../../../store/actions';
 import { getCartGuitars } from '../../../store/cart-reducer/cart-reducer-selectors';
 import { Guitar, GuitarWithComments } from '../../../types/types';
-import { changeGuitarInCart, closePopup, getTruePath, makeStringPrice } from '../../../utils/utils';
+import { addGuitar, closePopup, getTruePath, makeStringPrice } from '../../../utils/utils';
 import { ESCAPE, GuitarInfo, GuitarType, PopupType, SELECTOR_MODAL } from '../../../const';
-import { setCartGuitarsToStorage } from '../../../utils/cart-storage-utils';
 
 
 export default function CartAdd({guitar} : {guitar : Guitar | GuitarWithComments}): JSX.Element {
@@ -48,12 +47,10 @@ export default function CartAdd({guitar} : {guitar : Guitar | GuitarWithComments
 
   const cartGuitarsOrigin = useSelector(getCartGuitars);
 
+
   const handleAddBtnClick = (evt: React.MouseEvent<HTMLElement>) => {
     evt.preventDefault();
-    const cartGuitars = [...cartGuitarsOrigin];
-    const newCartGuitars = changeGuitarInCart({...guitar, comments: [], description: ''}, cartGuitars, true);
-    setCartGuitarsToStorage(newCartGuitars);
-    dispatch(setCartGuitars(newCartGuitars));
+    addGuitar(cartGuitarsOrigin, dispatch, guitar);
     dispatch(setPopupType(PopupType.SuccessAddToCard));
   };
 

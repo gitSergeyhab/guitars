@@ -6,7 +6,7 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createAPI } from '../services/api';
 import { State } from '../types/types';
 import { fetchComments, fetchExtremePrices, fetchGuitarsWithPath, fetchGuitarsWithSearch, fetchTheGuitar, postComment, postCoupons, postOrder, SORT_BY_PRICE_URL } from './api-actions';
-import { loadGuitars, loadSearchGuitars, loadTheGuitar, setCartGuitars, setComments, setCoupon, setDiscount, setGuitarCount, setGuitarsErrorStatus, setGuitarToPopup, setMaxPrice, setMinPrice, setPopupType, setSearchLoadingStatus, setTheGuitarLoadingStatus } from './actions';
+import { loadGuitars, loadSearchGuitars, loadTheGuitar, setCartGuitars, setComments, setCoupon, setCouponValidStatus, setDiscount, setGuitarCount, setGuitarsErrorStatus, setGuitarToPopup, setMaxPrice, setMinPrice, setPopupType, setSearchLoadingStatus, setTheGuitarLoadingStatus } from './actions';
 import { makeFakeCommentList, makeFakeGuitar, makeFakeGuitarList } from '../test-utils/test-mocks';
 import { ApiRoute, ParamName, PopupType } from '../const';
 import { stateFilled } from '../test-utils/test-constants';
@@ -130,7 +130,7 @@ describe('Async actions', () => {
     await store.dispatch(postCoupons(body));
     expect(store.getActions()).toEqual([
       setDiscount(stateFilled.Cart.discount),
-      setCoupon(stateFilled.Cart.coupon),
+      setCouponValidStatus(true),
     ]);
   });
 

@@ -31,6 +31,7 @@ const enum ActionType {
   SetCartGuitars = 'cart/SetCartGuitars',
   SetDiscount = 'cart/SetDiscount',
   SetCoupon = 'cart/SetCoupon',
+  SetCouponValidStatus = 'cart/SetCouponValidStatus',
 }
 
 //catalog
@@ -62,4 +63,6 @@ export const setPopupType = createAction(ActionType.SetPopupType, (status: Popup
 //cart
 export const setCartGuitars = createAction(ActionType.SetCartGuitars, (cartGuitars: CartGuitar[]) => ({payload: cartGuitars}));
 export const setDiscount = createAction(ActionType.SetDiscount, (percent: number) => ({payload: percent}));
-export const setCoupon = createAction(ActionType.SetCoupon, (coupon: string | null) => ({payload: coupon}));
+export const setCoupon = createAction(ActionType.SetCoupon, (coupon: string) => ({payload: coupon}));
+export const setCouponValidStatus = createAction(ActionType.SetCouponValidStatus, (status: boolean | null) => ({payload: status}));
+

@@ -18,9 +18,13 @@ const fakeComments = makeFakeCommentList(1);
 
 export const stateFilled: State = {
   [ReducerName.Cart]: {
-    cartGuitars: [{guitar: fakeGuitar, count: 2}],
+    cartGuitars: [{guitar: fakeGuitar, count: 4}],
     discount: 15,
     coupon: 'light-333',
+    isCouponValid: true,
+  },
+
+  [ReducerName.Popup]: {
     guitarPopup: fakeGuitar,
     popupType: null,
   },
@@ -49,6 +53,10 @@ export const stateEmpty: State = {
     cartGuitars: [],
     discount: 0,
     coupon: '',
+    isCouponValid: null,
+  },
+
+  [ReducerName.Popup]: {
     guitarPopup: null,
     popupType: null,
   },

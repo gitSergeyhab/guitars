@@ -1,12 +1,10 @@
-import { useRef } from 'react';
+import { FormEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { setCoupon } from '../../store/actions';
 
 import { postCoupons, postOrder } from '../../store/api-actions';
-import { getCartGuitars, getCoupon, getDiscount } from '../../store/cart-reducer/cart-reducer-selectors';
-import { getFullPrice, getOrder, makeStringPrice } from '../../utils/utils';
-
-
-// С Л Е Д У Ю Щ И Й   Э Т А П
+import { getCartGuitars, getCoupon, getCouponValidStatus, getDiscount } from '../../store/cart-reducer/cart-reducer-selectors';
+import { deleteSpaces, getFullPrice, getOrder, makeStringPrice } from '../../utils/utils';
 
 
 const DISCOUNT_CLASS = 'cart__total-value--bonus';
@@ -16,23 +14,26 @@ export default function CartFooter(): JSX.Element {
 
   const cartGuitars = useSelector(getCartGuitars);
 
+  const isCouponValid = useSelector(getCouponValidStatus);
   const discount = useSelector(getDiscount);
 
   const fullPrice = getFullPrice(cartGuitars);
 
-  const moneyDiscount = discount ? discount / 100 * fullPrice : 0;
+  const moneyDiscount = discount ? Math.round(discount / 100 * fullPrice) : 0;
 
-  const discountRef = useRef<HTMLInputElement | null>(null);
+  const coupon = useSelector(getCoupon);
+
+  const [promoCode, setPromoCode] = useState(coupon || '');
 
   const priceWithDiscount = fullPrice  - moneyDiscount;
 
   const dispatch = useDispatch();
-  const coupon = useSelector(getCoupon);
+
 
   const handleDiscountBtnClick = () => {
-    const value = discountRef.current?.value;
-    if (value) {
-      dispatch(postCoupons({coupon: value}));
+    if (promoCode) {
+      dispatch(setCoupon(promoCode));
+      dispatch(postCoupons({coupon: promoCode}));
     }
   };
 
@@ -44,7 +45,9 @@ export default function CartFooter(): JSX.Element {
   };
 
 
-  const promoCodeMessage = coupon ?
+  const handlePromoCodeChange = (evt: FormEvent<HTMLInputElement>) => setPromoCode(deleteSpaces(evt.currentTarget.value));
+
+  const promoCodeMessage = isCouponValid ?
     <p className='form-input__message form-input__message--success'>Промокод принят</p> :
     <p className='form-input__message form-input__message--error'>неверный промокод</p>;
 
@@ -58,10 +61,12 @@ export default function CartFooter(): JSX.Element {
           <div className="form-input coupon__input">
             <label className="visually-hidden">Промокод</label>
             <input
-              type="text" placeholder="Введите промокод" id="coupon" name="coupon"
-              ref={discountRef}
+              type="text" id="coupon" name="coupon"
+              placeholder='Введите промокод'
+              value={promoCode}
+              onChange={handlePromoCodeChange}
             />
-            {coupon !== '' ? promoCodeMessage : null}
+            {isCouponValid !== null ? promoCodeMessage : null}
           </div>
 
           <button

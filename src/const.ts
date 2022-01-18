@@ -109,3 +109,8 @@ export const enum PageName {
   Contacts = 'Где купить',
   Info = 'О компании',
 }
+
+export const enum CountGuitarInCart {
+  Max = 99,
+  Min = 0,
+}

@@ -17,7 +17,7 @@ const history = createMemoryHistory();
 const mockStore = configureMockStore([thunk]);
 let store = mockStore(stateFilled);
 
-const guitar = stateFilled.Cart.guitarPopup as Guitar;
+const guitar = stateFilled.Popup.guitarPopup as Guitar;
 
 
 describe ('Component CartAdd', () => {

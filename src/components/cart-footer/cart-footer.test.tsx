@@ -29,7 +29,7 @@ describe ('Component CartFooter', () => {
   });
 
   it ('should render correctly when cart filled and there is not coupon', () => {
-    const store = mockStore({...stateFilled, Cart: {...stateFilled.Cart, coupon: ''}});
+    const store = mockStore({...stateFilled, Cart: {...stateFilled.Cart, isCouponValid: null}});
 
     renderComponent(cartFooter, store, history);
 
@@ -41,7 +41,7 @@ describe ('Component CartFooter', () => {
   });
 
   it ('should render correctly when cart filled and incorrect coupon', () => {
-    const store = mockStore({...stateFilled, Cart: {...stateFilled.Cart, coupon: null}});
+    const store = mockStore({...stateFilled, Cart: {...stateFilled.Cart, isCouponValid: false}});
 
     renderComponent(cartFooter, store, history);
 

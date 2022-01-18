@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setCartGuitars } from '../../../store/actions';
 import { getCartGuitars } from '../../../store/cart-reducer/cart-reducer-selectors';
 import { Guitar, GuitarWithComments } from '../../../types/types';
-import { changeGuitarInCart, closePopup, getTruePath, makeStringPrice } from '../../../utils/utils';
+import { closePopup, deleteAllTheGuitars, getTruePath, makeStringPrice } from '../../../utils/utils';
 import { ESCAPE, GuitarInfo, GuitarType, SELECTOR_MODAL } from '../../../const';
+import { setCartGuitars, setGuitarToPopup, setPopupType } from '../../../store/actions';
 import { setCartGuitarsToStorage } from '../../../utils/cart-storage-utils';
 
 
@@ -50,10 +50,11 @@ export default function CartDelete({guitar} : {guitar : Guitar | GuitarWithComme
 
   const handleDeleteBtnClick = (evt: React.MouseEvent<HTMLElement>) => {
     evt.preventDefault();
-    const cartGuitars = [...cartGuitarsOrigin];
-    const newCartGuitars = changeGuitarInCart(guitar, cartGuitars, false);
-    setCartGuitarsToStorage(newCartGuitars);
-    dispatch(setCartGuitars(newCartGuitars));
+    const cartGuitars = deleteAllTheGuitars(guitar, cartGuitarsOrigin);
+    setCartGuitarsToStorage(cartGuitars);
+    dispatch(setCartGuitars(cartGuitars));
+    dispatch(setGuitarToPopup(null));
+    dispatch(setPopupType(null));
   };
 
   const handleCancelBtnClick = () => closeCartDelete();

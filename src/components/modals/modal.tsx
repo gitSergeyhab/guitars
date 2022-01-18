@@ -1,13 +1,14 @@
 import { useSelector } from 'react-redux';
+import FocusLock from 'react-focus-lock';
 
 import CartAdd from './cart-add/cart-add';
 import CartDelete from './cart-delete/cart-delete';
 import ModalReview from './modal-review/modal-review';
 import SuccessAdd from './success-add/success-add';
 import SuccessReview from './success-review/success-review';
-import { getGuitarFromPopup, getPopupType } from '../../store/cart-reducer/cart-reducer-selectors';
 import { PopupType } from '../../const';
 import { useEffect } from 'react';
+import { getGuitarFromPopup, getPopupType } from '../../store/popup-reducer/popup-reducer-selectors';
 
 
 export default function Modal(): JSX.Element {
@@ -27,12 +28,12 @@ export default function Modal(): JSX.Element {
   const popupSuccessAdd = popupType === PopupType.SuccessAddToCard ? <SuccessAdd /> : null;
 
   return(
-    <>
+    <FocusLock>
       {popupAdd}
       {popupDelete}
       {popupReview}
       {popupSuccessReview}
       {popupSuccessAdd}
-    </>
+    </FocusLock>
   );
 }

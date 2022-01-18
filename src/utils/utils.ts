@@ -1,8 +1,12 @@
 import { CartGuitar, Comment, Guitar, GuitarWithComments, Order } from '../types/types';
-import { GuitarInfo, GuitarType } from '../const';
+import { CountGuitarInCart, GuitarInfo, GuitarType } from '../const';
 import { Dispatch } from 'react';
 import { Action } from '@reduxjs/toolkit';
-import { setGuitarToPopup, setPopupType } from '../store/actions';
+import { setCartGuitars, setGuitarToPopup, setPopupType } from '../store/actions';
+import { setCartGuitarsToStorage } from './cart-storage-utils';
+
+
+const SIGN_AFTER_SPACE = 3;
 
 
 export const getStringsCount = (types: GuitarType[]): number[] => {
@@ -34,6 +38,7 @@ export const changeGuitarInCart = (guitar: Guitar | GuitarWithComments, cartGuit
     return cartGuitars;
   }
 
+
   if (!plus && index !== -1 && cartGuitars[index].count === 1) {
     cartGuitars.splice(index, 1);
     return cartGuitars;
@@ -41,12 +46,34 @@ export const changeGuitarInCart = (guitar: Guitar | GuitarWithComments, cartGuit
 
   if (index !== -1) {
     if (plus) {
+      if (cartGuitars[index].count === CountGuitarInCart.Max) {
+        return cartGuitars;
+      }
       cartGuitars[index] = {...cartGuitars[index], count: cartGuitars[index].count + 1 };
     } else {
       cartGuitars[index] = {...cartGuitars[index], count: cartGuitars[index].count - 1 };
     }
   }
   return cartGuitars;
+};
+
+export const deleteAllTheGuitars = (guitar: Guitar | GuitarWithComments, cartGuitars: CartGuitar[]) => {
+  const index = cartGuitars.findIndex((cartGuitar) => cartGuitar.guitar.vendorCode === guitar.vendorCode);
+  if (index === -1) {
+    return cartGuitars;
+  }
+  return [...cartGuitars.slice(0, index), ...cartGuitars.slice(index + 1)];
+};
+
+export const setCountTheGuitars = (guitar: Guitar | GuitarWithComments, cartGuitars: CartGuitar[], count: number) => {
+
+  const index = cartGuitars.findIndex((cartGuitar) => cartGuitar.guitar.vendorCode === guitar.vendorCode);
+  if (index === -1 || count < CountGuitarInCart.Min || count > CountGuitarInCart.Max) {
+    return cartGuitars;
+  }
+  const theGuitar = cartGuitars[index];
+  const theGuitarWithNewCount = {...theGuitar, count} as CartGuitar;
+  return [...cartGuitars.slice(0, index), theGuitarWithNewCount, ...cartGuitars.slice(index + 1)];
 };
 
 export const checkGuitarInCart = (cartGuitars: CartGuitar[], id: number) => {
@@ -67,8 +94,8 @@ export const getOrder = (cartGuitars: CartGuitar[], coupon: string): Order => ({
 export const makeStringPrice = (price : number): string => {
   const stringPrice = price.toString();
   const length = stringPrice.length;
-  if (length > 3) {
-    return `${stringPrice.slice(0, length - 3)} ${stringPrice.slice(length - 3)}`;
+  if (length > SIGN_AFTER_SPACE) {
+    return `${stringPrice.slice(0, length - SIGN_AFTER_SPACE)} ${stringPrice.slice(length - SIGN_AFTER_SPACE)}`;
   }
   return stringPrice;
 };
@@ -79,3 +106,21 @@ export const closePopup = (dispatch: Dispatch<Action>) => {
 };
 
 export const getRealRating = (comments: Comment[]) =>  comments.reduce((acc, comment) => acc + comment.rating, 0) / comments.length;
+
+
+export const addGuitar = (cartGuitarsOrigin: CartGuitar[], dispatch:  Dispatch<Action>, guitar: Guitar | GuitarWithComments) => {
+  const cartGuitars = [...cartGuitarsOrigin];
+  const newCartGuitars = changeGuitarInCart({...guitar, comments: [], description: ''}, cartGuitars, true);
+  setCartGuitarsToStorage(newCartGuitars);
+  dispatch(setCartGuitars(newCartGuitars));
+};
+
+
+export const deleteGuitar = (cartGuitarsOrigin: CartGuitar[], dispatch:  Dispatch<Action>, guitar: Guitar | GuitarWithComments) => {
+  const cartGuitars = [...cartGuitarsOrigin];
+  const newCartGuitars = changeGuitarInCart(guitar, cartGuitars, false);
+  setCartGuitarsToStorage(newCartGuitars);
+  dispatch(setCartGuitars(newCartGuitars));
+};
+
+export const deleteSpaces = (text: string) => text.split(' ').join('');

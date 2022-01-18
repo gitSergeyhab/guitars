@@ -1,7 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { PopupType } from '../../const';
-import { CartGuitar, Guitar } from '../../types/types';
-import {setCartGuitars, setCoupon, setDiscount, setGuitarToPopup, setPopupType } from '../actions';
+import { CartGuitar } from '../../types/types';
+import {setCartGuitars, setCoupon, setCouponValidStatus, setDiscount } from '../actions';
 
 
 // С Л Е Д У Ю Щ И Й   Э Т А П
@@ -10,33 +9,23 @@ import {setCartGuitars, setCoupon, setDiscount, setGuitarToPopup, setPopupType }
 type InitialState = {
   cartGuitars: CartGuitar[],
   discount: number,
-  coupon: string | null,
-
-  guitarPopup: Guitar | null
-  popupType: PopupType | null,
+  coupon: string,
+  isCouponValid: null | boolean,
 }
 
 export const initialState: InitialState = {
   cartGuitars: [],
   discount: 0,
   coupon: '',
-
-
-  guitarPopup: null,
-  popupType: null,
+  isCouponValid: null,
 };
 
 
 export const cartReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(setCartGuitars, (state, action) => {
-      state.cartGuitars = action.payload;
-      state.guitarPopup = null;
-    })
+    .addCase(setCartGuitars, (state, action) => {state.cartGuitars = action.payload;})
     .addCase(setDiscount, (state, action) => {state.discount = action.payload;})
-
-    .addCase(setPopupType, (state, action) => {state.popupType = action.payload;})
-    .addCase(setGuitarToPopup, (state, action) => {state.guitarPopup = action.payload;})
-    .addCase(setCoupon, (state, action) => {state.coupon = action.payload;});
+    .addCase(setCoupon, (state, action) => {state.coupon = action.payload;})
+    .addCase(setCouponValidStatus, (state, action) => {state.isCouponValid = action.payload;});
 });
 

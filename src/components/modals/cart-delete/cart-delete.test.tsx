@@ -9,14 +9,14 @@ import { ScreenText, stateFilled } from '../../../test-utils/test-constants';
 import { Guitar } from '../../../types/types';
 import { renderComponent } from '../../../test-utils/render-util';
 import { setCartGuitars, setGuitarToPopup, setPopupType } from '../../../store/actions';
-import { changeGuitarInCart } from '../../../utils/utils';
+import { deleteAllTheGuitars } from '../../../utils/utils';
 
 
 const history = createMemoryHistory();
 const mockStore = configureMockStore([thunk]);
 let store = mockStore(stateFilled);
 
-const guitar = stateFilled.Cart.guitarPopup as Guitar;
+const guitar = stateFilled.Popup.guitarPopup as Guitar;
 
 
 describe ('Component CartDelete', () => {
@@ -80,7 +80,7 @@ describe ('Component CartDelete', () => {
 
     const cartGuitarsOrigin = stateFilled.Cart.cartGuitars;
     const cartGuitars = [...cartGuitarsOrigin];
-    const newCartGuitars = changeGuitarInCart(guitar, cartGuitars, false);
+    const newCartGuitars = deleteAllTheGuitars(guitar, cartGuitars);
 
     expect(store.getActions()).toEqual([]);
 
@@ -89,7 +89,11 @@ describe ('Component CartDelete', () => {
 
     userEvent.click(btnDelete);
 
-    expect(store.getActions()).toEqual([setCartGuitars(newCartGuitars)]);
+    expect(store.getActions()).toEqual([
+      setCartGuitars(newCartGuitars),
+      setGuitarToPopup(null),
+      setPopupType(null),
+    ]);
   });
 });
 

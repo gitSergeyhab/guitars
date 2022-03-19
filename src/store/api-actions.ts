@@ -100,7 +100,9 @@ export const postComment = ({body} : {body : CommentPost}) : ThunkActionResult =
   async(dispatch, getState, api) => {
     const comments = getState().Guitar.comments;
     try {
-      const {data} = await api.post<Comment>(ApiRoute.Comments, body);
+      const res = await api.post<Comment>('guitars/1/comments', {...body});
+      const {data} = res;
+      console.log(res);
       dispatch(setPopupType(PopupType.SuccessReview));
       dispatch(setGuitarToPopup(null));
       const newComments = [...comments, data];

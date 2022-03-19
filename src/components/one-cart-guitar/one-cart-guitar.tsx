@@ -7,7 +7,102 @@ import { addGuitar, deleteGuitar, getTruePath, makeStringPrice, setCountTheGuita
 import { PopupType } from '../../const';
 import { getCartGuitars } from '../../store/cart-reducer/cart-reducer-selectors';
 import { setCartGuitarsToStorage } from '../../utils/cart-storage-utils';
+import styled from 'styled-components';
 
+
+const DeleteBtn = styled.button.attrs({ type: 'button' })`
+  position: relative;
+  grid-area: button;
+  width: 14px;
+  height: 14px;
+  padding: 0;
+  color: #585757;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: outline-color 0.3s ease;
+  transition: color 0.3s ease;
+  &:hover {
+    color: #c90606;
+  }
+  &:focus {
+    color: #c90606;
+    outline: none;
+  }
+`;
+
+const IconBtn = styled.span`
+  &::before,
+  &::after {
+    top: 6.5px;
+    left: -1.5px;
+    position: absolute;
+    width: 17px;
+    height: 1px;
+    background-color: currentColor;
+    content: "";
+  }
+
+  &::before {
+    transform: rotate(45deg);
+  }
+  &::after {
+    transform: rotate(-45deg);
+  }`;
+
+const IconBtnInteractive = styled.span`
+  position: relative;
+  ::before {
+  top: 50%;
+  left: 50%;
+  position: absolute;
+
+  width: 50px;
+  height: 50px;
+
+  content: "";
+  transform: translate(-50%, -50%);
+}`;
+
+// const DeleteBtn = <DeleteBtnStyle><IconBtn/><IconBtnInteractive/></DeleteBtnStyle>;
+
+
+const CartImg = styled.img.attrs({ width: 55, height: 130 })``;
+const CartImage = styled.div`
+  display: flex;
+  align-items: center;
+  align-self: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 130px;
+  margin: 0 auto;
+
+  grid-area: photo;
+  -o-object-fit: contain;
+    object-fit: contain;
+`;
+
+const ProductTitle = styled.p`
+  margin: 0 0 15px 0;
+  padding: 0;
+
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 15px;
+
+  letter-spacing: 0.05em;
+  text-transform: uppercase;`;
+
+
+const ProductInfo = styled.p`
+  margin: 0 0 5px 0;
+
+  font-size: 14px;
+  line-height: 15px;
+
+  letter-spacing: 0.05em;
+`;
 
 export default function OneCartGuitar({cartGuitar} : {cartGuitar: CartGuitar}): JSX.Element {
 
@@ -51,21 +146,25 @@ export default function OneCartGuitar({cartGuitar} : {cartGuitar: CartGuitar}): 
     dispatch(setCartGuitars(cartGuitars));
   };
 
+
   return (
     <div className="cart-item">
-      <button
+      <DeleteBtn
         onClick={handleDeleteAllTheGuitars}
-        className="cart-item__close-button button-cross" type="button" aria-label="Удалить"
+        taria-label="Удалить"
       >
-        <span className="button-cross__icon"></span><span className="cart-item__close-button-interactive-area"></span>
-      </button>
-      <div className="cart-item__image">
-        <img src={src} srcSet={srcSet} width="55" height="130" alt={name}/>
-      </div>
+        <IconBtn/>
+        <IconBtnInteractive/>
+      </DeleteBtn>
+
+      <CartImage>
+        <CartImg src={src} srcSet={srcSet} alt={name}/>
+      </CartImage>
+
       <div className="product-info cart-item__info">
-        <p className="product-info__title">{name}</p>
-        <p className="product-info__info">Артикул: {vendorCode}</p>
-        <p className="product-info__info">{type}, {stringCount} струнная</p>
+        <ProductTitle>{name}</ProductTitle>
+        <ProductInfo>Артикул: {vendorCode}</ProductInfo>
+        <ProductInfo>{type}, {stringCount} струнная</ProductInfo>
       </div>
       <div className="cart-item__price">{stringPrice} ₽</div>
       <div className="quantity cart-item__quantity">

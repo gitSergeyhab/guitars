@@ -3,6 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { getStringCountFromUrl, getTypesFromUrl, makeNewSearch } from '../../../utils/param-utils';
 import { getStringsCount } from '../../../utils/utils';
 import { ALL_STRINGS, DEFAULT_PAGE_FOR_PUSH, GuitarInfo, GuitarType, GUITAR_TYPES, ParamName } from '../../../const';
+import { CheckBoxInput, FilterFieldset, FormCheckBoxItem } from '../../_common/common';
 
 
 function FilterOneType({type}: {type: GuitarType}): JSX.Element {
@@ -38,16 +39,15 @@ function FilterOneType({type}: {type: GuitarType}): JSX.Element {
 
   const {name} = GuitarInfo[type];
   return (
-    <div className="form-checkbox catalog-filter__block-item">
-      <input
+    <FormCheckBoxItem>
+      <CheckBoxInput
         data-testid={`type-${type}`}
-        className="visually-hidden" type="checkbox"
         id={type} name={type}
         onChange={handleTypeChange}
         checked={isChecked}
       />
       <label htmlFor={type}>{name}</label>
-    </div>
+    </FormCheckBoxItem>
   );
 }
 
@@ -57,11 +57,11 @@ export default function FilterType(): JSX.Element {
   const types = GUITAR_TYPES.map((item) => <FilterOneType type={item} key={item} />);
 
   return (
-    <fieldset className="catalog-filter__block">
+    <FilterFieldset>
 
       {types}
 
-    </fieldset>
+    </FilterFieldset>
   );
 }
 

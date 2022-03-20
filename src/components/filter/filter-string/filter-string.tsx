@@ -4,6 +4,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { getStringCountFromUrl, getTypesFromUrl, makeNewSearch } from '../../../utils/param-utils';
 import { getStringsCount } from '../../../utils/utils';
 import { ALL_STRINGS, DEFAULT_PAGE_FOR_PUSH, GuitarType, ParamName } from '../../../const';
+import { CheckBoxInput, FilterFieldset, FilterLegend, FormCheckBoxItem } from '../../_common/common';
 
 
 function OneString({stringCount} : {stringCount : number}): JSX.Element {
@@ -37,14 +38,14 @@ function OneString({stringCount} : {stringCount : number}): JSX.Element {
 
 
   return (
-    <div className="form-checkbox catalog-filter__block-item">
-      <input
+    <FormCheckBoxItem>
+      <CheckBoxInput
         onChange={handleStringChange}
-        className="visually-hidden" type="checkbox" id={id} name={id}
+        id={id} name={id}
         disabled={isDisabled} checked={isChecked}
       />
       <label htmlFor={id}>{stringCount}</label>
-    </div>
+    </FormCheckBoxItem>
   );
 }
 
@@ -52,11 +53,9 @@ export default function FilterString(): JSX.Element {
 
   const stringFields = ALL_STRINGS.map((item) => <OneString stringCount={item} key={item}/>);
   return (
-    <fieldset className="catalog-filter__block">
-      <legend className="catalog-filter__block-title">Количество струн</legend>
-
+    <FilterFieldset>
+      <FilterLegend>Количество струн</FilterLegend>
       {stringFields}
-
-    </fieldset>
+    </FilterFieldset>
   );
 }

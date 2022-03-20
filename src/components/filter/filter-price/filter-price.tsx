@@ -5,9 +5,53 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { getMaxPrice, getMinPrice } from '../../../store/catalog-reducer/catalog-reducer-selectors';
 import { getPriceFromUrl, makeNewSearch } from '../../../utils/param-utils';
 import { DEFAULT_PAGE_FOR_PUSH, ParamName } from '../../../const';
+import { FilterFieldset, FilterLegend, FormInputContainer, HiddenLabel } from '../../_common/common';
+import styled from 'styled-components';
 
 
 const ZERO_STRING = '0';
+
+const PriceRangeContainer = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  &::after {
+    top: 50%;
+    left: 50%;
+    position: absolute;
+
+    display: block;
+
+    width: 15px;
+    height: 2px;
+    margin-top: -2px;
+
+    background-color: #585757;
+
+    content: "";
+    -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+  }
+  & input {
+    width: 85px;
+    height: 30px;
+  }
+  & input::-webkit-input-placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  & input::-moz-placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  & input:-ms-input-placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  & input::-ms-input-placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  & input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  `;
 
 
 export default function FilterPrice(): JSX.Element {
@@ -52,28 +96,28 @@ export default function FilterPrice(): JSX.Element {
 
 
   return (
-    <fieldset className="catalog-filter__block">
-      <legend className="catalog-filter__block-title">Цена, ₽</legend>
-      <div className="catalog-filter__price-range">
-        <div className="form-input">
-          <label className="visually-hidden">Минимальная цена</label>
+    <FilterFieldset>
+      <FilterLegend>Цена, ₽</FilterLegend>
+      <PriceRangeContainer>
+        <FormInputContainer>
+          <HiddenLabel>Минимальная цена</HiddenLabel>
           <input
             data-testid='priceMin'
             type="number" id="priceMin" name="от"
             placeholder={`${minPriceAttribute}`} min={minPriceAttribute} max={maxPriceAttribute}
             onBlur={handleMinPriceBlur} value={`${minPrice}`} onChange={handleMinPriceChange}
           />
-        </div>
-        <div className="form-input">
-          <label className="visually-hidden">Максимальная цена</label>
+        </FormInputContainer>
+        <FormInputContainer>
+          <HiddenLabel>Максимальная цена</HiddenLabel>
           <input
             data-testid='priceMax'
             type="number" id="priceMax" name="до"
             placeholder={`${maxPriceAttribute}`} min={minPriceAttribute} max={maxPriceAttribute}
             onBlur={handleMaxPriceBlur} value={`${maxPrice}`} onChange={handleMaxPriceChange}
           />
-        </div>
-      </div>
-    </fieldset>
+        </FormInputContainer>
+      </PriceRangeContainer>
+    </FilterFieldset>
   );
 }

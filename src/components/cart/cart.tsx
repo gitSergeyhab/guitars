@@ -6,6 +6,7 @@ import { getCartGuitars } from '../../store/cart-reducer/cart-reducer-selectors'
 import { APPRoute, EMPTY_CART_TEXT } from '../../const';
 import styled from 'styled-components';
 import Breadcrumb from '../breadcrumbs/breadcrumb';
+import { titleBigger } from '../_common/common';
 
 
 export const TEST_CART_ID = 'TEST_CART_ID';
@@ -13,35 +14,17 @@ export const TEST_CART_ID = 'TEST_CART_ID';
 
 const BreadcrumbsList = styled.ul`
   display: flex;
-
   margin: 0;
   padding: 0;
-
   list-style: none;
-
   font-size: 14px;
   line-height: 19px;
   margin: 20px 0 43px;
-
 `;
 
 
-const Title = styled.h1`
-  padding: 0;
-
-  font-family: "Open Sans", "Arial", sans-serif;
-  font-weight: 700;
-  line-height: 1.2;
-
-  color: inherit;
-`;
-
-const TitleBigger = styled(Title)`
-  font-size: 22px;
-  line-height: 30px;
-`;
-
-const TitleBiggerPC = styled(TitleBigger)`
+const TitleBiggerPC = styled.h1`
+  ${titleBigger}
   margin-top: 0;
   margin-bottom: 0;
 `;
@@ -92,7 +75,6 @@ const Main = styled.main`
 export default function Cart(): JSX.Element {
 
   const cartGuitars = useSelector(getCartGuitars);
-
 
   const cardsCartGuitar = cartGuitars.map((item) => <OneCartGuitar cartGuitar={item} key={item.guitar.id}/>);
   const emptyCart = <div style={{padding: '11% 0 20%'}}><h2>{EMPTY_CART_TEXT}</h2></div>;

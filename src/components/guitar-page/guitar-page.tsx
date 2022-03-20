@@ -2,15 +2,14 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import BreadcrumbMain from '../breadcrumbs/breadcramb-main/breadcramb-main';
-import BreadcrumbCatalog from '../breadcrumbs/breadcramb-catalog/breadcramb-catalog';
-import BreadcrumbProduct from '../breadcrumbs/breadcramb-product/breadcramb-product';
 import GuitarPageProduct from '../guitar-page-product/guitar-page-product';
 import { fetchComments, fetchTheGuitar } from '../../store/api-actions';
 import { GuitarPageReviews } from '../guitar-page-reviews/guitar-page-reviews';
 import { getGuitarErrorStatus, getGuitarLoadingStatus, getTheGuitar } from '../../store/guitar-reducer/guitar-reducer-selectors';
 import Spinner from '../spinner/spinner';
 import NotFoundPage from '../not-found-page/not-found-page';
+import Breadcrumb from '../breadcrumbs/breadcrumb';
+import { APPRoute } from '../../const';
 
 
 export default function GuitarPage(): JSX.Element {
@@ -46,9 +45,9 @@ export default function GuitarPage(): JSX.Element {
         <h1 className="page-content__title title title--bigger">Товар</h1>
 
         <ul className="breadcrumbs page-content__breadcrumbs">
-          <BreadcrumbMain/>
-          <BreadcrumbCatalog/>
-          <BreadcrumbProduct name={guitar.name}/>
+          <Breadcrumb type={APPRoute.Main}/>
+          <Breadcrumb type={APPRoute.Catalog}/>
+          <Breadcrumb type={APPRoute.Guitars} name={guitar.name} />
         </ul>
 
         <GuitarPageProduct guitar={guitar}/>

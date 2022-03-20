@@ -1,13 +1,11 @@
 import { useSelector } from 'react-redux';
 
-import BreadcrumbCart from '../breadcrumbs/breadcramb-cart/breadcramb-cart';
-import BreadcrumbCatalog from '../breadcrumbs/breadcramb-catalog/breadcramb-catalog';
-import BreadcrumbMain from '../breadcrumbs/breadcramb-main/breadcramb-main';
 import CartFooter from '../cart-footer/cart-footer';
 import OneCartGuitar from '../one-cart-guitar/one-cart-guitar';
 import { getCartGuitars } from '../../store/cart-reducer/cart-reducer-selectors';
-import { EMPTY_CART_TEXT } from '../../const';
+import { APPRoute, EMPTY_CART_TEXT } from '../../const';
 import styled from 'styled-components';
+import Breadcrumb from '../breadcrumbs/breadcrumb';
 
 
 export const TEST_CART_ID = 'TEST_CART_ID';
@@ -105,9 +103,9 @@ export default function Cart(): JSX.Element {
         <TitleBiggerPC>Корзина</TitleBiggerPC>
 
         <BreadcrumbsList>
-          <BreadcrumbMain/>
-          <BreadcrumbCatalog/>
-          <BreadcrumbCart/>
+          <Breadcrumb type={APPRoute.Main}/>
+          <Breadcrumb type={APPRoute.Catalog}/>
+          <Breadcrumb type={APPRoute.Cart}/>
         </BreadcrumbsList>
 
 

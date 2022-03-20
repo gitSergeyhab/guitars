@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import BreadcrumbMain from '../breadcrumbs/breadcramb-main/breadcramb-main';
-import BreadcrumbCatalog from '../breadcrumbs/breadcramb-catalog/breadcramb-catalog';
 import Filter from '../filter/filter';
 import GuitarCard from '../guitar-card/guitar-card';
 import NotFoundPage from '../not-found-page/not-found-page';
@@ -14,8 +12,9 @@ import Spinner from '../spinner/spinner';
 import { fetchGuitarsWithPath } from '../../store/api-actions';
 import { getGuitarCount, getGuitars, getGuitarsErrorStatus, getGuitarsLoadingStatus } from '../../store/catalog-reducer/catalog-reducer-selectors';
 import { getPageParamsFromUrl, makeNewSearch } from '../../utils/param-utils';
-import { MESSAGE_NO_GUITARS } from '../../const';
+import { APPRoute, MESSAGE_NO_GUITARS } from '../../const';
 import useDebounce from '../../hooks/use-debounce';
+import Breadcrumb from '../breadcrumbs/breadcrumb';
 
 
 const DEBOUNCE_TIME = 300;
@@ -75,8 +74,8 @@ export default function Catalog(): JSX.Element {
         <h1 className="page-content__title title title--bigger">Каталог гитар</h1>
 
         <ul className="breadcrumbs page-content__breadcrumbs">
-          <BreadcrumbMain/>
-          <BreadcrumbCatalog/>
+          <Breadcrumb type={APPRoute.Main}/>
+          <Breadcrumb type={APPRoute.Catalog}/>
         </ul>
 
         <div className="catalog">

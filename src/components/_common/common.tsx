@@ -1,4 +1,18 @@
+import { Link } from 'react-router-dom';
 import styled, {css} from 'styled-components';
+
+
+// Breadcrumbs
+
+export const BreadcrumbsList = styled.ul`
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  line-height: 19px;
+  margin: 20px 0 43px;
+`;
 
 // Form
 
@@ -230,6 +244,64 @@ export const titleRed = css`
   color: #c90606;
 `;
 
+export const TitleBiggerPC = styled.h1`
+  ${titleBigger}
+  margin-top: 0;
+  margin-bottom: 0;
+`;
+
+// wrappers
+
+export const PageContainer = styled.div`
+  width: 100%;
+  min-width: 1020px;
+  max-width: 1020px;
+  margin: 0 auto;
+  padding: 0 40px;
+`;
+
+export const Main = styled.main`
+  position: relative;
+  padding: 215px 0 139px;
+
+  &::before, &::after {
+    position: absolute;
+    width: 100%;
+    content: "";
+  }
+  &::before {
+    top: 0;
+    height: 251px;
+    background-image: url("../img/content/bg_header.png"), url("data:image/svg+xml,%3Csvg width='1020' height='74' viewBox='0 0 1020 74' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='1020' height='4' fill='%233F3F3F'/%3E%3Crect y='28' width='1020' height='4' fill='%233F3F3F'/%3E%3Crect y='56' width='1020' height='4' fill='%233F3F3F'/%3E%3Crect y='14' width='1020' height='4' fill='%233F3F3F'/%3E%3Crect y='42' width='1020' height='4' fill='%233F3F3F'/%3E%3Crect y='70' width='1020' height='4' fill='%233F3F3F'/%3E%3C/svg%3E%0A");
+    background-repeat: no-repeat, repeat-x;
+    background-position: top -38px right, top 24px center;
+    background-size: 825px, 1020px;
+  }
+  &::after {
+    bottom: 0;
+    height: 139px;
+    background-image: url("data:image/svg+xml,%3Csvg width='1020' height='5' viewBox='0 0 1020 5' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='1020' height='5' fill='%23131212'/%3E%3C/svg%3E%0A"), url("../img/content/bg_header.png");
+    background-repeat: repeat-x, no-repeat;
+    background-position: bottom 129px center, bottom -31% left 103%;
+    background-size: 1020px, 825px;
+    transform: rotate(180deg);
+  }
+`;
+
+// link
+
+export const StyledLink = styled(Link)`
+font: inherit;
+color: inherit;
+cursor: pointer;
+transition: color 0.3s ease;
+&:hover {
+  color: #c90606;
+}
+&:active {
+  color: #545454;
+}
+`;
 
 // Button
 

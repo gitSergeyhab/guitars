@@ -15,10 +15,38 @@ import { getPageParamsFromUrl, makeNewSearch } from '../../utils/param-utils';
 import { APPRoute, MESSAGE_NO_GUITARS } from '../../const';
 import useDebounce from '../../hooks/use-debounce';
 import Breadcrumb from '../breadcrumbs/breadcrumb';
+import { BreadcrumbsList, Main, PageContainer, TitleBiggerPC } from '../_common/common';
+import styled from 'styled-components';
 
 
 const DEBOUNCE_TIME = 300;
 const FIRST_PAGE_NUMBER = 1;
+
+
+const CatalogDiv = styled.div`
+  display: grid;
+  align-content: start;
+  align-items: start;
+  justify-content: start;
+
+  width: 100%;
+
+  gap: 0 25px;
+  grid-template-areas: "filters sorter" "filters catalog" "filters pagination";
+  grid-template-columns: 215px 1fr;
+  grid-template-rows: -webkit-min-content 1fr -webkit-min-content;
+  grid-template-rows:         min-content 1fr min-content;
+  justify-items: start;`;
+
+const Cards = styled.div`
+  margin: 30px 0 0;
+  display: grid;
+  align-content: flex-start;
+  justify-content: flex-start;
+  gap: 20px;
+  grid-area: catalog;
+  grid-template-columns: repeat(3, 1fr);
+`;
 
 
 export default function Catalog(): JSX.Element {
@@ -69,30 +97,30 @@ export default function Catalog(): JSX.Element {
   const messageNoGuitar = <h2 style={{textAlign: 'center'}}>{MESSAGE_NO_GUITARS}</h2>;
 
   return (
-    <main className="page-content">
-      <div className="container">
-        <h1 className="page-content__title title title--bigger">Каталог гитар</h1>
+    <Main>
+      <PageContainer>
+        <TitleBiggerPC>Каталог гитар</TitleBiggerPC>
 
-        <ul className="breadcrumbs page-content__breadcrumbs">
+        <BreadcrumbsList>
           <Breadcrumb type={APPRoute.Main}/>
           <Breadcrumb type={APPRoute.Catalog}/>
-        </ul>
+        </BreadcrumbsList>
 
-        <div className="catalog">
+        <CatalogDiv>
 
           <Filter/>
 
           <SortBlock/>
-          <div className="cards catalog__cards">
+          <Cards>
 
             {guitarCards.length ? guitarCards : messageNoGuitar}
 
-          </div>
+          </Cards>
 
           <Pagination/>
 
-        </div>
-      </div>
-    </main>
+        </CatalogDiv>
+      </PageContainer>
+    </Main>
   );
 }

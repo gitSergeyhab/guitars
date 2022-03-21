@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { APPRoute } from '../../const';
+import { StyledLink } from '../_common/common';
 
 const TitleRoute: {[key: string]: string} = {
   [APPRoute.Cart]: 'Корзина',
@@ -38,16 +38,6 @@ const BreadCrumbLi = styled.li`
 `;
 
 
-const BreadcrumbLink = styled(Link)`
-  font: inherit;
-  color: inherit;
-  cursor: pointer;
-  transition: color 0.3s ease;
-  &:hover {
-    color: #c90606;
-  }
-`;
-
 type BreadCrumbProps = {
   type: string,
   name?: string,
@@ -59,9 +49,9 @@ export default function Breadcrumb({type, name = ''} : BreadCrumbProps): JSX.Ele
   const to = name ? `${type}/${name}` : type;
   return (
     <BreadCrumbLi>
-      <BreadcrumbLink to={to}>
+      <StyledLink to={to}>
         {title}
-      </BreadcrumbLink>
+      </StyledLink>
     </BreadCrumbLi>
   );
 }

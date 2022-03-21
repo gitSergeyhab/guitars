@@ -1,4 +1,4 @@
-import { PageClass, StringPage } from '../const';
+import { StringPage } from '../const';
 
 
 const FIRST_PAGE = 1;
@@ -39,16 +39,17 @@ export const getDisplayPages = (pageCount: number, currentPage: number) : number
 
 export const getPageVisualData = (pageCount: number, currentPage: number, page: number) => {
   let linkPage = page;
-  let classes: string = PageClass.Usual;
+  let isNext = false;
+  let isCurrent = false;
   let textPage = page.toString();
 
   if (page > currentPage + PageDifference.Min) {
-    classes = `${classes} ${PageClass.Next}`;
+    isNext = true;
     textPage = StringPage.Next;
   }
 
   if (page < currentPage - PageDifference.Min) {
-    classes = `${classes} ${PageClass.Next}`;
+    isNext = true;
     textPage = StringPage.Prev;
   }
 
@@ -62,7 +63,8 @@ export const getPageVisualData = (pageCount: number, currentPage: number, page: 
 
   if ((currentPage === pageCount && page === pageCount - PageDifference.Mid) || (currentPage === PageNotTransform.First && page === PageNotTransform.Third)) {
     textPage = page.toString();
-    classes = PageClass.Usual;
+    isNext = false;
+    isCurrent = false;
     linkPage = page;
   }
 
@@ -74,7 +76,7 @@ export const getPageVisualData = (pageCount: number, currentPage: number, page: 
     linkPage = pageCount;
   }
 
-  classes = currentPage === page ? `${PageClass.Usual} ${PageClass.Active}` : classes;
+  isCurrent = currentPage === page;
 
-  return {linkPage, classes, textPage};
+  return {linkPage, textPage, isNext, isCurrent};
 };

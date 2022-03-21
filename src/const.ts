@@ -95,10 +95,10 @@ export const enum StringPage {
   Next = 'Далее',
 }
 
-export const enum PageClass {
-  Next = 'pagination__page--next',
-  Active = 'pagination__page--active',
-  Usual = 'pagination__page',
+export const enum PageType {
+  Next = 'Next',
+  Active = 'Active',
+  Usual = 'Usual',
 }
 
 export const enum PageName {

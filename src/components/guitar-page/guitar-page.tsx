@@ -10,6 +10,7 @@ import Spinner from '../spinner/spinner';
 import NotFoundPage from '../not-found-page/not-found-page';
 import Breadcrumb from '../breadcrumbs/breadcrumb';
 import { APPRoute } from '../../const';
+import { BreadcrumbsList, Main, PageContainer, TitleBiggerPC } from '../_common/common';
 
 
 export default function GuitarPage(): JSX.Element {
@@ -40,19 +41,19 @@ export default function GuitarPage(): JSX.Element {
   }
 
   return (
-    <main className="page-content">
-      <div className="container">
-        <h1 className="page-content__title title title--bigger">Товар</h1>
+    <Main>
+      <PageContainer>
+        <TitleBiggerPC>Товар</TitleBiggerPC>
 
-        <ul className="breadcrumbs page-content__breadcrumbs">
+        <BreadcrumbsList>
           <Breadcrumb type={APPRoute.Main}/>
           <Breadcrumb type={APPRoute.Catalog}/>
           <Breadcrumb type={APPRoute.Guitars} name={guitar.name} />
-        </ul>
+        </BreadcrumbsList>
 
         <GuitarPageProduct guitar={guitar}/>
         <GuitarPageReviews/>
-      </div>
-    </main>
+      </PageContainer>
+    </Main>
   );
 }

@@ -36,6 +36,7 @@ const PriceRangeContainer = styled.div`
     width: 85px;
     height: 30px;
   }
+
   & input::-webkit-input-placeholder {
     color: rgba(255, 255, 255, 0.6);
   }
@@ -80,7 +81,6 @@ export default function FilterPrice(): JSX.Element {
 
   const handleMinPriceBlur = () => pushPriceByBlur(minPrice, ParamName.Filter.PriceGte);
   const handleMaxPriceBlur = () => pushPriceByBlur(maxPrice, ParamName.Filter.PriceLte);
-
 
   const pushPriceByType = (evt: FormEvent<HTMLInputElement>, param: string) => {
     let newSearch = makeNewSearch(search, param, evt.currentTarget.value || ZERO_STRING);

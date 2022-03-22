@@ -8,63 +8,7 @@ import { PopupType } from '../../const';
 import { getCartGuitars } from '../../store/cart-reducer/cart-reducer-selectors';
 import { setCartGuitarsToStorage } from '../../utils/cart-storage-utils';
 import styled from 'styled-components';
-
-
-const DeleteBtn = styled.button.attrs({ type: 'button' })`
-  position: relative;
-  grid-area: button;
-  width: 14px;
-  height: 14px;
-  padding: 0;
-  color: #585757;
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  transition: outline-color 0.3s ease;
-  transition: color 0.3s ease;
-  &:hover {
-    color: #c90606;
-  }
-  &:focus {
-    color: #c90606;
-    outline: none;
-  }
-`;
-
-const IconBtn = styled.span`
-  &::before,
-  &::after {
-    top: 6.5px;
-    left: -1.5px;
-    position: absolute;
-    width: 17px;
-    height: 1px;
-    background-color: currentColor;
-    content: "";
-  }
-
-  &::before {
-    transform: rotate(45deg);
-  }
-  &::after {
-    transform: rotate(-45deg);
-  }`;
-
-const IconBtnInteractive = styled.span`
-  position: relative;
-  ::before {
-  top: 50%;
-  left: 50%;
-  position: absolute;
-
-  width: 50px;
-  height: 50px;
-
-  content: "";
-  transform: translate(-50%, -50%);
-}`;
-
-// const DeleteBtn = <DeleteBtnStyle><IconBtn/><IconBtnInteractive/></DeleteBtnStyle>;
+import { DeleteBtn, IconBtn, IconBtnInteractive } from '../_common/common';
 
 
 const CartImg = styled.img.attrs({ width: 55, height: 130 })``;
@@ -103,6 +47,88 @@ const ProductInfo = styled.p`
 
   letter-spacing: 0.05em;
 `;
+
+const QuantityInput = styled.input.attrs({ type: 'number', id:'4-count', name: '4-count', max: '99' })`
+display: flex;
+width: 28px;
+height: 100%;
+padding: 0;
+font-size: 16px;
+line-height: 30px;
+border: none;
+border-right: 1px solid #585757;
+border-left: 1px solid #585757;
+background-color: transparent;
+-webkit-transition: color 0.3s ease, outline-color 0.3s ease;
+        transition: color 0.3s ease, outline-color 0.3s ease;
+text-align: center;
+&::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+          appearance: none;
+}
+&:hover,
+&:focus {
+  border: none;
+  outline: 1px solid #c90606;
+}`;
+
+const QuantityButton = styled.button.attrs({ type: 'button' })`
+position: relative;
+display: flex;
+align-items: center;
+justify-content: center;
+width: 25px;
+height: 100%;
+padding: 0;
+font-size: 20px;
+color: #585757;
+border: none;
+background: transparent;
+cursor: pointer;
+-webkit-transition: color 0.3s ease, outline-color 0.3s ease;
+        transition: color 0.3s ease, outline-color 0.3s ease;
+&:hover,
+&:focus {
+  color: #c90606;
+  outline: none;
+}
+`;
+
+const TotalPrice = styled.div`
+  margin-top: 46px;
+  margin-left: auto;
+
+  font-size: 20px;
+  font-weight: 700;
+
+  text-align: end;
+  letter-spacing: 0.05em;
+
+  grid-area: total-price;
+  `;
+
+const QuantityWrapper = styled.div`
+  display: flex;
+  align-content: stretch;
+  align-items: stretch;
+  justify-content: center;
+  height: 30px;
+  border: 1px solid #585757;
+  margin-top: 40px;
+  margin-left: auto;
+  grid-area: quantity;`;
+
+const PriceOne = styled.div`
+  margin-top: 46px;
+  margin-left: auto;
+  font-size: 20px;
+  letter-spacing: 0.05em;
+  grid-area: price;
+  `;
+
+const CartInfo = styled.div`
+  margin: 26px 0 39px 20px;
+  grid-area: info;`;
 
 export default function OneCartGuitar({cartGuitar} : {cartGuitar: CartGuitar}): JSX.Element {
 
@@ -161,38 +187,38 @@ export default function OneCartGuitar({cartGuitar} : {cartGuitar: CartGuitar}): 
         <CartImg src={src} srcSet={srcSet} alt={name}/>
       </CartImage>
 
-      <div className="product-info cart-item__info">
+      <CartInfo>
         <ProductTitle>{name}</ProductTitle>
         <ProductInfo>Артикул: {vendorCode}</ProductInfo>
         <ProductInfo>{type}, {stringCount} струнная</ProductInfo>
-      </div>
-      <div className="cart-item__price">{stringPrice} ₽</div>
-      <div className="quantity cart-item__quantity">
-        <button
-          className="quantity__button" aria-label="Уменьшить количество"
+      </CartInfo>
+      <PriceOne>{stringPrice} ₽</PriceOne>
+      <QuantityWrapper>
+        <QuantityButton
+          aria-label="Уменьшить количество"
           onClick={handleMinusClick}
         >
           <svg width="8" height="8" aria-hidden="true">
             <use xlinkHref="#icon-minus"></use>
           </svg>
-        </button>
-        <input
+        </QuantityButton>
+        <QuantityInput
           onChange={handleGuitarCountChange}
           value={`${count}`}
-          className="quantity__input" type="number" id="4-count" name="4-count" max="99"
         />
 
-        <button
-          className="quantity__button" aria-label="Увеличить количество"
+        <QuantityButton
+          aria-label="Увеличить количество"
           onClick={handlePluseClick}
-
         >
           <svg width="8" height="8" aria-hidden="true">
             <use xlinkHref="#icon-plus"></use>
           </svg>
-        </button>
-      </div>
-      <div className="cart-item__price-total">{makeStringPrice(price * count)} ₽</div>
+        </QuantityButton>
+      </QuantityWrapper>
+      <TotalPrice>{makeStringPrice(price * count)} ₽</TotalPrice>
     </div>
   );
 }
+
+

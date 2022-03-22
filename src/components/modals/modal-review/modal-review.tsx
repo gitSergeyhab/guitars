@@ -7,6 +7,8 @@ import { closePopup } from '../../../utils/utils';
 import { ESCAPE, SELECTOR_MODAL } from '../../../const';
 
 import './modal-review.css';
+import styled, { css } from 'styled-components';
+import { ButtonMedium20, DeleteBtn, IconBtn, IconBtnInteractive } from '../../_common/common';
 
 
 const ZERO_FIELD_VALUE = ' ';
@@ -18,6 +20,120 @@ const STARS = [
   {value: 4, name: 'Хорошо'},
   {value: 5, name: 'Отлично'},
 ];
+
+const CloseButton = styled.button.attrs({ type: 'button' })`
+top: 23px;
+right: 23px;
+position: absolute;
+width: 14px;
+height: 14px;
+padding: 0;
+
+color: #585757;
+border: none;
+background-color: transparent;
+
+cursor: pointer;
+-webkit-transition: outline-color 0.3s ease;
+-webkit-transition: color 0.3s ease;
+        transition: outline-color 0.3s ease;
+        transition: color 0.3s ease;
+&:hover {
+  color: #c90606;
+}
+&:focus {
+  color: #c90606;
+  outline: none;
+}`;
+
+
+const ReviewLabel = styled.label`
+display: inline-block;
+margin-bottom: 5px;
+font-size: 12px;
+line-height: 15px;
+color: #585757;
+letter-spacing: 0.02em;
+`;
+
+const ReviewLabelRequired = styled(ReviewLabel)`
+position: relative;
+&::before {
+  top: -5px;
+  right: -10px;
+  position: absolute;
+
+  width: 5px;
+  height: 5px;
+
+  font-size: 12px;
+  line-height: 16px;
+
+  color: #c90606;
+
+  content: "*";
+}
+`;
+
+const reviewInput = css`
+width: 100%;
+margin-bottom: 10px;
+padding: 5px 8px;
+font-size: 14px;
+border: 1px solid #585757;
+border-radius: 2px;
+background-color: inherit;
+
+&::-webkit-input-placeholder {
+  font-size: 14px;
+  line-height: 15px;
+  color: #000000;
+  letter-spacing: 0.02em;
+}
+&::-moz-placeholder {
+  font-size: 14px;
+  line-height: 15px;
+  color: #000000;
+  letter-spacing: 0.02em;
+}
+&:-ms-input-placeholder {
+  font-size: 14px;
+  line-height: 15px;
+  color: #000000;
+  letter-spacing: 0.02em;
+}
+&::-ms-input-placeholder {
+  font-size: 14px;
+  line-height: 15px;
+  color: #000000;
+  letter-spacing: 0.02em;
+}
+&::placeholder {
+  font-size: 14px;
+  line-height: 15px;
+  color: #000000;
+  letter-spacing: 0.02em;
+}
+`;
+
+const Textarea = styled.textarea.attrs({ id: 'user-name', rows: 10, autoComplete: 'off' })`
+${reviewInput}
+height: 70px;
+`;
+
+const ReviewInput = styled.input.attrs({ type: 'text', autoComplete: 'off' })`
+${reviewInput}
+`;
+
+const ReviewName = styled.input.attrs({ type: 'text', autoComplete: 'off' })`
+${reviewInput}
+margin-bottom: 0;
+`;
+
+const ReviewButton = styled(ButtonMedium20).attrs({ type: 'submit' })`
+margin-top: 7px;
+margin-right: 70px;
+margin-left: 70px;`;
 
 
 type ReviewStarType = {score: {value: number, name: string}, onChange: () => void,  onMouseEnter: () => void, onMouseLeave: () => void, focusedStar: number, checkedStar: number}
@@ -142,11 +258,11 @@ export default function ModalReview({guitar} : {guitar : Guitar | GuitarWithComm
             <form className="form-review" onSubmit={handleFormSubmit}>
               <div className="form-review__wrapper">
                 <div className="form-review__name-wrapper">
-                  <label className="form-review__label form-review__label--required" htmlFor="user-name">Ваше Имя</label>
+                  <ReviewLabelRequired htmlFor="user-name">Ваше Имя</ReviewLabelRequired>
 
-                  <input
+                  <ReviewName
                     ref={userNameRef}
-                    className="form-review__input form-review__input--name" id="user-name" data-testid='user-name' type="text" autoComplete="off"
+                    id="user-name" data-testid='user-name'
                     value={userName}
                     onChange={handleNameInput}
                   />
@@ -166,37 +282,34 @@ export default function ModalReview({guitar} : {guitar : Guitar | GuitarWithComm
                 </div>
 
               </div>
-              <label className="form-review__label" htmlFor="user-name">Достоинства</label>
-              <input
+              <ReviewLabel htmlFor="user-name">Достоинства</ReviewLabel>
+              <ReviewInput
                 ref={advantageRef}
-                className="form-review__input" id="pros" type="text" autoComplete="off"
+                id="pros"
               />
-              <label className="form-review__label" htmlFor="user-name">Недостатки</label>
-              <input
+              <ReviewLabel htmlFor="user-name">Недостатки</ReviewLabel>
+              <ReviewInput
                 ref={disadvantageRef}
-                className="form-review__input" id="user-name" type="text" autoComplete="off"
+                id="user-name"
               />
-              <label className="form-review__label" htmlFor="user-name">Комментарий</label>
-              <textarea
-                ref={commentRef}
-
-                className="form-review__input form-review__input--textarea" id="user-name" rows={10} autoComplete="off"
-              >
-              </textarea>
-              <button className="button button--medium-20 form-review__button" type="submit">Отправить отзыв</button>
+              <ReviewLabel htmlFor="user-name">Комментарий</ReviewLabel>
+              <Textarea ref={commentRef} />
+              <ReviewButton >Отправить отзыв</ReviewButton>
 
 
             </form>
-            <button
+            <CloseButton
               onClick={handleCloseBtnClick}
-              className="modal__close-btn button-cross" type="button" aria-label="Закрыть"
+              aria-label="Закрыть"
             >
-              <span className="button-cross__icon"></span><span className="modal__close-btn-interactive-area"></span>
-
-            </button>
+              <IconBtn/>
+              <IconBtnInteractive/>
+            </CloseButton>
           </div>
         </div>
       </div>
     </div>
   );
 }
+
+

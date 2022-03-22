@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import { APPRoute } from '../../const';
+import { containerCss, styledLink } from '../_common/common';
 
 
 const FooterInfo = {
@@ -9,74 +11,205 @@ const FooterInfo = {
 } as const;
 
 
+const SocialLink = styled.a`
+  position: relative;
+  display: block;
+  width: 24px;
+  height: 24px;
+  color: #ffffff;
+  -webkit-transition: color 0.3s ease;
+          transition: color 0.3s ease;
+  fill: currentColor;
+  &::before {
+    top: 50%;
+    left: 50%;
+    position: absolute;
+
+    width: 40px;
+    height: 40px;
+
+    content: "";
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+  }
+  &:hover {
+    color: #c90606;
+  }
+  &:focus {
+    color: #dddada;
+  }
+`;
+
+const SocialLi = styled.li`
+margin-top: 20px;
+margin-left: 20px;`;
+
+const SocialSvg = styled.svg.attrs({ width: 24, height: 24 })`
+width: 24px;
+height: 24px;
+`;
+
+
 function Social({social}: {social: {name: string, href: string, xlink: string}}): JSX.Element {
   const {href, name, xlink} = social;
   return (
-    <li className="socials-item">
-      <a className="socials__link" href={href} aria-label={name}>
-        <svg className="socials__icon" width="24" height="24" aria-hidden="true">
+    <SocialLi>
+      <SocialLink href={href} aria-label={name}>
+        <SocialSvg aria-hidden="true">
           <use xlinkHref={xlink}></use>
-        </svg>
-      </a>
-    </li>
+        </SocialSvg>
+      </SocialLink>
+    </SocialLi>
   );
 }
+
+
+const FooterLogo = styled(Link)`
+margin-right: auto;
+margin-bottom: 55px;
+grid-area: logo;
+display: flex;
+align-items: start;`;
+
+const Img = styled.img.attrs({ width: 70, height: 70, src: '/img/svg/logo.svg', alt: 'Логотип'})``;
+
+const SocialList = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  margin: -20px 0 0 -20px;
+  padding: 0;
+  list-style: none;`;
+
+const NavList = styled.ul`
+margin: 0;
+padding: 0;
+
+list-style: none;
+
+font-size: 10px;
+line-height: 20px;
+
+color: #ffffff;
+
+letter-spacing: 0.1em;`;
+
+const SVGIcon = styled.svg`
+align-self: center;
+width: 9px;
+height: 9px;
+margin-right: 3px;`;
+
+const SVGIconWrapper = styled.span`
+display: flex;
+align-items: center;
+flex-wrap: wrap;`;
+
+const SocialsWrapper = styled.div`grid-area: socials;`;
+const StyledATel = styled.a.attrs({ href: 'tel:88125005050'})`${styledLink}`;
+
+const StyledA = styled.a.attrs({ href:  '#top'})`${styledLink}`;
+
+const NavContent = styled.p`
+  margin: 6px 0 0;
+  font-family: "Open Sans", "Arial", sans-serif;
+  font-size: 10px;
+  line-height: 12px;
+  color: #ffffff;
+  letter-spacing: 0.1em;
+`;
+
+const NavContent2 = styled(NavContent)`
+font-family: "Droid Sans", "Arial", sans-serif;
+letter-spacing: 0.03em;
+`;
+
+
+const NavTitle = styled.h2`
+margin: 0;
+font-family: "Droid Sans", "Arial", sans-serif;
+font-size: 14px;
+font-weight: 400;
+line-height: 44px;
+color: #ffffff;
+letter-spacing: 0.13em;
+`;
+
+const NavSectionInfo = styled.section`grid-area: info;`;
+const NavSectionLinks = styled.section`grid-area: links;`;
+const NavSectionContacts = styled.section`grid-area: contacts;`;
+
+const Container = styled.div`
+  ${containerCss}
+  display: grid;
+  grid-column-gap: 25px;
+  grid-template-areas: "logo info links contacts" "socials info links contacts";
+  grid-template-columns: 220px 145px 283px 150px;
+  grid-template-rows: 125px auto;
+  `;
+
+const FooterBlock = styled.footer`
+min-height: 275px;
+padding-top: 66px;
+padding-bottom: 15px;
+background-color: #131212;
+`;
 
 
 export default function Footer(): JSX.Element {
 
   const socials = Object.values(FooterInfo).map((social) => <Social key={social.name} social={social} />);
   return (
-    <footer className="footer">
-      <div className="footer__container container">
-        <Link className="footer__logo logo" to={APPRoute.Main}>
-          <img className="logo__img" width="70" height="70" src="/img/svg/logo.svg" alt="Логотип"/>
+    <FooterBlock>
+      <Container>
+        <FooterLogo to={APPRoute.Main}>
+          <Img/>
 
-        </Link>
-        <div className="socials footer__socials">
-          <ul className="socials__list">
+        </FooterLogo>
+        <SocialsWrapper>
+          <SocialList>
 
             {socials}
 
-          </ul>
-        </div>
-        <section className="footer__nav-section footer__nav-section--info">
-          <h2 className="footer__nav-title">О нас</h2>
-          <p className="footer__nav-content footer__nav-content--font-secondary">Магазин гитар, музыкальных инструментов и гитарная мастерская <br/> в Санкт-Петербурге.<br/><br/>Все инструменты проверены, отстроены <br/> и доведены до идеала!</p>
-        </section>
-        <section className="footer__nav-section footer__nav-section--links">
-          <h2 className="footer__nav-title">Информация</h2>
-          <ul className="footer__nav-list">
-            <li className="footer__nav-list-item"><a className="link" href="#top">Где купить?</a>
-            </li>
-            <li className="footer__nav-list-item"><a className="link" href="#top">Блог</a>
-            </li>
-            <li className="footer__nav-list-item"><a className="link" href="#top">Вопрос - ответ</a>
-            </li>
-            <li className="footer__nav-list-item"><a className="link" href="#top">Возврат</a>
-            </li>
-            <li className="footer__nav-list-item"><a className="link" href="#top">Сервис-центры</a>
-            </li>
-          </ul>
-        </section>
-        <section className="footer__nav-section footer__nav-section--contacts">
-          <h2 className="footer__nav-title">Контакты</h2>
-          <p className="footer__nav-content">г. Санкт-Петербург,<br/> м. Невский проспект, <br/>ул. Казанская 6.</p>
-          <div className="footer__nav-content">
-            <svg className="footer__icon" width="8" height="8" aria-hidden="true">
+          </SocialList>
+        </SocialsWrapper>
+        <NavSectionInfo>
+          <NavTitle>О нас</NavTitle>
+          <NavContent2>Магазин гитар, музыкальных инструментов и гитарная мастерская <br/> в Санкт-Петербурге.<br/><br/>Все инструменты проверены, отстроены <br/> и доведены до идеала!</NavContent2>
+        </NavSectionInfo>
+        <NavSectionLinks>
+          <NavTitle>Информация</NavTitle>
+          <NavList>
+            <li><StyledA>Где купить?</StyledA></li>
+            <li><StyledA>Блог</StyledA></li>
+            <li><StyledA>Вопрос - ответ</StyledA></li>
+            <li><StyledA>Возврат</StyledA></li>
+            <li><StyledA>Сервис-центры</StyledA></li>
+          </NavList>
+        </NavSectionLinks>
+        <NavSectionContacts>
+          <NavTitle>Контакты</NavTitle>
+          <NavContent>
+            г. Санкт-Петербург,<br/>
+            м. Невский проспект, <br/>
+            ул. Казанская 6.
+          </NavContent>
+          <NavContent>
+            <SVGIcon width="8" height="8" aria-hidden="true">
               <use xlinkHref="#icon-phone"></use>
-            </svg><a className="link" href="tel:88125005050"> 8-812-500-50-50</a>
-          </div>
-          <p className="footer__nav-content">Режим работы:<br/>
-            <span className="footer__span">
-              <svg className="footer__icon" width="13" height="13" aria-hidden="true">
+            </SVGIcon>
+            <StyledATel> 8-812-500-50-50</StyledATel>
+          </NavContent>
+          <NavContent>Режим работы:<br/>
+            <SVGIconWrapper>
+              <SVGIcon width="13" height="13" aria-hidden="true">
                 <use xlinkHref="#icon-clock"></use>
-              </svg>
-              <span> с 11:00 до 20:00</span><span>без выходных</span>
-            </span>
-          </p>
-        </section>
-      </div>
-    </footer>
+              </SVGIcon>
+              <span> с 11:00 до 20:00</span>
+              <span>без выходных</span>
+            </SVGIconWrapper>
+          </NavContent>
+        </NavSectionContacts>
+      </Container>
+    </FooterBlock>
   );
 }

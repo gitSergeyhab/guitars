@@ -5,28 +5,65 @@ import Review from '../review/review';
 import { getComments, getTheGuitar } from '../../store/guitar-reducer/guitar-reducer-selectors';
 import { setGuitarToPopup, setPopupType } from '../../store/actions';
 import { DEFAULT_COMMENTS_COUNT, PopupType } from '../../const';
+import styled from 'styled-components';
+import { buttonCss, ButtonMedium, buttonRedBorder, buttonUp, titleBigger } from '../_common/common';
 
+
+const ButtonMore = styled(ButtonMedium)`
+  bottom: 0;
+  position: relative;
+  min-width: 300px;
+  margin: 0 auto;
+  `;
+
+const ButtonUp = styled.a.attrs({ href: '#header' })`
+  ${buttonCss}
+  ${buttonRedBorder}
+  ${buttonUp}
+  font-size: 16px;
+  --button-horizontal-padding: 20px;
+  right: 0;
+  bottom: -51px;
+  position: absolute;
+  z-index: 1;
+  `;
+
+const ButtonReview = styled.a.attrs({ href: '#header' })`
+  ${buttonCss}
+  ${buttonRedBorder}
+    font-size: 16px;
+    --button-horizontal-padding: 20px;
+    top: 46px;
+    right: 0;
+    position: absolute;
+  `;
+
+
+const ReviewTitle = styled.h3`
+  ${titleBigger}
+  margin-top: 0;
+  margin-bottom: 34px;
+  font-weight: bold;
+  color: #010101;
+  `;
+
+const ReviewSection = styled.section`
+position: relative;
+padding-top: 48px;`;
 
 function BtnMore({onClick}: {onClick: () => void}): JSX.Element {
   return (
-    <button
-      onClick={onClick}
-      className="button button--medium reviews__more-button"
-    >
-    Показать еще отзывы
-    </button>
+    <ButtonMore onClick={onClick}>
+      Показать еще отзывы
+    </ButtonMore>
   );
 }
 
 function BtnUp({onClick}: {onClick: () => void}): JSX.Element {
   return (
-    <a
-      style={{zIndex: 1}}
-      onClick={onClick}
-      className="button button--up button--red-border button--big reviews__up-button" href="#header"
-    >
+    <ButtonUp onClick={onClick}>
       Наверх
-    </a>
+    </ButtonUp>
   );
 }
 
@@ -51,20 +88,18 @@ export function GuitarPageReviews(): JSX.Element {
 
   return (
 
-    <section className="reviews">
-      <h3 className="reviews__title title title--bigger">Отзывы</h3>
-      <a
-        onClick={handleBtnPostReviewClick}
-        className="button button--red-border button--big reviews__sumbit-button" href="/"
-      >
+    <ReviewSection>
+      <ReviewTitle>Отзывы</ReviewTitle>
+      <ButtonReview onClick={handleBtnPostReviewClick}>
          Оставить отзыв
-      </a>
+      </ButtonReview>
 
       {reviews}
+
       {(shownReviews === DEFAULT_COMMENTS_COUNT && comments.length > DEFAULT_COMMENTS_COUNT)  && <BtnMore onClick={handleBtnShowMoreClick}/>}
 
       {reviews.length > DEFAULT_COMMENTS_COUNT && <BtnUp onClick={handleBtnUpClick}/>}
 
-    </section>
+    </ReviewSection>
   );
 }

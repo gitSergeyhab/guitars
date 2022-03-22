@@ -5,9 +5,9 @@ import Rating from '../rating/rating';
 
 export default function Review({review} : {review: Comment}): JSX.Element {
 
-  const {rating, comment, userName, createAt, advantage, disadvantage} = review;
+  const { rating, comment, userName, createAt, advantage, disadvantage } = review;
 
-  const date = getReviewDate (createAt);
+  const date = getReviewDate(createAt);
 
   return (
     <div className="review">

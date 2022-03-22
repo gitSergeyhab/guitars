@@ -1,10 +1,33 @@
 import { useDispatch } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import {  useLocation } from 'react-router-dom';
+import styled, { css } from 'styled-components';
 import { APPRoute } from '../../const';
 import { setGuitarsLoadingStatus } from '../../store/actions';
+import { StyledLink } from '../_common/common';
 
 
-const CLASS_CURRENT = 'link--current';
+const NavLink = styled(StyledLink)`
+display: block;
+margin-top: 10px;
+margin-left: 37px;
+${({ $isCurrent = false } : { $isCurrent?: boolean }) => $isCurrent ? css`pointer-events: none;` : ''}
+`;
+
+const NavList = styled.ul`
+display: flex;
+flex-wrap: wrap;
+width: 390px;
+margin: -10px 0 0 -37px;
+padding: 0;
+list-style: none;`;
+
+const Nav = styled.nav`
+display: block;
+margin-right: 27px;
+font-size: 14px;
+line-height: 20px;
+text-align: left;
+letter-spacing: 1px;`;
 
 
 export default function HeaderNav(): JSX.Element {
@@ -15,22 +38,27 @@ export default function HeaderNav(): JSX.Element {
   const handleCatalogClick = () => dispatch(setGuitarsLoadingStatus(true));
 
   return (
-    <nav className="main-nav">
-      <ul className="main-nav__list">
+    <Nav>
+      <NavList>
         <li>
-          <Link
+          <NavLink
             onClick={handleCatalogClick}
-            className={`link main-nav__link ${location.pathname === APPRoute.Catalog ? CLASS_CURRENT : ''}`} to={APPRoute.Catalog}
+            $isCurrent={location.pathname === APPRoute.Catalog}
+            to={APPRoute.Catalog}
           >Каталог
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link className="link main-nav__link" to={APPRoute.Contacts}>Где купить?</Link>
+          <NavLink to={APPRoute.Contacts}>
+            Где купить?
+          </NavLink>
         </li>
         <li>
-          <Link className="link main-nav__link" to={APPRoute.Info}>О компании</Link>
+          <NavLink to={APPRoute.Info}>
+            О компании
+          </NavLink>
         </li>
-      </ul>
-    </nav>
+      </NavList>
+    </Nav>
   );
 }

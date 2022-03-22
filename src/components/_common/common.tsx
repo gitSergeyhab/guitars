@@ -2,6 +2,82 @@ import { Link } from 'react-router-dom';
 import styled, {css} from 'styled-components';
 
 
+// Rate
+export const RateCount = styled.span`
+  margin-right: auto;
+  color: #585757;`;
+
+export const RateMessage = styled.span`
+  bottom: -17px;
+  left: 7px;
+  position: absolute;
+  width: 100px;
+  margin: 0;
+  font-size: 10px;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 15px;
+  color: #eb5555;
+  letter-spacing: 0.02em;`;
+
+export const Rate = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  color: #c90606;
+  & svg {
+    margin-right: 3px;
+  }
+  & label {
+    position: relative;
+  }
+  &:not(:checked) > label {
+    float: right;
+    overflow: hidden;
+    width: 18px;
+    height: 20px;
+    font-size: 30px;
+    color: #ffffff;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  &:not(:checked) > label::before {
+    position: absolute;
+    width: 24px;
+    height: 20px;
+    background: url("../img/sprite/icon-star.svg") no-repeat top 0 left 0;
+    background-size: 18px 20px;
+    content: "";
+    &  > input:checked ~ label {
+      background: url("../img/sprite/icon-full-star.svg") no-repeat top 0 left 0;
+      background-size: 18px 20px;
+    }
+    &:not(:checked) > label:hover,
+    &:not(:checked) > label:hover ~ label {
+      background: url("../img/sprite/icon-full-star.svg") no-repeat top 0 left 0;
+      background-size: 18px 20px;
+    }
+    & > input:focus + label {
+      outline: 1px solid #000000;
+      outline-offset: -1px;
+    }
+  }
+  align-items: flex-start;
+
+  width: 100%;
+  margin: 2px 0 0 0;
+
+  font-size: 10px;
+  line-height: 15px;
+
+  color: #585757;
+
+  letter-spacing: 0.1em;
+  `;
+
+
 // Breadcrumbs
 
 export const BreadcrumbsList = styled.ul`
@@ -252,6 +328,14 @@ export const TitleBiggerPC = styled.h1`
 
 // wrappers
 
+export const containerCss = css`
+width: 100%;
+min-width: 1020px;
+max-width: 1020px;
+margin: 0 auto;
+padding: 0 40px;
+`;
+
 export const PageContainer = styled.div`
   width: 100%;
   min-width: 1020px;
@@ -290,7 +374,7 @@ export const Main = styled.main`
 
 // link
 
-export const StyledLink = styled(Link)`
+export const styledLink = css`
 font: inherit;
 color: inherit;
 cursor: pointer;
@@ -303,9 +387,11 @@ transition: color 0.3s ease;
 }
 `;
 
+export const StyledLink = styled(Link)`${styledLink}`;
+
 // Button
 
-export const Button = styled.button`
+export const buttonCss = css`
   display: block;
   padding: var(--button-vertical-padding) var(--button-horizontal-padding);
   font-family: "Open Sans", "Arial", sans-serif;
@@ -327,6 +413,10 @@ export const Button = styled.button`
     color: #131212;
     background-color: #ffffff;
   }
+  `;
+
+export const Button = styled.button`
+${buttonCss}
 `;
 
 export const ButtonMini = styled(Button)`
@@ -428,3 +518,61 @@ export const buttonUp = css`
     background-image: url("data:image/svg+xml,%3Csvg width='21' height='20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M6.30749 7.31736a.62483.62483 0 0 1-.13589-.20296.624948.624948 0 0 1 0-.47908.62483.62483 0 0 1 .13589-.20296l3.75001-3.75c.058-.0582.127-.10438.2029-.13589.076-.03151.1574-.04773.2396-.04773s.1636.01622.2395.04773c.076.03151.1449.07769.203.13589l3.75 3.75c.1173.11736.1833.27653.1833.4425s-.066.32514-.1833.4425c-.1174.11736-.2765.18329-.4425.18329-.166 0-.3252-.06593-.4425-.18329L10.5 4.00861 7.19249 7.31736a.625148.625148 0 0 1-.20296.13589.624948.624948 0 0 1-.47908 0 .624935.624935 0 0 1-.20296-.13589z' fill='%23ffffff'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M10.5 17.5c-.1658 0-.3247-.0658-.4419-.1831a.62469.62469 0 0 1-.1831-.4419V3.75a.62487.62487 0 0 1 .1831-.44194A.624819.624819 0 0 1 10.5 3.125c.1658 0 .3247.06585.4419.18306.1173.11721.1831.27618.1831.44194v13.125c0 .1658-.0658.3247-.1831.4419-.1172.1173-.2761.1831-.4419.1831z' fill='%23ffffff'/%3E%3C/svg%3E");
   }
 `;
+
+export const HiddenSpan = styled.span`${visuallyHidden}`;
+
+// close BTN
+
+export const DeleteBtn = styled.button.attrs({ type: 'button' })`
+  position: relative;
+  grid-area: button;
+  width: 14px;
+  height: 14px;
+  padding: 0;
+  color: #585757;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: outline-color 0.3s ease;
+  transition: color 0.3s ease;
+  &:hover {
+    color: #c90606;
+  }
+  &:focus {
+    color: #c90606;
+    outline: none;
+  }
+`;
+
+export const IconBtn = styled.span`
+  &::before,
+  &::after {
+    top: 6.5px;
+    left: -1.5px;
+    position: absolute;
+    width: 17px;
+    height: 1px;
+    background-color: currentColor;
+    content: "";
+  }
+
+  &::before {
+    transform: rotate(45deg);
+  }
+  &::after {
+    transform: rotate(-45deg);
+  }`;
+
+export const IconBtnInteractive = styled.span`
+  position: relative;
+  ::before {
+  top: 50%;
+  left: 50%;
+  position: absolute;
+
+  width: 50px;
+  height: 50px;
+
+  content: "";
+  transform: translate(-50%, -50%);
+}`;
